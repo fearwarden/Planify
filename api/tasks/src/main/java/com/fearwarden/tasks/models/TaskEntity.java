@@ -44,4 +44,9 @@ public class TaskEntity {
     @JoinColumn(name = "priority_id", nullable = false)
     private PriorityEntity priorityEntity;
 
+    @ToString.Exclude
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id", nullable = false)
+    private StatusEntity statusEntity;
+
 }
