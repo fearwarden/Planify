@@ -12,7 +12,7 @@ import java.util.Arrays;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.fearwarden.coremodule", "com.fearwarden.basemodule", "com.fearwarden.tasks"})
 @EntityScan(basePackages = {"com.fearwarden.basemodule.*", "com.fearwarden.tasks.*"})
-@EnableJpaRepositories(basePackages = {"com.fearwarden.basemodule.*"})
+@EnableJpaRepositories(basePackages = {"com.fearwarden.basemodule.*", "com.fearwarden.tasks.*"})
 public class CoreModuleApplication {
 
     public static void main(String[] args) {
