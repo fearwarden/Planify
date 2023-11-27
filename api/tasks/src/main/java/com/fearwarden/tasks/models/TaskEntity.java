@@ -30,22 +30,22 @@ public class TaskEntity {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @ToString.Exclude
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
 
     @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private CategoryEntity categoryEntity;
 
     @ToString.Exclude
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "priority_id", nullable = false)
     private PriorityEntity priorityEntity;
 
     @ToString.Exclude
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "status_id", nullable = false)
     private StatusEntity statusEntity;
 
