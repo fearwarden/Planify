@@ -14,7 +14,7 @@ public class CategorySeeder {
     private final CategoryRepository categoryRepository;
 
     @Bean
-    CommandLineRunner initDatabase() {
+    CommandLineRunner initCategory() {
         return args -> {
 
             if (this.categoryRepository.count() == 0) {
