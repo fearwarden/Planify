@@ -38,6 +38,9 @@ public class UserEntity implements UserDetails {
     @Column(name = "role", nullable = false, columnDefinition = "VARCHAR(10) default 'USER'")
     private Role role = Role.USER;
 
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private TokenEntity tokenEntity;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
