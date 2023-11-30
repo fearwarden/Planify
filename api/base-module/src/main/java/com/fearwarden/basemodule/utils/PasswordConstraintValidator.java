@@ -44,7 +44,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                 // you can add one symbol (special character)
                 // new CharacterRule(EnglishCharacterData.Special, 1),
 
-                // nno whitespace
+                // no whitespace
                 new WhitespaceRule(),
 
                 // rejects passwords that contain a sequence of >= 5 characters alphabetical  (e.g. abcdef)
