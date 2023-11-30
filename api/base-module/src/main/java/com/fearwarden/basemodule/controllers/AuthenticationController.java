@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -34,6 +31,15 @@ public class AuthenticationController {
         this.cookieManager("refreshToken", loginService.getRefreshToken(), response);
         return new ResponseEntity<>(loginService, HttpStatus.OK);
     }
+
+    @GetMapping("/refresh")
+    public ResponseEntity<JwtResponseDto> refresh(@CookieValue("refreshToken") String refreshToken, HttpServletResponse response) {
+        JwtResponseDto tokens = this.authenticationService.refresh(refreshToken);
+        this.cookieManager("accessToken", tokens.getAccessToken(), response);
+        this.cookieManager("refreshToken", tokens.getRefreshToken(), response);
+        return new ResponseEntity<>(tokens, HttpStatus.ACCEPTED);
+    }
+
 
     private <T> void cookieManager(String name, T data, HttpServletResponse response) {
         Cookie cookie = new Cookie(name, data.toString());

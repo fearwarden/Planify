@@ -59,13 +59,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UserEntity user = this.userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         String accessToken = this.jwtService.generateToken(user);
         TokenEntity token = this.tokenRepository.findByUserEntity(user)
-                .orElseThrow(() -> new TokenNotFoundException(user.getId().toString()));
+                .orElseThrow(TokenNotFoundException::new);
 
         return new JwtResponseDto(token, user, accessToken);
     }
 
     @Override
     public JwtResponseDto refresh(String refreshToken) {
-        return null;
+        TokenEntity token = this.tokenRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(TokenNotFoundException::new);
+        UserEntity user = this.userRepository.findById(token.getUserEntity().getId())
+                .orElseThrow(UserNotFoundException::new);
+
+        String accessToken = this.jwtService.generateToken(user);
+        String newRefreshToken = this.jwtService.generateRefreshToken();
+        token.setRefreshToken(newRefreshToken);
+        this.tokenRepository.save(token);
+        return new JwtResponseDto(token, user, accessToken);
     }
 }
