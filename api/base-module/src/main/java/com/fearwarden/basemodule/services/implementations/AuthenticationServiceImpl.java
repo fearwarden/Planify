@@ -1,7 +1,6 @@
 package com.fearwarden.basemodule.services.implementations;
 
 import com.fearwarden.basemodule.dto.response.JwtResponseDto;
-import com.fearwarden.basemodule.exceptions.throwables.ConfirmPasswordException;
 import com.fearwarden.basemodule.exceptions.throwables.UserExistException;
 import com.fearwarden.basemodule.models.TokenEntity;
 import com.fearwarden.basemodule.models.UserEntity;
