@@ -1,6 +1,7 @@
 package com.fearwarden.basemodule.exceptions;
 
 import com.fearwarden.basemodule.exceptions.throwables.ConfirmPasswordException;
+import com.fearwarden.basemodule.exceptions.throwables.TokenNotFoundException;
 import com.fearwarden.basemodule.exceptions.throwables.UserExistException;
 import com.fearwarden.basemodule.exceptions.throwables.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -28,5 +29,11 @@ public class UserExceptionsHandler {
     @ExceptionHandler(ConfirmPasswordException.class)
     public ResponseEntity<String> confirmationPasswordHandler(ConfirmPasswordException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(TokenNotFoundException.class)
+    public ResponseEntity<String> tokeNotFoundHandler(TokenNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

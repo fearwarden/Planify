@@ -1,7 +1,9 @@
 package com.fearwarden.basemodule.services.implementations;
 
 import com.fearwarden.basemodule.dto.response.JwtResponseDto;
+import com.fearwarden.basemodule.exceptions.throwables.TokenNotFoundException;
 import com.fearwarden.basemodule.exceptions.throwables.UserExistException;
+import com.fearwarden.basemodule.exceptions.throwables.UserNotFoundException;
 import com.fearwarden.basemodule.models.TokenEntity;
 import com.fearwarden.basemodule.models.UserEntity;
 import com.fearwarden.basemodule.repositories.TokenRepository;
@@ -10,6 +12,7 @@ import com.fearwarden.basemodule.services.AuthenticationService;
 import com.fearwarden.basemodule.services.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +53,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtResponseDto login(String email, String password) {
-        return null;
+        this.authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+        );
+        UserEntity user = this.userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        String accessToken = this.jwtService.generateToken(user);
+        TokenEntity token = this.tokenRepository.findByUserEntity(user)
+                .orElseThrow(() -> new TokenNotFoundException(user.getId().toString()));
+
+        return new JwtResponseDto(token, user, accessToken);
     }
 
     @Override
