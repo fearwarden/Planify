@@ -8,6 +8,7 @@ import com.fearwarden.tasks.dto.response.TaskDto;
 import com.fearwarden.tasks.exceptions.throwables.CategoryNotFoundException;
 import com.fearwarden.tasks.exceptions.throwables.PriorityNotFoundException;
 import com.fearwarden.tasks.exceptions.throwables.StatusNotFoundException;
+import com.fearwarden.tasks.exceptions.throwables.TaskNotFoundException;
 import com.fearwarden.tasks.models.PriorityEntity;
 import com.fearwarden.tasks.models.StatusEntity;
 import com.fearwarden.tasks.models.TaskEntity;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,5 +57,11 @@ public class TaskServiceImpl implements TaskService {
         return taskEntities.stream()
                 .map(TaskDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public TaskDto getTaskById(String id) {
+        TaskEntity task = this.taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
+        return new TaskDto(task);
     }
 }

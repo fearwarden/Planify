@@ -36,4 +36,10 @@ public class TaskController {
         List<TaskDto> tasks = this.taskService.getAllTasksForUser(userDetails);
         return ResponseEntity.ok(tasks);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskDto> getTaskById(@PathVariable String id) {
+        TaskDto task = this.taskService.getTaskById(id);
+        return ResponseEntity.ok(task);
+    }
 }

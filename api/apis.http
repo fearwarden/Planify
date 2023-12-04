@@ -36,3 +36,7 @@ Content-Type: application/json
 ### Get all Tasks for User
 GET http://localhost:8080/api/v1/tasks
 Content-Type: application/json
+
+### Get Task by ID
+GET http://localhost:8080/api/v1/tasks/2c67b770-e1e5-4f72-99fd-2dfbb36a3829
+Content-Type: application/json
