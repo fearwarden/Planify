@@ -1,8 +1,5 @@
 package com.fearwarden.tasks.dto.response;
 
-import com.fearwarden.basemodule.models.CategoryEntity;
-import com.fearwarden.tasks.models.PriorityEntity;
-import com.fearwarden.tasks.models.StatusEntity;
 import com.fearwarden.tasks.models.TaskEntity;
 import lombok.Data;
 
