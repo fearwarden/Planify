@@ -32,7 +32,7 @@ public class TaskServiceImpl implements TaskService {
     private final UserService userService;
 
     @Override
-    public TaskDto create(String description, Integer categoryId, Integer priorityId, Integer statusId, UserDetails userDetails) {
+    public TaskDto createTask(String description, Integer categoryId, Integer priorityId, Integer statusId, UserDetails userDetails) {
         UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
         CategoryEntity category = this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
