@@ -10,4 +10,5 @@ public interface TaskService {
     List<TaskDto> getAllTasksForUser(UserDetails userDetails);
     TaskDto getTaskById(String id);
     TaskDto updateTask(String id, String description, Integer categoryId, Integer priorityId, Integer statusId);
+    void deleteTask(String id);
 }

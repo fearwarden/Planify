@@ -35,7 +35,7 @@ public class TaskEntity {
     private UserEntity userEntity;
 
     @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "category_id")
     private CategoryEntity categoryEntity;
 

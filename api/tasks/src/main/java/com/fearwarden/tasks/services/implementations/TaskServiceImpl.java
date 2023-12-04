@@ -81,4 +81,10 @@ public class TaskServiceImpl implements TaskService {
         this.taskRepository.save(task);
         return new TaskDto(task);
     }
+
+    @Override
+    public void deleteTask(String id) {
+        TaskEntity task = this.taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
+        this.taskRepository.delete(task);
+    }
 }
