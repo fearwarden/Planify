@@ -27,7 +27,7 @@ POST http://localhost:8080/api/v1/tasks
 Content-Type: application/json
 
 {
-  "description": "Zacilati loma.",
+  "description": "Serija.",
   "categoryId": 2,
   "priorityId": 1,
   "statusId": 1
@@ -53,5 +53,5 @@ Content-Type: application/json
 }
 
 ### Delete Task
-DELETE http://localhost:8080/api/v1/tasks/f50ca7ba-bc13-4ffd-b1b8-debd947a32db
+DELETE http://localhost:8080/api/v1/tasks/e3175f61-3c8a-4a75-ac15-6a8d4f38f3ec
 Content-Type: application/json
