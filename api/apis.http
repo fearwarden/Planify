@@ -21,3 +21,14 @@ Content-Type: application/json
 
 ### Refresh token request
 GET http://localhost:8080/api/v1/auth/refresh
+
+### Create Task
+POST http://localhost:8080/api/v1/tasks
+Content-Type: application/json
+
+{
+  "description": "Zavrsiti CRUD operacije za Task module.",
+  "categoryId": 2,
+  "priorityId": 1,
+  "statusId": 1
+}
