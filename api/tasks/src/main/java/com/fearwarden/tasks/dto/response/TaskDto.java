@@ -1,6 +1,5 @@
 package com.fearwarden.tasks.dto.response;
 
-import com.fearwarden.basemodule.dto.response.UserDto;
 import com.fearwarden.basemodule.models.CategoryEntity;
 import com.fearwarden.tasks.models.PriorityEntity;
 import com.fearwarden.tasks.models.StatusEntity;
@@ -16,9 +15,9 @@ public class TaskDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String userId;
-    private CategoryEntity category;
-    private PriorityEntity priority;
-    private StatusEntity status;
+    private Integer categoryId;
+    private Integer priorityId;
+    private Integer statusId;
 
     public TaskDto(TaskEntity task) {
         this.id = task.getId().toString();
@@ -26,8 +25,8 @@ public class TaskDto {
         this.createdAt = task.getCreatedAt();
         this.updatedAt = task.getUpdatedAt();
         this.userId = task.getUserEntity().getId().toString();
-        this.category = task.getCategoryEntity();
-        this.priority = task.getPriorityEntity();
-        this.status = task.getStatusEntity();
+        this.categoryId = task.getCategoryEntity().getId();
+        this.priorityId = task.getPriorityEntity().getId();
+        this.statusId = task.getStatusEntity().getId();
     }
 }
