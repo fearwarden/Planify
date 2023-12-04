@@ -20,14 +20,14 @@ public class TaskDto {
     private PriorityEntity priority;
     private StatusEntity status;
 
-    public TaskDto(TaskEntity task, String userId, CategoryEntity category, PriorityEntity priority, StatusEntity status) {
+    public TaskDto(TaskEntity task) {
         this.id = task.getId().toString();
         this.description = task.getDescription();
         this.createdAt = task.getCreatedAt();
         this.updatedAt = task.getUpdatedAt();
-        this.userId = userId;
-        this.category = category;
-        this.priority = priority;
-        this.status = status;
+        this.userId = task.getUserEntity().getId().toString();
+        this.category = task.getCategoryEntity();
+        this.priority = task.getPriorityEntity();
+        this.status = task.getStatusEntity();
     }
 }

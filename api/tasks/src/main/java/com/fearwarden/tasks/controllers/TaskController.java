@@ -9,10 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
@@ -30,5 +29,11 @@ public class TaskController {
                 userDetails
         );
         return new ResponseEntity<>(task, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TaskDto>> getAllTasksForUser(@AuthenticationPrincipal UserDetails userDetails) {
+        List<TaskDto> tasks = this.taskService.getAllTasksForUser(userDetails);
+        return ResponseEntity.ok(tasks);
     }
 }

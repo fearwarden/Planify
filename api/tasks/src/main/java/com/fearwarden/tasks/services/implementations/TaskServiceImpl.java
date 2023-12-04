@@ -19,6 +19,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
@@ -42,6 +45,18 @@ public class TaskServiceImpl implements TaskService {
         task.setStatusEntity(status);
         task.setUserEntity(user);
         this.taskRepository.save(task);
-        return new TaskDto(task, user.getId().toString(), category, priority, status);
+        return new TaskDto(task);
+    }
+
+    @Override
+    public List<TaskDto> getAllTasksForUser(UserDetails userDetails) {
+        UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
+        List<TaskEntity> taskEntities = this.taskRepository.findByUserEntity(user);
+        ArrayList<TaskDto> taskDtos = new ArrayList<>();
+
+        for (TaskEntity task : taskEntities) {
+            taskDtos.add(new TaskDto(task));
+        }
+        return taskDtos;
     }
 }
