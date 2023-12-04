@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,11 +53,8 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskDto> getAllTasksForUser(UserDetails userDetails) {
         UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
         List<TaskEntity> taskEntities = this.taskRepository.findByUserEntity(user);
-        ArrayList<TaskDto> taskDtos = new ArrayList<>();
-
-        for (TaskEntity task : taskEntities) {
-            taskDtos.add(new TaskDto(task));
-        }
-        return taskDtos;
+        return taskEntities.stream()
+                .map(TaskDto::new)
+                .collect(Collectors.toList());
     }
 }
