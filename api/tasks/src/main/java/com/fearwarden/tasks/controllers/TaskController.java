@@ -1,6 +1,7 @@
 package com.fearwarden.tasks.controllers;
 
 import com.fearwarden.tasks.dto.request.CreateTaskDto;
+import com.fearwarden.tasks.dto.request.UpdateTaskDto;
 import com.fearwarden.tasks.dto.response.TaskDto;
 import com.fearwarden.tasks.services.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -41,5 +42,12 @@ public class TaskController {
     public ResponseEntity<TaskDto> getTaskById(@PathVariable String id) {
         TaskDto task = this.taskService.getTaskById(id);
         return ResponseEntity.ok(task);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateTask(@PathVariable String id, @RequestBody @Validated UpdateTaskDto body) {
+        TaskDto task = this.taskService
+                .updateTask(id, body.getDescription(), body.getCategoryId(), body.getPriorityId(), body.getStatusId());
+        return ResponseEntity.noContent().build();
     }
 }

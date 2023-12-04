@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class CreateTaskDto {
+public class UpdateTaskDto {
     @NotNull(message = "Description is required.")
     @NotBlank(message = "Description should not be blank.")
     private String description;

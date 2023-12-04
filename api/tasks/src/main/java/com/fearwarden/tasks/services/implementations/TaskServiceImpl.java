@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -62,6 +63,22 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDto getTaskById(String id) {
         TaskEntity task = this.taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
+        return new TaskDto(task);
+    }
+
+    @Override
+    public TaskDto updateTask(String id, String description, Integer categoryId, Integer priorityId, Integer statusId) {
+        TaskEntity task = this.taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
+        CategoryEntity category = this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
+        PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
+        StatusEntity status = this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
+
+        task.setDescription(description);
+        task.setCategoryEntity(category);
+        task.setPriorityEntity(priority);
+        task.setStatusEntity(status);
+        task.setUpdatedAt(LocalDateTime.now());
+        this.taskRepository.save(task);
         return new TaskDto(task);
     }
 }
