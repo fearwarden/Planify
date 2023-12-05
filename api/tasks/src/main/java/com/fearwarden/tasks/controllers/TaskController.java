@@ -50,7 +50,7 @@ public class TaskController {
     ) {
         System.out.println(categoryId);
         Integer validatePage = HelperFunctions.validatePage(page);
-        Page<TaskDto> tasks = this.taskService.getAllTasksByCategory(userDetails, categoryId, validatePage);
+        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByCategory(userDetails, categoryId, validatePage);
         return ResponseEntity.ok(tasks);
     }
 
