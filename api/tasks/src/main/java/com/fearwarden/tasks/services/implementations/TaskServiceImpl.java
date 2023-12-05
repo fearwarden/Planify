@@ -17,6 +17,10 @@ import com.fearwarden.tasks.repositories.StatusRepository;
 import com.fearwarden.tasks.repositories.TaskRepository;
 import com.fearwarden.tasks.services.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +37,8 @@ public class TaskServiceImpl implements TaskService {
     private final StatusRepository statusRepository;
     private final CategoryRepository categoryRepository;
     private final UserService userService;
+
+    private final Integer PAGINATION_SIZE = 10;
 
     @Override
     public TaskDto createTask(String description, Integer categoryId, Integer priorityId, Integer statusId, UserDetails userDetails) {
@@ -52,12 +58,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getAllTasksForUser(UserDetails userDetails) {
+    public Page<TaskDto> getAllTasksForUser(UserDetails userDetails, Integer page) {
         UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
-        List<TaskEntity> taskEntities = this.taskRepository.findByUserEntity(user);
-        return taskEntities.stream()
+        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
+        Page<TaskEntity> taskEntities = this.taskRepository.findByUserEntity(user, pageable);
+        List<TaskDto> taskDtos = taskEntities.stream()
                 .map(TaskDto::new)
-                .collect(Collectors.toList());
+                .toList();
+        return new PageImpl<>(taskDtos, pageable, taskEntities.getTotalElements());
     }
 
     @Override

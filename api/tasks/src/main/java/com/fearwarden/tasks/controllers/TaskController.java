@@ -5,14 +5,13 @@ import com.fearwarden.tasks.dto.request.UpdateTaskDto;
 import com.fearwarden.tasks.dto.response.TaskDto;
 import com.fearwarden.tasks.services.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
@@ -33,8 +32,14 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TaskDto>> getAllTasksForUser(@AuthenticationPrincipal UserDetails userDetails) {
-        List<TaskDto> tasks = this.taskService.getAllTasksForUser(userDetails);
+    public ResponseEntity<Page<TaskDto>> getAllTasksForUser(
+                @AuthenticationPrincipal UserDetails userDetails,
+                @RequestParam(name = "page") Integer page
+            ) {
+        if (page == null || page < 1) {
+            page = 1;
+        }
+        Page<TaskDto> tasks = this.taskService.getAllTasksForUser(userDetails, page);
         return ResponseEntity.ok(tasks);
     }
 
