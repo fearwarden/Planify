@@ -4,6 +4,7 @@ import com.fearwarden.tasks.dto.request.CreateTaskDto;
 import com.fearwarden.tasks.dto.request.UpdateTaskDto;
 import com.fearwarden.tasks.dto.response.TaskDto;
 import com.fearwarden.tasks.services.TaskService;
+import com.fearwarden.tasks.tools.HelperFunctions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -36,10 +37,20 @@ public class TaskController {
                 @AuthenticationPrincipal UserDetails userDetails,
                 @RequestParam(name = "page") Integer page
             ) {
-        if (page == null || page < 1) {
-            page = 1;
-        }
-        Page<TaskDto> tasks = this.taskService.getAllTasksForUser(userDetails, page);
+        Integer validatePage = HelperFunctions.validatePage(page);
+        Page<TaskDto> tasks = this.taskService.getAllTasksForUser(userDetails, validatePage);
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<Page<TaskDto>> getAllTasksByCategory(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Integer categoryId,
+            @RequestParam(name = "page") Integer page
+    ) {
+        System.out.println(categoryId);
+        Integer validatePage = HelperFunctions.validatePage(page);
+        Page<TaskDto> tasks = this.taskService.getAllTasksByCategory(userDetails, categoryId, validatePage);
         return ResponseEntity.ok(tasks);
     }
 

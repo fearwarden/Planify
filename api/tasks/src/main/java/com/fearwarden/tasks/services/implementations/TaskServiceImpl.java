@@ -95,4 +95,14 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity task = this.taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
         this.taskRepository.delete(task);
     }
+
+    @Override
+    public Page<TaskDto> getAllTasksByCategory(UserDetails userDetails, Integer categoryId, Integer page) {
+        UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
+        CategoryEntity category = this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
+        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
+        Page<TaskEntity> tasks = this.taskRepository.findByUserEntityAndCategoryEntity(user, category, pageable);
+        List<TaskDto> taskDtos = tasks.stream().map(TaskDto::new).toList();
+        return new PageImpl<>(taskDtos, pageable, tasks.getTotalElements());
+    }
 }
