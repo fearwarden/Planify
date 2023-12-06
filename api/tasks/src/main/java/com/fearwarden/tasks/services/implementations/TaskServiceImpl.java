@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -101,7 +100,17 @@ public class TaskServiceImpl implements TaskService {
         UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
         CategoryEntity category = this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
-        Page<TaskEntity> tasks = this.taskRepository.findByUserEntityAndCategoryEntity(user, category, pageable);
+        Page<TaskEntity> tasks = this.taskRepository.findAllByUserEntityAndCategoryEntity(user, category, pageable);
+        List<TaskDto> taskDtos = tasks.stream().map(TaskDto::new).toList();
+        return new PageImpl<>(taskDtos, pageable, tasks.getTotalElements());
+    }
+
+    @Override
+    public Page<TaskDto> getAllTasksForUserByStatus(UserDetails userDetails, Integer statusId, Integer page) {
+        UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
+        StatusEntity status = this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
+        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
+        Page<TaskEntity> tasks = this.taskRepository.findAllByUserEntityAndStatusEntity(user, status, pageable);
         List<TaskDto> taskDtos = tasks.stream().map(TaskDto::new).toList();
         return new PageImpl<>(taskDtos, pageable, tasks.getTotalElements());
     }

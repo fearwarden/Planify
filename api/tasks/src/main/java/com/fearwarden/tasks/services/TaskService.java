@@ -11,4 +11,5 @@ public interface TaskService {
     TaskDto updateTask(String id, String description, Integer categoryId, Integer priorityId, Integer statusId);
     void deleteTask(String id);
     Page<TaskDto> getAllTasksForUserByCategory(UserDetails userDetails, Integer categoryId, Integer page);
+    Page<TaskDto> getAllTasksForUserByStatus(UserDetails userDetails, Integer statusId, Integer page);
 }

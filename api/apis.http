@@ -40,6 +40,9 @@ Content-Type: application/json
 ### Get all Tasks for User By Category
 GET http://localhost:8080/api/v1/tasks/category/1?page=1
 
+### Get all Tasks for User By Status
+GET http://localhost:8080/api/v1/tasks/status/1?page=1
+
 ### Get Task by ID
 GET http://localhost:8080/api/v1/tasks/2c67b770-e1e5-4f72-99fd-2dfbb36a3829
 Content-Type: application/json
