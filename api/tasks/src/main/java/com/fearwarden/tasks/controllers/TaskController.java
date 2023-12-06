@@ -14,8 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.attribute.UserPrincipal;
-
 @RestController
 @RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
@@ -45,7 +43,7 @@ public class TaskController {
     }
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<Page<TaskDto>> getAllTasksByCategory(
+    public ResponseEntity<Page<TaskDto>> getAllTasksForUserByCategory(
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable Integer categoryId,
             @RequestParam(name = "page") Integer page
@@ -56,7 +54,7 @@ public class TaskController {
     }
 
     @GetMapping("/status/{statusId}")
-    public ResponseEntity<Page<TaskDto>> getAllTasksByStatus(
+    public ResponseEntity<Page<TaskDto>> getAllTasksForUserByStatus(
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable Integer statusId,
             @RequestParam(name = "page") Integer page
