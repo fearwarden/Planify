@@ -39,9 +39,15 @@ Content-Type: application/json
 
 ### Get all Tasks for User By Category
 GET http://localhost:8080/api/v1/tasks/category/1?page=1
+Content-Type: application/json
 
 ### Get all Tasks for User By Status
 GET http://localhost:8080/api/v1/tasks/status/1?page=1
+Content-Type: application/json
+
+### Get all Tasks for User By Priority
+GET http://localhost:8080/api/v1/tasks/priority/1?page=1
+Content-Type: application/json
 
 ### Get Task by ID
 GET http://localhost:8080/api/v1/tasks/2c67b770-e1e5-4f72-99fd-2dfbb36a3829
@@ -61,3 +67,19 @@ Content-Type: application/json
 ### Delete Task
 DELETE http://localhost:8080/api/v1/tasks/e3175f61-3c8a-4a75-ac15-6a8d4f38f3ec
 Content-Type: application/json
+
+###
+GRAPHQL http://localhost:8080/graphql
+
+query  getTaskById($id: ID!) {
+    getTaskById(id: "c8d4031a-2159-43ff-8945-0e569f5e53c8") {
+        id
+        description
+        createdAt
+        updatedAt
+        userId
+        categoryId
+        priorityId
+        statusId
+    }
+}

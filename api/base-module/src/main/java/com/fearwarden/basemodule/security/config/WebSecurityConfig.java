@@ -33,7 +33,7 @@ public class WebSecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers("/api/v1/auth/**")
+                        request.requestMatchers("/api/v1/auth/**", "/graphiql", "/graphql")
                                 .permitAll()
                                 .anyRequest().authenticated()
                 )

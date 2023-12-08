@@ -74,7 +74,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskDto updateTask(String id, String description, Integer categoryId, Integer priorityId, Integer statusId) {
+    public void updateTask(String id, String description, Integer categoryId, Integer priorityId, Integer statusId) {
         TaskEntity task = this.taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
         CategoryEntity category = this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
@@ -86,7 +86,6 @@ public class TaskServiceImpl implements TaskService {
         task.setStatusEntity(status);
         task.setUpdatedAt(LocalDateTime.now());
         this.taskRepository.save(task);
-        return new TaskDto(task);
     }
 
     @Override
@@ -113,5 +112,15 @@ public class TaskServiceImpl implements TaskService {
         Page<TaskEntity> tasks = this.taskRepository.findAllByUserEntityAndStatusEntity(user, status, pageable);
         List<TaskDto> taskDtos = tasks.stream().map(TaskDto::new).toList();
         return new PageImpl<>(taskDtos, pageable, tasks.getTotalElements());
+    }
+
+    @Override
+    public Page<TaskDto> getAllTasksForUserByPriority(UserDetails userDetails, Integer priorityId, Integer page) {
+        UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
+        PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
+        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
+        Page<TaskEntity> taskEntities = this.taskRepository.findAllByUserEntityAndPriorityEntity(user, priority, pageable);
+        List<TaskDto> taskDtos = taskEntities.stream().map(TaskDto::new).toList();
+        return new PageImpl<>(taskDtos, pageable, taskEntities.getTotalElements());
     }
 }

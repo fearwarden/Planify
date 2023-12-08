@@ -7,6 +7,8 @@ import com.fearwarden.tasks.services.TaskService;
 import com.fearwarden.tasks.tools.HelperFunctions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -67,15 +69,25 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TaskDto> getTaskById(@PathVariable String id) {
-        TaskDto task = this.taskService.getTaskById(id);
-        return ResponseEntity.ok(task);
+    @GetMapping("/priority/{priorityId}")
+    public ResponseEntity<Page<TaskDto>> getAllTasksForUserByPriority(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Integer priorityId,
+            @RequestParam(name = "page") Integer page
+    ) {
+        page = HelperFunctions.validatePage(page);
+        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByPriority(userDetails, priorityId, page);
+        return ResponseEntity.ok(tasks);
+    }
+
+    @QueryMapping
+    public TaskDto getTaskById(@Argument String id) {
+        return this.taskService.getTaskById(id);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateTask(@PathVariable String id, @RequestBody @Validated UpdateTaskDto body) {
-        TaskDto task = this.taskService
+        this.taskService
                 .updateTask(id, body.getDescription(), body.getCategoryId(), body.getPriorityId(), body.getStatusId());
         return ResponseEntity.noContent().build();
     }
