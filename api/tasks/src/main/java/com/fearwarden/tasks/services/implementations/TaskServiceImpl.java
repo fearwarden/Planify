@@ -5,10 +5,10 @@ import com.fearwarden.basemodule.models.UserEntity;
 import com.fearwarden.basemodule.repositories.CategoryRepository;
 import com.fearwarden.basemodule.services.UserService;
 import com.fearwarden.tasks.dto.response.TaskDto;
-import com.fearwarden.tasks.exceptions.throwables.CategoryNotFoundException;
-import com.fearwarden.tasks.exceptions.throwables.PriorityNotFoundException;
-import com.fearwarden.tasks.exceptions.throwables.StatusNotFoundException;
-import com.fearwarden.tasks.exceptions.throwables.TaskNotFoundException;
+import com.fearwarden.tasks.exceptions.CategoryNotFoundException;
+import com.fearwarden.tasks.exceptions.PriorityNotFoundException;
+import com.fearwarden.tasks.exceptions.StatusNotFoundException;
+import com.fearwarden.tasks.exceptions.TaskNotFoundException;
 import com.fearwarden.tasks.models.PriorityEntity;
 import com.fearwarden.tasks.models.StatusEntity;
 import com.fearwarden.tasks.models.TaskEntity;
@@ -85,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
         task.setPriorityEntity(priority);
         task.setStatusEntity(status);
         task.setUpdatedAt(LocalDateTime.now());
-        this.taskRepository.save(task);
+        this.taskRepository.saveAndFlush(task);
     }
 
     @Override

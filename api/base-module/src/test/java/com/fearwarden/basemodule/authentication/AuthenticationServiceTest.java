@@ -1,7 +1,7 @@
 package com.fearwarden.basemodule.authentication;
 
 import com.fearwarden.basemodule.enums.Role;
-import com.fearwarden.basemodule.exceptions.throwables.UserExistException;
+import com.fearwarden.basemodule.exceptions.UserExistException;
 import com.fearwarden.basemodule.models.TokenEntity;
 import com.fearwarden.basemodule.models.UserEntity;
 import com.fearwarden.basemodule.repositories.TokenRepository;

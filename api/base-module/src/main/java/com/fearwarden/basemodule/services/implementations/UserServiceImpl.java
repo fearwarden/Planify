@@ -1,6 +1,6 @@
 package com.fearwarden.basemodule.services.implementations;
 
-import com.fearwarden.basemodule.exceptions.throwables.UserNotFoundException;
+import com.fearwarden.basemodule.exceptions.UserNotFoundException;
 import com.fearwarden.basemodule.models.UserEntity;
 import com.fearwarden.basemodule.repositories.UserRepository;
 import com.fearwarden.basemodule.services.UserService;

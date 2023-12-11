@@ -1,4 +1,4 @@
-package com.fearwarden.tasks.exceptions.throwables;
+package com.fearwarden.tasks.exceptions;
 
 public class PriorityNotFoundException extends RuntimeException {
     public PriorityNotFoundException() {

@@ -1,4 +1,4 @@
-package com.fearwarden.basemodule.exceptions.throwables;
+package com.fearwarden.basemodule.exceptions;
 
 public class TokenNotFoundException extends RuntimeException {
     public TokenNotFoundException() {

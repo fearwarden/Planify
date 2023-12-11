@@ -1,9 +1,9 @@
 package com.fearwarden.basemodule.services.implementations;
 
 import com.fearwarden.basemodule.dto.response.JwtResponseDto;
-import com.fearwarden.basemodule.exceptions.throwables.TokenNotFoundException;
-import com.fearwarden.basemodule.exceptions.throwables.UserExistException;
-import com.fearwarden.basemodule.exceptions.throwables.UserNotFoundException;
+import com.fearwarden.basemodule.exceptions.TokenNotFoundException;
+import com.fearwarden.basemodule.exceptions.UserExistException;
+import com.fearwarden.basemodule.exceptions.UserNotFoundException;
 import com.fearwarden.basemodule.models.TokenEntity;
 import com.fearwarden.basemodule.models.UserEntity;
 import com.fearwarden.basemodule.repositories.TokenRepository;
