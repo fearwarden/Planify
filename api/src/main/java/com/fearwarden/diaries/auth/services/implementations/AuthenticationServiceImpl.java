@@ -17,8 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -34,16 +32,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.userRepository.findByEmail(email)
                 .ifPresent(userEntity -> { throw new UserExistException(); });
 
-        UserEntity user = new UserEntity();
-        user.setEmail(email);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setPassword(this.passwordEncoder.encode(password));
+        UserEntity user = UserEntity.builder()
+                .email(email)
+                .firstName(firstName)
+                .lastName(lastName)
+                .password(this.passwordEncoder.encode(password))
+                .build();
         this.userRepository.save(user);
 
-        TokenEntity refreshToken = new TokenEntity();
-        refreshToken.setRefreshToken(this.jwtService.generateRefreshToken());
-        refreshToken.setUserEntity(user);
+        TokenEntity refreshToken = TokenEntity.builder()
+                .refreshToken(this.jwtService.generateRefreshToken())
+                .userEntity(user)
+                .build();
         this.tokenRepository.save(refreshToken);
     }
 
