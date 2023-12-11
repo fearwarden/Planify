@@ -1,5 +1,6 @@
 package com.fearwarden.diaries.users.models;
 
+import com.fearwarden.diaries.tasks.models.TaskEntity;
 import com.fearwarden.diaries.users.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,9 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -39,6 +38,9 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, columnDefinition = "VARCHAR(10) default 'USER'")
     private Role role = Role.USER;
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<TaskEntity> tasks = new HashSet<>();
 
     @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private TokenEntity tokenEntity;
