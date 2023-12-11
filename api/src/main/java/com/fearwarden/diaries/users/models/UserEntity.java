@@ -40,6 +40,7 @@ public class UserEntity implements UserDetails {
     private Role role = Role.USER;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Set<TaskEntity> tasks = new HashSet<>();
 
     @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
