@@ -1,4 +1,4 @@
-package com.fearwarden.diaries.tasks.exceptions;
+package com.fearwarden.diaries.tasks.exceptions.throwables;
 
 public class StatusNotFoundException extends RuntimeException {
     public StatusNotFoundException() {

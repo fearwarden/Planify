@@ -1,10 +1,10 @@
 package com.fearwarden.diaries.tasks.services.implementations;
 
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
-import com.fearwarden.diaries.tasks.exceptions.CategoryNotFoundException;
-import com.fearwarden.diaries.tasks.exceptions.PriorityNotFoundException;
-import com.fearwarden.diaries.tasks.exceptions.StatusNotFoundException;
-import com.fearwarden.diaries.tasks.exceptions.TaskNotFoundException;
+import com.fearwarden.diaries.tasks.exceptions.throwables.CategoryNotFoundException;
+import com.fearwarden.diaries.tasks.exceptions.throwables.PriorityNotFoundException;
+import com.fearwarden.diaries.tasks.exceptions.throwables.StatusNotFoundException;
+import com.fearwarden.diaries.tasks.exceptions.throwables.TaskNotFoundException;
 import com.fearwarden.diaries.tasks.models.PriorityEntity;
 import com.fearwarden.diaries.tasks.models.StatusEntity;
 import com.fearwarden.diaries.tasks.models.TaskEntity;

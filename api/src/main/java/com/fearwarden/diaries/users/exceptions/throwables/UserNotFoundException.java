@@ -1,4 +1,4 @@
-package com.fearwarden.diaries.users.exceptions;
+package com.fearwarden.diaries.users.exceptions.throwables;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException() {

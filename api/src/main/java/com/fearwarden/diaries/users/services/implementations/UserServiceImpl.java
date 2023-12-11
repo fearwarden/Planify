@@ -1,6 +1,6 @@
 package com.fearwarden.diaries.users.services.implementations;
 
-import com.fearwarden.diaries.users.exceptions.UserNotFoundException;
+import com.fearwarden.diaries.users.exceptions.throwables.UserNotFoundException;
 import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.repositories.UserRepository;
 import com.fearwarden.diaries.users.services.UserService;
