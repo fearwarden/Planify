@@ -14,6 +14,7 @@ import java.util.UUID;
 @Table(name = "tokens")
 public class TokenEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String refreshToken;
 

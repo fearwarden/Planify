@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,9 +31,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Transactional
     @Override
     public void register(String email, String firstName, String lastName, String password) {
-        Optional<UserEntity> userOptional = this.userRepository.findByEmail(email);
-
-        if (userOptional.isPresent()) throw new UserExistException();
+        this.userRepository.findByEmail(email)
+                .ifPresent(userEntity -> { throw new UserExistException(); });
 
         UserEntity user = new UserEntity();
         user.setEmail(email);
@@ -44,8 +42,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.userRepository.save(user);
 
         TokenEntity refreshToken = new TokenEntity();
-        UUID refreshTokenId = UUID.randomUUID();
-        refreshToken.setId(refreshTokenId);
         refreshToken.setRefreshToken(this.jwtService.generateRefreshToken());
         refreshToken.setUserEntity(user);
         this.tokenRepository.save(refreshToken);
