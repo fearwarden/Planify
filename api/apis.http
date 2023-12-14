@@ -28,9 +28,9 @@ Content-Type: application/json
 
 {
   "description": "Izbaciti slatko.",
-  "categoryId": 3,
-  "priorityId": 1,
-  "statusId": 1
+  "categoryId": 2,
+  "priorityId": 3,
+  "statusId": 2
 }
 
 ### Get all Tasks for User
