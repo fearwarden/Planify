@@ -128,10 +128,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<TaskDto> getAllTasksForUserByPriority(UserDetails userDetails, Integer priorityId, Integer page) {
-        UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
+        UserEntity user =
+                (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
         PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
-        Page<TaskEntity> taskEntities = this.taskRepository.findAllByUserEntityAndPriorityEntityOrderByCreatedAtDesc(user, priority, pageable);
+        Page<TaskEntity> taskEntities =
+                this.taskRepository.findAllByUserEntityAndPriorityEntityOrderByCreatedAtDesc(user, priority, pageable);
         List<TaskDto> taskDtos = taskEntities.stream().map(TaskDto::new).toList();
         return new PageImpl<>(taskDtos, pageable, taskEntities.getTotalElements());
     }
