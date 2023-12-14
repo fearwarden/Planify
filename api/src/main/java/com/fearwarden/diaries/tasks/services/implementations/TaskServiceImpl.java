@@ -60,7 +60,7 @@ public class TaskServiceImpl implements TaskService {
     public Page<TaskDto> getAllTasksForUser(UserDetails userDetails, Integer page) {
         UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
-        Page<TaskEntity> taskEntities = this.taskRepository.findByUserEntity(user, pageable);
+        Page<TaskEntity> taskEntities = this.taskRepository.findByUserEntityOrderByCreatedAtDesc(user, pageable);
         List<TaskDto> taskDtos = taskEntities.stream()
                 .map(TaskDto::new)
                 .toList();
@@ -99,7 +99,7 @@ public class TaskServiceImpl implements TaskService {
         UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
         CategoryEntity category = this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
-        Page<TaskEntity> tasks = this.taskRepository.findAllByUserEntityAndCategoryEntity(user, category, pageable);
+        Page<TaskEntity> tasks = this.taskRepository.findAllByUserEntityAndCategoryEntityOrderByCreatedAtDesc(user, category, pageable);
         List<TaskDto> taskDtos = tasks.stream().map(TaskDto::new).toList();
         return new PageImpl<>(taskDtos, pageable, tasks.getTotalElements());
     }
@@ -109,7 +109,7 @@ public class TaskServiceImpl implements TaskService {
         UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
         StatusEntity status = this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
-        Page<TaskEntity> tasks = this.taskRepository.findAllByUserEntityAndStatusEntity(user, status, pageable);
+        Page<TaskEntity> tasks = this.taskRepository.findAllByUserEntityAndStatusEntityOrderByCreatedAtDesc(user, status, pageable);
         List<TaskDto> taskDtos = tasks.stream().map(TaskDto::new).toList();
         return new PageImpl<>(taskDtos, pageable, tasks.getTotalElements());
     }
@@ -119,7 +119,7 @@ public class TaskServiceImpl implements TaskService {
         UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
         PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
-        Page<TaskEntity> taskEntities = this.taskRepository.findAllByUserEntityAndPriorityEntity(user, priority, pageable);
+        Page<TaskEntity> taskEntities = this.taskRepository.findAllByUserEntityAndPriorityEntityOrderByCreatedAtDesc(user, priority, pageable);
         List<TaskDto> taskDtos = taskEntities.stream().map(TaskDto::new).toList();
         return new PageImpl<>(taskDtos, pageable, taskEntities.getTotalElements());
     }
