@@ -29,6 +29,7 @@ public class TaskController {
     ) {
         TaskDto task = this.taskService.createTask(
                 body.getDescription(),
+                body.getDue(),
                 body.getCategoryId(),
                 body.getPriorityId(),
                 body.getStatusId(),

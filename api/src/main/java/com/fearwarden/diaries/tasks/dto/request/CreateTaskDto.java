@@ -5,11 +5,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class CreateTaskDto {
     @NotNull(message = "Description is required.")
     @NotBlank(message = "Description should not be blank.")
     private String description;
+    @NotNull(message = "Due is required.")
+    @NotBlank(message = "Due should not be blank.")
+    private LocalDateTime due;
     @NotNull(message = "Category ID is required.")
     @Min(0)
     private Integer categoryId;

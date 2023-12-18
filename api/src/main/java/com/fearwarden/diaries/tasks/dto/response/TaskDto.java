@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class TaskDto {
     private String id;
     private String description;
+    private LocalDateTime due;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String userId;
@@ -19,6 +20,7 @@ public class TaskDto {
     public TaskDto(TaskEntity task) {
         this.id = task.getId().toString();
         this.description = task.getDescription();
+        this.due = task.getDue();
         this.createdAt = task.getCreatedAt();
         this.updatedAt = task.getUpdatedAt();
         this.userId = task.getUserEntity().getId().toString();

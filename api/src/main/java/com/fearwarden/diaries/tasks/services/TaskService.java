@@ -4,8 +4,10 @@ import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
+
 public interface TaskService {
-    TaskDto createTask(String description, Integer categoryId, Integer priorityId, Integer statusId, UserDetails userDetails);
+    TaskDto createTask(String description, LocalDateTime due, Integer categoryId, Integer priorityId, Integer statusId, UserDetails userDetails);
     Page<TaskDto> getAllTasksForUser(UserDetails userDetails, Integer page);
     TaskDto getTaskById(String id);
     void updateTask(String id, String description, Integer categoryId, Integer priorityId, Integer statusId);

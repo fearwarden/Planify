@@ -14,8 +14,8 @@ import java.util.UUID;
 
 public interface TaskRepository extends JpaRepository<TaskEntity, String> {
     Optional<TaskEntity> findById(UUID id);
-    Page<TaskEntity> findByUserEntityOrderByCreatedAtDesc(UserEntity user, Pageable pageable);
-    Page<TaskEntity> findAllByUserEntityAndCategoryEntityOrderByCreatedAtDesc(UserEntity user, CategoryEntity category, Pageable pageable);
-    Page<TaskEntity> findAllByUserEntityAndStatusEntityOrderByCreatedAtDesc(UserEntity user, StatusEntity status, Pageable pageable);
-    Page<TaskEntity> findAllByUserEntityAndPriorityEntityOrderByCreatedAtDesc(UserEntity user, PriorityEntity priority, Pageable pageable);
+    Page<TaskEntity> findByUserEntityOrderByDueDesc(UserEntity user, Pageable pageable);
+    Page<TaskEntity> findAllByUserEntityAndCategoryEntityOrderByDueDesc(UserEntity user, CategoryEntity category, Pageable pageable);
+    Page<TaskEntity> findAllByUserEntityAndStatusEntityOrderByDueDesc(UserEntity user, StatusEntity status, Pageable pageable);
+    Page<TaskEntity> findAllByUserEntityAndPriorityEntityOrderByDueDesc(UserEntity user, PriorityEntity priority, Pageable pageable);
 }

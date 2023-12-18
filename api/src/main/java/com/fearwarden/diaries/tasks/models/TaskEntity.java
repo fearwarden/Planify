@@ -23,6 +23,9 @@ public class TaskEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "due", nullable = false)
+    private LocalDateTime due;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
