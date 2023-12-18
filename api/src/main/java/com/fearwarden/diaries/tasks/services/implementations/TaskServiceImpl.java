@@ -12,6 +12,7 @@ import com.fearwarden.diaries.tasks.repositories.PriorityRepository;
 import com.fearwarden.diaries.tasks.repositories.StatusRepository;
 import com.fearwarden.diaries.tasks.repositories.TaskRepository;
 import com.fearwarden.diaries.tasks.services.TaskService;
+import com.fearwarden.diaries.tasks.tools.HelperFunctions;
 import com.fearwarden.diaries.users.models.CategoryEntity;
 import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.repositories.CategoryRepository;
@@ -25,6 +26,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +45,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDto createTask(
             String description,
-            LocalDateTime due,
+            String due,
             Integer categoryId,
             Integer priorityId,
             Integer statusId,
@@ -54,9 +57,11 @@ public class TaskServiceImpl implements TaskService {
         PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
         StatusEntity status = this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
 
+        LocalDateTime dueConverted = HelperFunctions.convertStringToLocalDateTime(due);
+
         TaskEntity task = new TaskEntity();
         task.setDescription(description);
-        task.setDue(due);
+        task.setDue(dueConverted);
         task.setCategoryEntity(category);
         task.setPriorityEntity(priority);
         task.setStatusEntity(status);

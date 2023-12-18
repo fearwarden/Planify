@@ -14,7 +14,7 @@ public class CreateTaskDto {
     private String description;
     @NotNull(message = "Due is required.")
     @NotBlank(message = "Due should not be blank.")
-    private LocalDateTime due;
+    private String due;
     @NotNull(message = "Category ID is required.")
     @Min(0)
     private Integer categoryId;

@@ -24,8 +24,8 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<TaskDto> create(
-            @RequestBody @Validated CreateTaskDto body,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody @Validated CreateTaskDto body
     ) {
         TaskDto task = this.taskService.createTask(
                 body.getDescription(),
