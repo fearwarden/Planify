@@ -15,7 +15,8 @@ public class HelperFunctions {
 
     public static LocalDateTime convertStringToLocalDateTime(String date) {
         try {
-            return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            // example: 2023-12-18T22:10:23.738 without Z part
+            return LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         } catch (DateTimeParseException e) {
             throw new RuntimeException(e);
         }

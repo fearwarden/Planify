@@ -72,6 +72,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<TaskDto> getAllTasksForUser(UserDetails userDetails, Integer page) {
+        System.out.println(LocalDateTime.now());
         UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
         Page<TaskEntity> taskEntities = this.taskRepository.findByUserEntityOrderByDueDesc(user, pageable);
