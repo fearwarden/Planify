@@ -47,10 +47,8 @@ public class TaskServiceImpl implements TaskService {
             Integer categoryId,
             Integer priorityId,
             Integer statusId,
-            UserDetails userDetails
+            UserEntity user
     ) {
-        UserEntity user =
-                (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
         CategoryEntity category = this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
         StatusEntity status = this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
@@ -69,9 +67,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<TaskDto> getAllTasksForUser(UserDetails userDetails, Integer page) {
-        System.out.println(LocalDateTime.now());
-        UserEntity user = (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
+    public Page<TaskDto> getAllTasksForUser(UserEntity user, Integer page) {
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
         Page<TaskEntity> taskEntities = this.taskRepository.findByUserEntityOrderByDueDesc(user, pageable);
         List<TaskDto> taskDtos = taskEntities.stream()
@@ -108,9 +104,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<TaskDto> getAllTasksForUserByCategory(UserDetails userDetails, Integer categoryId, Integer page) {
-        UserEntity user =
-                (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
+    public Page<TaskDto> getAllTasksForUserByCategory(UserEntity user, Integer categoryId, Integer page) {
         CategoryEntity category =
                 this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
@@ -121,9 +115,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<TaskDto> getAllTasksForUserByStatus(UserDetails userDetails, Integer statusId, Integer page) {
-        UserEntity user =
-                (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
+    public Page<TaskDto> getAllTasksForUserByStatus(UserEntity user, Integer statusId, Integer page) {
         StatusEntity status = this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
         Page<TaskEntity> tasks =
@@ -133,9 +125,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<TaskDto> getAllTasksForUserByPriority(UserDetails userDetails, Integer priorityId, Integer page) {
-        UserEntity user =
-                (UserEntity) this.userService.userDetailsService().loadUserByUsername(userDetails.getUsername());
+    public Page<TaskDto> getAllTasksForUserByPriority(UserEntity user, Integer priorityId, Integer page) {
         PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
         Page<TaskEntity> taskEntities =

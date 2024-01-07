@@ -5,6 +5,7 @@ import com.fearwarden.diaries.tasks.dto.request.UpdateTaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import com.fearwarden.diaries.tasks.services.TaskService;
 import com.fearwarden.diaries.tasks.tools.HelperFunctions;
+import com.fearwarden.diaries.users.models.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -24,7 +25,7 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<TaskDto> create(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal UserEntity user,
             @RequestBody @Validated CreateTaskDto body
     ) {
         TaskDto task = this.taskService.createTask(
@@ -33,51 +34,51 @@ public class TaskController {
                 body.getCategoryId(),
                 body.getPriorityId(),
                 body.getStatusId(),
-                userDetails
+                user
         );
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<Page<TaskDto>> getAllTasksForUser(
-                @AuthenticationPrincipal UserDetails userDetails,
+                @AuthenticationPrincipal UserEntity user,
                 @RequestParam(name = "page") Integer page
             ) {
         Integer validatePage = HelperFunctions.validatePage(page);
-        Page<TaskDto> tasks = this.taskService.getAllTasksForUser(userDetails, validatePage);
+        Page<TaskDto> tasks = this.taskService.getAllTasksForUser(user, validatePage);
         return ResponseEntity.ok(tasks);
     }
 
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<Page<TaskDto>> getAllTasksForUserByCategory(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal UserEntity user,
             @PathVariable Integer categoryId,
             @RequestParam(name = "page") Integer page
     ) {
         Integer validatePage = HelperFunctions.validatePage(page);
-        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByCategory(userDetails, categoryId, validatePage);
+        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByCategory(user, categoryId, validatePage);
         return ResponseEntity.ok(tasks);
     }
 
     @GetMapping("/status/{statusId}")
     public ResponseEntity<Page<TaskDto>> getAllTasksForUserByStatus(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal UserEntity user,
             @PathVariable Integer statusId,
             @RequestParam(name = "page") Integer page
             ) {
         Integer validatedPage = HelperFunctions.validatePage(page);
-        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByStatus(userDetails, statusId, validatedPage);
+        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByStatus(user, statusId, validatedPage);
         return ResponseEntity.ok(tasks);
     }
 
     @GetMapping("/priority/{priorityId}")
     public ResponseEntity<Page<TaskDto>> getAllTasksForUserByPriority(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal UserEntity user,
             @PathVariable Integer priorityId,
             @RequestParam(name = "page") Integer page
     ) {
         page = HelperFunctions.validatePage(page);
-        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByPriority(userDetails, priorityId, page);
+        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByPriority(user, priorityId, page);
         return ResponseEntity.ok(tasks);
     }
 
