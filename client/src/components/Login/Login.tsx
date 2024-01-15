@@ -3,7 +3,7 @@ import backgroundImageGreen from "@/assets/img/backgroundapplegreen.png";
 
 function Login() {
   const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `url(${backgroundImageGreen})`,
     backgroundSize: "cover",
   };
 
