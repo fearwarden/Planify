@@ -1,11 +1,19 @@
-import backgroundImage from "@/assets/img/backgroundapple.png";
+//import backgroundImage from "@/assets/img/backgroundapple.png";
+import { AuthenticationRepository } from "@/api/authentication/AuthenticationRepository";
 import backgroundImageGreen from "@/assets/img/backgroundapplegreen.png";
+import { useState } from "react";
 
 function Login() {
+  const authRepository = new AuthenticationRepository();
+  const [email, setEmail] = useState<string>("");
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImageGreen})`,
     backgroundSize: "cover",
   };
+
+  async function handleLogin() {
+    console.log(email);
+  }
 
   return (
     <div className="bg-cover" style={backgroundStyle}>
@@ -22,7 +30,7 @@ function Login() {
             <span className="font-normal">Login</span>
           </h1>
           <h1 className="text-3xl font-semibold text-white pt-4">Login</h1>
-          <form className="mt-6">
+          <div className="mt-6">
             <label
               htmlFor="email"
               className="block text-lg font-normal text-white select-none	"
@@ -36,6 +44,8 @@ function Login() {
               placeholder="borisantonijevseljak123@gmail.com"
               autoComplete="email"
               className="block w-full pl-6 mt-2 text-gray-700 bg-white appearance-none focus:outline-none focus:bg-gray-100 focus:shadow-inner rounded-xl h-14 border-2"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
             <label
@@ -57,7 +67,8 @@ function Login() {
               Forgot password?
             </p>
             <button
-              type="submit"
+              type="button"
+              onClick={handleLogin}
               className="w-full py-4 mt-9 font-medium tracking-widest text-white uppercase bg-orange-500 shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none rounded-xl"
             >
               Sign in
@@ -104,7 +115,7 @@ function Login() {
                 <span className="font-semibold pl-3">Register here</span>
               </p>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
