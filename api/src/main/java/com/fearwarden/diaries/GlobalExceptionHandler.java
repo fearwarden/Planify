@@ -1,5 +1,7 @@
 package com.fearwarden.diaries;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestControllerAdvice
+@Order()
 public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException.class)

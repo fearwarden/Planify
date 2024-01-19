@@ -4,6 +4,8 @@ import com.fearwarden.diaries.users.exceptions.throwables.ConfirmPasswordExcepti
 import com.fearwarden.diaries.users.exceptions.throwables.TokenNotFoundException;
 import com.fearwarden.diaries.users.exceptions.throwables.UserExistException;
 import com.fearwarden.diaries.users.exceptions.throwables.UserNotFoundException;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class UserExceptionHandler {
 
     @ResponseBody
