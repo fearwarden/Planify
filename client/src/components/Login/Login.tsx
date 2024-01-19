@@ -1,18 +1,49 @@
+import { z } from "zod";
 //import backgroundImage from "@/assets/img/backgroundapple.png";
 import { AuthenticationRepository } from "@/api/authentication/AuthenticationRepository";
 import backgroundImageGreen from "@/assets/img/backgroundapplegreen.png";
 import { useState } from "react";
+import { LoginResponse } from "@/types/AuthenticationTypes";
+
+//TODO: consider moving to validation/schemas.ts file
+const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8).max(16),
+});
+
+type LoginDataType = z.infer<typeof LoginSchema>;
 
 function Login() {
   const authRepository = new AuthenticationRepository();
   const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImageGreen})`,
     backgroundSize: "cover",
   };
 
   async function handleLogin() {
-    console.log(email);
+    const loginData: LoginDataType = {
+      email: email,
+      password: password,
+    };
+    const validation = LoginSchema.safeParse(loginData);
+    if (validation.success) {
+      const data: LoginResponse = await authRepository.login(
+        loginData.email,
+        loginData.password
+      );
+      //TODO: dispatch to redux login data and navigate user to Home page
+      console.log(data);
+    } else {
+      //TODO: display proper message for user
+      console.log(
+        validation.error.message
+          .slice(validation.error.message.search("message"))
+          .split(":")[1]
+          .split(",")[0]
+      );
+    }
   }
 
   return (
@@ -60,6 +91,8 @@ function Login() {
               name="password"
               placeholder="Password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="block w-full pl-6 mt-2 text-gray-700 bg-white appearance-none focus:outline-none focus:bg-gray-100 focus:shadow-inner rounded-xl h-14 border-2"
               required
             />
