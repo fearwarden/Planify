@@ -1,13 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-//import backgroundImage from "@/assets/img/backgroundapple.png";
 import { AuthenticationRepository } from "@/api/authentication/AuthenticationRepository";
-import backgroundImageGreen from "@/assets/img/backgroundapplegreen.png";
-import { LoginResponse } from "@/types/AuthenticationTypes";
-import { login } from "@/store/slice/userSlice";
-import { HOME } from "@/constants/constants";
+import backgroundImageGreen from "@/assets/img/background.jpg";
 
 //TODO: consider moving to validation/schemas.ts file
 const LoginSchema = z.object({
@@ -23,6 +19,7 @@ function Login() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImageGreen})`,
     backgroundSize: "cover",
@@ -34,28 +31,26 @@ function Login() {
       password: password,
     };
     const validation = LoginSchema.safeParse(loginData);
-    if (validation.success) {
-      const data: LoginResponse = await authRepository.login(
-        loginData.email,
-        loginData.password
-      );
-      //TODO: dispatch to redux login data and navigate user to Home page
-      if (data) {
-        dispatch(login(data));
-        navigate(HOME);
-      } else {
-        throw new Error("Something went wrong...");
-      }
-    } else {
-      //TODO: display proper message for user
-      console.log(
+    if (!validation.success) {
+      setErrorMessage(
         validation.error.message
           .slice(validation.error.message.search("message"))
           .split(":")[1]
           .split(",")[0]
       );
     }
+    try {
+      const loginResponse = await authRepository.login(email, password);
+    } catch (err) {
+      setErrorMessage("Something went wrong, please try again.");
+    }
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setErrorMessage("");
+    }, 5000);
+  });
 
   return (
     <div className="bg-cover" style={backgroundStyle}>
@@ -117,6 +112,8 @@ function Login() {
             >
               Sign in
             </button>
+
+            {errorMessage && <p>{errorMessage}</p>}
 
             <div className="flex flex-col items-center w-full mt-10">
               <p className="text-md text-white select-none">or continue with</p>

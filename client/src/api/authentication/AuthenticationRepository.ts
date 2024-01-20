@@ -7,12 +7,11 @@ export class AuthenticationRepository extends HttpClient {
   protected axiosInstance = this.createInstance();
 
   public async login(email: string, password: string): Promise<LoginResponse> {
-    const result = await this.axiosInstance
-      .post(`${this.collection}/login`, {
-        email,
-        password,
-      })
-      .then(transform);
+    const result = await this.axiosInstance.post(`${this.collection}/login`, {
+      email,
+      password,
+    });
+    console.log(result);
     return result.data;
   }
 

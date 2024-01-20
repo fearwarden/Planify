@@ -33,7 +33,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
         final Cookie[] cookies = request.getCookies();
         String jwt = null;
         final String userEmail;
