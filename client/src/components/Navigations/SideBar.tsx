@@ -32,7 +32,7 @@ function SideBar() {
                 </span>
                 Dashboard
                 <label
-                  for="menu-1"
+                  htmlFor="menu-1"
                   className="absolute inset-0 h-full w-full cursor-pointer"
                 ></label>
               </div>
