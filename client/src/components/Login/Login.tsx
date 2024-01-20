@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 //import backgroundImage from "@/assets/img/backgroundapple.png";
 import { AuthenticationRepository } from "@/api/authentication/AuthenticationRepository";
-import backgroundImageGreen from "@/assets/img/backgroundapplegreen.png";
+import backgroundImageGreen from "@/assets/img/background.jpg";
 import { LoginResponse } from "@/types/AuthenticationTypes";
 import { login } from "@/store/slice/userSlice";
 import { HOME } from "@/constants/constants";
