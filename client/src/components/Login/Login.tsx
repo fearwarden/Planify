@@ -1,9 +1,13 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 //import backgroundImage from "@/assets/img/backgroundapple.png";
 import { AuthenticationRepository } from "@/api/authentication/AuthenticationRepository";
 import backgroundImageGreen from "@/assets/img/backgroundapplegreen.png";
-import { useState } from "react";
 import { LoginResponse } from "@/types/AuthenticationTypes";
+import { login } from "@/store/slice/userSlice";
+import { HOME } from "@/constants/constants";
 
 //TODO: consider moving to validation/schemas.ts file
 const LoginSchema = z.object({
@@ -15,6 +19,8 @@ type LoginDataType = z.infer<typeof LoginSchema>;
 
 function Login() {
   const authRepository = new AuthenticationRepository();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const backgroundStyle = {
@@ -34,7 +40,12 @@ function Login() {
         loginData.password
       );
       //TODO: dispatch to redux login data and navigate user to Home page
-      console.log(data);
+      if (data) {
+        dispatch(login(data));
+        navigate(HOME);
+      } else {
+        throw new Error("Something went wrong...");
+      }
     } else {
       //TODO: display proper message for user
       console.log(
