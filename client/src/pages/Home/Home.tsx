@@ -1,8 +1,10 @@
-import NavBar from "@/components/Navigations/NavBar";
+//import NavBar from "@/components/Navigations/NavBar";
 import SideBar from "@/components/Navigations/SideBar";
 import Tasks from "./components/Tasks";
 import { api } from "@/hooks/api";
 import { useQuery } from "@tanstack/react-query";
+//import Tasks from "./components/Tasks";
+import backgroundImageGreen from "@/assets/img/background.jpg";
 
 function Home() {
   const { isPending, isError, data, error } = useQuery({
@@ -17,10 +19,11 @@ function Home() {
   if (isError) return <span>Loading...</span>;
 
   return (
-    <div>
-      <NavBar />
+    <div
+      className="flex flex-col h-screen bg-cover bg-center"
+      style={{ backgroundImage: `url(${backgroundImageGreen})` }}
+    >
       <SideBar />
-      <Tasks />
     </div>
   );
 }
