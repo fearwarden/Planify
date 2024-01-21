@@ -10,7 +10,6 @@ export const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    console.log(error);
     if (error.response?.status === 406) {
       const originalRequest = error.config;
       try {

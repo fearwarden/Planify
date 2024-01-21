@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
-import { AuthenticationRepository } from "@/api/authentication/AuthenticationRepository";
 import backgroundImageGreen from "@/assets/img/background.jpg";
+import { api } from "@/hooks/api";
+import { login } from "@/store/slice/userSlice";
+import { HOME } from "@/constants/constants";
 
 //TODO: consider moving to validation/schemas.ts file
 const LoginSchema = z.object({
@@ -14,7 +17,6 @@ const LoginSchema = z.object({
 type LoginDataType = z.infer<typeof LoginSchema>;
 
 function Login() {
-  const authRepository = new AuthenticationRepository();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
@@ -25,7 +27,26 @@ function Login() {
     backgroundSize: "cover",
   };
 
-  async function handleLogin() {
+  const loginMutation = useMutation({
+    mutationFn: (loginData: LoginDataType) => {
+      return api.post("/api/v1/auth/login", loginData);
+    },
+    onError: (error, variable, context) => {
+      const statusCode =
+        error.message.split(" ")[error.message.split(" ").length - 1];
+      if (parseInt(statusCode) === 400) {
+        setErrorMessage("Wrong credentials, please try again.");
+      } else {
+        setErrorMessage("Something went wrong, please try again.");
+      }
+    },
+    onSuccess: (data, variable, context) => {
+      dispatch(login(data.data));
+      navigate(HOME);
+    },
+  });
+
+  async function handleLoginV2() {
     const loginData: LoginDataType = {
       email: email,
       password: password,
@@ -39,11 +60,7 @@ function Login() {
           .split(",")[0]
       );
     }
-    try {
-      const loginResponse = await authRepository.login(email, password);
-    } catch (err) {
-      setErrorMessage("Something went wrong, please try again.");
-    }
+    loginMutation.mutate({ email, password });
   }
 
   useEffect(() => {
@@ -107,7 +124,7 @@ function Login() {
             </p>
             <button
               type="button"
-              onClick={handleLogin}
+              onClick={handleLoginV2}
               className="w-full py-4 mt-9 font-medium tracking-widest text-white uppercase bg-orange-500 shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none rounded-xl"
             >
               Sign in
