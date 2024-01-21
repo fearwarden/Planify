@@ -34,7 +34,7 @@ function Login() {
     onError: (error) => {
       const statusCode =
         error.message.split(" ")[error.message.split(" ").length - 1];
-      if (parseInt(statusCode) === 400) {
+      if (parseInt(statusCode) === 400 || parseInt(statusCode) === 404) {
         setErrorMessage("Wrong credentials, please try again.");
       } else {
         setErrorMessage("Something went wrong, please try again.");
