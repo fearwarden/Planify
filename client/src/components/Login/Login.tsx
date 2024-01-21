@@ -11,7 +11,7 @@ import { HOME } from "@/constants/constants";
 //TODO: consider moving to validation/schemas.ts file
 const LoginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8).max(16),
+  password: z.string(),
 });
 
 type LoginDataType = z.infer<typeof LoginSchema>;
