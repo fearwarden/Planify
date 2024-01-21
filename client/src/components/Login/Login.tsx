@@ -31,7 +31,7 @@ function Login() {
     mutationFn: (loginData: LoginDataType) => {
       return api.post("/api/v1/auth/login", loginData);
     },
-    onError: (error, variable, context) => {
+    onError: (error) => {
       const statusCode =
         error.message.split(" ")[error.message.split(" ").length - 1];
       if (parseInt(statusCode) === 400) {
@@ -40,7 +40,7 @@ function Login() {
         setErrorMessage("Something went wrong, please try again.");
       }
     },
-    onSuccess: (data, variable, context) => {
+    onSuccess: (data) => {
       dispatch(login(data.data));
       navigate(HOME);
     },
@@ -66,7 +66,7 @@ function Login() {
   useEffect(() => {
     setTimeout(() => {
       setErrorMessage("");
-    }, 5000);
+    }, 10000);
   });
 
   return (
