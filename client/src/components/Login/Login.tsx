@@ -46,7 +46,7 @@ function Login() {
     },
   });
 
-  async function handleLoginV2() {
+  async function handleLogin() {
     const loginData: LoginDataType = {
       email: email,
       password: password,
@@ -124,7 +124,7 @@ function Login() {
             </p>
             <button
               type="button"
-              onClick={handleLoginV2}
+              onClick={handleLogin}
               className="w-full py-4 mt-9 font-medium tracking-widest text-white uppercase bg-orange-500 shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none rounded-xl"
             >
               Sign in
