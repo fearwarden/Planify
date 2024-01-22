@@ -71,19 +71,19 @@ function Login() {
 
   return (
     <div className="bg-cover" style={backgroundStyle}>
-      <div className="grid min-h-screen place-items-center">
+      <div className="grid min-h-screen place-items-center drop-shadow-lg">
         <div
-          className="w-11/12 p-12 bg-blue-500 bg-opacity-20 sm:w-8/12 md:w-1/2 lg:w-5/12 rounded-3xl relative"
+          className="w-11/12 p-12 rounded-[28px] bg-black bg-opacity-60 bg-blend-normal sm:w-8/12 md:w-1/2 lg:w-5/12 relative lg:px-24 border-2 border-green-500/20"
           style={{
-            maxWidth: "690px",
-            border: "3px solid rgba(59, 130, 246, 0.2)",
+            maxWidth: "900px",
+            boxShadow: "0 64px 64px -32px rgba(0, 10, 10, 0.9)",
           }}
         >
-          <h1 className="text-xl font-semibold text-white select-none	">
-            Boris Antonijev WebApp / Welcome text{" "}
-            <span className="font-normal">Login</span>
+          {" "}
+          <h1 className="text-3xl font-bold text-white select-none">Login</h1>
+          <h1 className="text-xl font-semibold text-white select-none pt-4">
+            Welcome Back, Please login to your account.
           </h1>
-          <h1 className="text-3xl font-semibold text-white pt-4">Login</h1>
           <div className="mt-6">
             <label
               htmlFor="email"
@@ -95,9 +95,9 @@ function Login() {
               id="email"
               type="email"
               name="email"
-              placeholder="borisantonijevseljak123@gmail.com"
+              placeholder="borisantonijev@gmail.com"
               autoComplete="email"
-              className="block w-full pl-6 mt-2 text-gray-700 bg-white appearance-none focus:outline-none focus:bg-gray-100 focus:shadow-inner rounded-xl h-14 border-2"
+              className="block w-full pl-6 mt-2 text-gray-700 bg-white appearance-none focus:outline-none focus:bg-gray-200 focus:shadow-inner rounded-xl h-14 border-2"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -119,13 +119,20 @@ function Login() {
               className="block w-full pl-6 mt-2 text-gray-700 bg-white appearance-none focus:outline-none focus:bg-gray-100 focus:shadow-inner rounded-xl h-14 border-2"
               required
             />
-            <p className="flex justify-between mt-3 text-md text-white cursor-pointer hover:text-gray-200">
-              Forgot password?
-            </p>
+            <div className="flex">
+              <label className="flex mt-3 text-md text-white cursor-pointer hover:text-gray-200 mr-auto select-none">
+                <input type="checkbox" className="mr-2" />
+                Remember Me
+              </label>
+              <p className="flex justify-end mt-3 text-md text-white cursor-pointer hover:text-gray-200 select-none">
+                Forgot password?
+              </p>
+            </div>
+
             <button
               type="button"
               onClick={handleLogin}
-              className="w-full py-4 mt-9 font-medium tracking-widest text-white uppercase bg-orange-500 shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none rounded-xl"
+              className="w-full py-4 mt-9 font-medium tracking-widest text-white uppercase bg-green-600 shadow-lg focus:outline-none hover:bg-gray-950 hover:shadow-none rounded-xl"
             >
               Sign in
             </button>
@@ -168,9 +175,11 @@ function Login() {
               </div>
             </div>
             <div className="flex flex-col items-center w-full mt-10">
-              <p className="text-md text-white select-none">
-                Don't have an account yet?{" "}
-                <span className="font-semibold pl-3">Register here</span>
+              <p className="text-md text-white select-none flex">
+                Don't have an account yet?
+                <button className="text-md text-white pl-4 font-semibold">
+                  Register here
+                </button>
               </p>
             </div>
           </div>
