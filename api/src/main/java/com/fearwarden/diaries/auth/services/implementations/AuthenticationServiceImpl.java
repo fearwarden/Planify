@@ -11,7 +11,6 @@ import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.repositories.TokenRepository;
 import com.fearwarden.diaries.users.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -54,11 +52,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );
-        UserEntity user = this.userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
+        UserEntity user = this.userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         String accessToken = this.jwtService.generateToken(user);
         TokenEntity token = this.tokenRepository.findByUserEntity(user)
                 .orElseThrow(TokenNotFoundException::new);
-        log.info("User: {} successfully logged in.", user.getEmail());
+
         return new JwtResponseDto(token, user, accessToken);
     }
 
@@ -67,7 +65,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         TokenEntity token = this.tokenRepository.findByRefreshToken(refreshToken)
                 .orElseThrow(TokenNotFoundException::new);
         UserEntity user = this.userRepository.findById(token.getUserEntity().getId())
-                .orElseThrow(() -> new UserNotFoundException(token.getUserEntity().getEmail()));
+                .orElseThrow(UserNotFoundException::new);
 
         String accessToken = this.jwtService.generateToken(user);
         String newRefreshToken = this.jwtService.generateRefreshToken();
