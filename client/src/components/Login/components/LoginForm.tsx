@@ -89,7 +89,7 @@ function LoginForm() {
           id="email"
           type="email"
           name="email"
-          placeholder="borisantonijev@gmail.com"
+          placeholder="example@example.com"
           autoComplete="email"
           className="block w-full pl-6 mt-2 text-gray-700 bg-white appearance-none focus:outline-none focus:bg-gray-200 focus:shadow-inner rounded-xl h-14 border-2"
           value={email}
@@ -106,7 +106,7 @@ function LoginForm() {
           id="password"
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="********"
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
