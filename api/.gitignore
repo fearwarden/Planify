@@ -3,11 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-<<<<<<< HEAD
 logs/
-=======
 
->>>>>>> parent of ded8d74 ([backend] feat: add logging to a console and file)
 ### STS ###
 .apt_generated
 .classpath

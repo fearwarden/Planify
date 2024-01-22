@@ -11,6 +11,7 @@ import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.repositories.TokenRepository;
 import com.fearwarden.diaries.users.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -56,7 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String accessToken = this.jwtService.generateToken(user);
         TokenEntity token = this.tokenRepository.findByUserEntity(user)
                 .orElseThrow(TokenNotFoundException::new);
-
+        log.info("User {} successfully logged in.", user.getEmail());
         return new JwtResponseDto(token, user, accessToken);
     }
 
