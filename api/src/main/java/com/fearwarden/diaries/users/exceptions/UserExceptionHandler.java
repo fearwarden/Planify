@@ -1,9 +1,6 @@
 package com.fearwarden.diaries.users.exceptions;
 
-import com.fearwarden.diaries.users.exceptions.throwables.ConfirmPasswordException;
-import com.fearwarden.diaries.users.exceptions.throwables.TokenNotFoundException;
-import com.fearwarden.diaries.users.exceptions.throwables.UserExistException;
-import com.fearwarden.diaries.users.exceptions.throwables.UserNotFoundException;
+import com.fearwarden.diaries.users.exceptions.throwables.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -19,6 +16,12 @@ public class UserExceptionHandler {
     @ResponseBody
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> userNotFoundHandler(UserNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(UserNotFoundByIdException.class)
+    public ResponseEntity<String> userNotFoundByIdHandler(UserNotFoundByIdException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 

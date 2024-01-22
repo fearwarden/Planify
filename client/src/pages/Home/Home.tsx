@@ -3,7 +3,6 @@ import SideBar from "@/components/Navigations/SideBar";
 import Tasks from "./components/Tasks";
 import { api } from "@/hooks/api";
 import { useQuery } from "@tanstack/react-query";
-//import Tasks from "./components/Tasks";
 import backgroundImageGreen from "@/assets/img/background.jpg";
 
 function Home() {
