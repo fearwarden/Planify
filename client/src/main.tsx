@@ -6,14 +6,19 @@ import "@/index.css";
 import Router from "@/routes/Router";
 import { store } from "@/store/store";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { NextUIProvider } from "@nextui-org/react";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <Provider store={store}>
-      <RouterProvider router={Router.router} />
-      <ReactQueryDevtools />
+      <NextUIProvider>
+        <main className="dark text-foreground bg-background">
+          <RouterProvider router={Router.router} />
+          <ReactQueryDevtools />
+        </main>
+      </NextUIProvider>
     </Provider>
   </QueryClientProvider>
 );
