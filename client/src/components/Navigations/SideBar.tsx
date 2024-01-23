@@ -1,7 +1,7 @@
 function SideBar() {
   return (
     <div>
-      <div className="h-screen overflow-hidden">
+      <div className="h-screen overflow-hidden pb-5">
         <div className="m-2.5 flex h-full w-64 flex-col rounded-[28px] bg-black bg-opacity-60 bg-blend-normal">
           <ul className="mt-10 flex flex-col">
             <label className="px-11 text-xs text-gray-500 uppercase dark:text-gray-400 tracking-tighter leading-6 text-opacity-60 font-medium	">
