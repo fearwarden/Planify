@@ -47,7 +47,6 @@ function LoginForm() {
       password: password,
     };
     const validation = LoginSchema.safeParse(loginData);
-    console.log(validation);
     if (!validation.success) {
       setErrorMessage(
         validation.error.message

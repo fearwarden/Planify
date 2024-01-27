@@ -4,28 +4,47 @@ import {
   CardBody,
   CardFooter,
   Divider,
-  Button,
+  Chip,
 } from "@nextui-org/react";
 
-function Task() {
+interface TaskData {
+  description: string;
+  due: Date;
+  createdAt: Date;
+  category: string;
+  priority: string;
+  status: string;
+}
+
+function Task({
+  description,
+  due,
+  createdAt,
+  category,
+  priority,
+  status,
+}: TaskData) {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <Card className="max-w-[400px] rounded-[28px]">
-        <CardHeader className="flex gap-3">
-          <div className="flex flex-col">
-            <p className="text-lg">Nositi Sovi stvari</p>
-          </div>
-        </CardHeader>
-        <Divider />
-        <CardBody>
-          <p>Make beautiful websites regardless of your design experience.</p>
-        </CardBody>
-        <Divider />
-        <CardFooter>
-          <Button color="danger">Click me</Button>
-        </CardFooter>
-      </Card>
-    </div>
+    <Card className="max-w-[400px] rounded-[28px]">
+      <CardHeader className="flex gap-3">
+        <div className="flex flex-col">
+          <p className="text-lg">{description}</p>
+        </div>
+      </CardHeader>
+      <Divider />
+      <CardBody>
+        <p>Due date: {due.toString()}</p>
+        <p>Created at: {createdAt.toString()}</p>
+      </CardBody>
+      <Divider />
+      <CardFooter>
+        <div className="flex items-end gap-4">
+          <Chip color="primary">{category}</Chip>
+          <Chip color="danger">{priority}</Chip>
+          <Chip color="success">{status}</Chip>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }
 

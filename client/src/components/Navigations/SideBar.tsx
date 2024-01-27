@@ -1,4 +1,8 @@
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
+
 function SideBar() {
+  const user = useSelector((state: RootState) => state.users);
   return (
     <div>
       <div className="h-screen overflow-hidden pb-5">
@@ -8,7 +12,7 @@ function SideBar() {
               Task Manager
             </label>
             <label className="px-11 pb-4 text-sm text-white uppercase dark:text-gray-400 font-medium">
-              Boris Antonijev
+              {user.firstName + " " + user.lastName}
             </label>
             <div className="w-full h-px max-w-6xl mx-auto bg-gradient-to-r from-transparent via-purple-800 to-transparent"></div>
             <label className="px-11 py-3 text-xs text-gray-200 uppercase dark:text-gray-400 tracking-tighter leading-6 text-opacity-30 font-medium	">

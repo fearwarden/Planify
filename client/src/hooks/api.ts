@@ -31,3 +31,20 @@ async function refreshToken() {
     throw e;
   }
 }
+
+export interface ApiResponse<T> {
+  content: [T];
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  size: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  totalElements: number;
+  totalPages: number;
+}
