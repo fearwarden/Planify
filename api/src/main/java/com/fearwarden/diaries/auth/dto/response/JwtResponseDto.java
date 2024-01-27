@@ -15,7 +15,7 @@ public class JwtResponseDto {
     private Role role;
 
     public JwtResponseDto(TokenEntity token, UserEntity user, String accessToken) {
-        this.id = token.getId().toString();
+        this.id = user.getId().toString();
         this.accessToken = accessToken;
         this.refreshToken = token.getRefreshToken();
         this.email = user.getEmail();
