@@ -3,9 +3,9 @@ POST http://localhost:8080/api/v1/auth/register
 Content-Type: application/json
 
 {
-  "email": "antonijevboris@gmail.com",
-  "firstName": "Boris",
-  "lastName": "Antonijev",
+  "email": "srdjan@gmail.com",
+  "firstName": "Srdjan",
+  "lastName": "Srdjan",
   "password": "Test1234",
   "confirmationPassword": "Test1234"
 }
