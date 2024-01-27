@@ -13,9 +13,9 @@ public class TaskDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String userId;
-    private Integer categoryId;
-    private Integer priorityId;
-    private Integer statusId;
+    private String category;
+    private String priority;
+    private String status;
 
     public TaskDto(TaskEntity task) {
         this.id = task.getId().toString();
@@ -24,8 +24,8 @@ public class TaskDto {
         this.createdAt = task.getCreatedAt();
         this.updatedAt = task.getUpdatedAt();
         this.userId = task.getUserEntity().getId().toString();
-        this.categoryId = task.getCategoryEntity().getId();
-        this.priorityId = task.getPriorityEntity().getId();
-        this.statusId = task.getStatusEntity().getId();
+        this.category = task.getCategoryEntity().getName();
+        this.priority = task.getPriorityEntity().getLevel();
+        this.status = task.getStatusEntity().getProgress();
     }
 }
