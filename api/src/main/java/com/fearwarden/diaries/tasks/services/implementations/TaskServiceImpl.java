@@ -18,10 +18,7 @@ import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.repositories.CategoryRepository;
 import com.fearwarden.diaries.users.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +65,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<TaskDto> getAllTasksForUser(UserEntity user, Integer page) {
-        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
+        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE, Sort.by("due").descending());
         Page<TaskEntity> taskEntities = this.taskRepository.findByUserEntityOrderByDueDesc(user, pageable);
         List<TaskDto> taskDtos = taskEntities.stream()
                 .map(TaskDto::new)
