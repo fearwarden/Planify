@@ -8,6 +8,7 @@ import {
 } from "@nextui-org/react";
 
 interface TaskData {
+  id: string;
   description: string;
   due: Date;
   createdAt: Date;
@@ -17,6 +18,7 @@ interface TaskData {
 }
 
 function Task({
+  id,
   description,
   due,
   createdAt,

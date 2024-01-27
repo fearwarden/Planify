@@ -28,6 +28,7 @@ function Tasks() {
         {data.content.map((task) => (
           <div className="pb-5">
             <Task
+              id={task.id}
               description={task.description}
               due={task.due}
               createdAt={task.createdAt}

@@ -1,8 +1,13 @@
+import { useDisclosure } from "@nextui-org/react";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
+import CreateTaskModal from "@/pages/Home/modals/CreateTaskModal";
 
 function SideBar() {
   const user = useSelector((state: RootState) => state.users);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleOpen = () => onOpen();
   return (
     <div>
       <div className="h-screen overflow-hidden pb-5">
@@ -276,13 +281,17 @@ function SideBar() {
               <p className="pb-5 mt-1 text-xs text-gray-500 dark:text-gray-400">
                 Creating or adding new tasks couldn't be easier
               </p>
-              <button className="py-3 px-6 rounded-[12px] bg-customGreen text-white shadow-lg hover:shadow-xl">
+              <button
+                className="py-3 px-6 rounded-[12px] bg-customGreen text-white shadow-lg hover:shadow-xl"
+                onClick={handleOpen}
+              >
                 Add New Task
               </button>
             </div>
           </div>
         </div>
       </div>
+      <CreateTaskModal isOpen={isOpen} onClose={onClose} />
     </div>
   );
 }
