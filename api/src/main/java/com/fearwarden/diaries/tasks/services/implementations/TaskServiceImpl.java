@@ -1,6 +1,7 @@
 package com.fearwarden.diaries.tasks.services.implementations;
 
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
+import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
 import com.fearwarden.diaries.tasks.exceptions.throwables.CategoryNotFoundException;
 import com.fearwarden.diaries.tasks.exceptions.throwables.PriorityNotFoundException;
 import com.fearwarden.diaries.tasks.exceptions.throwables.StatusNotFoundException;
@@ -129,5 +130,13 @@ public class TaskServiceImpl implements TaskService {
                 this.taskRepository.findAllByUserEntityAndPriorityEntityOrderByDueDesc(user, priority, pageable);
         List<TaskDto> taskDtos = taskEntities.stream().map(TaskDto::new).toList();
         return new PageImpl<>(taskDtos, pageable, taskEntities.getTotalElements());
+    }
+
+    @Override
+    public TaskMetadataDto getMetadata(UserEntity user) {
+        List<CategoryEntity> categories = (List<CategoryEntity>) this.categoryRepository.findAll();
+        List<PriorityEntity> priorities = (List<PriorityEntity>) this.priorityRepository.findAll();
+        List<StatusEntity> status = (List<StatusEntity>) this.statusRepository.findAll();
+        return new TaskMetadataDto(categories, priorities, status);
     }
 }
