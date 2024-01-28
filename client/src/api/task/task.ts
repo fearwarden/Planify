@@ -10,6 +10,5 @@ export const fetchTasks = async (
 
 export const fetchTaskMetadata = async (): Promise<TaskMetadataResponse> => {
   const { data } = await api.get("/api/v1/tasks/metadata");
-  console.log(data);
   return data;
 };
