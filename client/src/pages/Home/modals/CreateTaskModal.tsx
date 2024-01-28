@@ -56,8 +56,6 @@ function CreateTaskModal({ isOpen, onClose }: ModalDataType) {
     return date + "T" + time;
   }
 
-  if (isPending) return <span>Loading...</span>;
-  if (isError) return <span>Error: {error.message}</span>;
   const handleCreateTask = () => {
     const due = convertToTimestamp(dueDate, dueTime);
     const taskData: taskDataType = {
@@ -79,6 +77,9 @@ function CreateTaskModal({ isOpen, onClose }: ModalDataType) {
     }
     taskMutation.mutate(validation.data);
   };
+
+  if (isPending) return <span>Loading...</span>;
+  if (isError) return <span>Error: {error.message}</span>;
   return (
     <Modal
       backdrop="blur"
