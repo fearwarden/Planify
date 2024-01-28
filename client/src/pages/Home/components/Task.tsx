@@ -7,7 +7,7 @@ import {
   Chip,
 } from "@nextui-org/react";
 
-interface TaskData {
+interface TaskDataProps {
   id: string;
   description: string;
   due: Date;
@@ -25,7 +25,7 @@ function Task({
   category,
   priority,
   status,
-}: TaskData) {
+}: TaskDataProps) {
   return (
     <Card className="max-w-[400px] rounded-[28px]">
       <CardHeader className="flex gap-3">

@@ -1,3 +1,6 @@
+import { TaskSchema } from "@/validation/schemas";
+import { z } from "zod";
+
 export interface TaskResponse {
   id: string;
   description: string;
@@ -30,3 +33,5 @@ export type StatusType = {
   id: number;
   progress: string;
 };
+
+export type TaskDataType = z.infer<typeof TaskSchema>;

@@ -13,18 +13,10 @@ import { ModalDataType } from "@/types/ModalDataType";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchTaskMetadata } from "@/api/task/task";
 import { useState } from "react";
-import { z } from "zod";
 import { api } from "@/hooks/api";
-
-const taskSchema = z.object({
-  description: z.string(),
-  categoryId: z.number().min(1),
-  priorityId: z.number().min(1),
-  statusId: z.number().min(1),
-  due: z.string().min(15),
-});
-
-type taskDataType = z.infer<typeof taskSchema>;
+import { TaskDataType } from "@/types/TaskType";
+import { TaskSchema } from "@/validation/schemas";
+import { convertToTimestamp } from "@/tools/utils";
 
 function CreateTaskModal({ isOpen, onClose }: ModalDataType) {
   const [description, setDescription] = useState<string>("");
@@ -43,7 +35,7 @@ function CreateTaskModal({ isOpen, onClose }: ModalDataType) {
   });
 
   const taskMutation = useMutation({
-    mutationFn: (taskData: taskDataType) => {
+    mutationFn: (taskData: TaskDataType) => {
       return api.post("/api/v1/tasks", taskData);
     },
     onSuccess: () => {
@@ -52,20 +44,16 @@ function CreateTaskModal({ isOpen, onClose }: ModalDataType) {
     },
   });
 
-  function convertToTimestamp(date: string, time: string) {
-    return date + "T" + time;
-  }
-
   const handleCreateTask = () => {
     const due = convertToTimestamp(dueDate, dueTime);
-    const taskData: taskDataType = {
+    const taskData: TaskDataType = {
       description,
       categoryId: category,
       priorityId: priority,
       statusId: status,
       due,
     };
-    const validation = taskSchema.safeParse(taskData);
+    const validation = TaskSchema.safeParse(taskData);
     if (!validation.success) {
       setErrorMessage(
         validation.error.message

@@ -2,18 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { z } from "zod";
 import { api } from "@/hooks/api";
 import { login } from "@/store/slice/userSlice";
 import { HOME } from "@/constants/constants";
-
-//TODO: consider moving to validation/schemas.ts file
-const LoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
-
-type LoginDataType = z.infer<typeof LoginSchema>;
+import { LoginDataType } from "@/types/AuthenticationTypes";
+import { LoginSchema } from "@/validation/schemas";
 
 function LoginForm() {
   const navigate = useNavigate();
