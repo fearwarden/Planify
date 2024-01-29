@@ -16,6 +16,7 @@ import { useState } from "react";
 import { TaskDataType } from "@/types/TaskType";
 import { TaskSchema } from "@/validation/schemas";
 import { convertToTimestamp } from "@/tools/utils";
+import { AxiosResponse } from "axios";
 
 function CreateTaskModal({ isOpen, onClose }: ModalDataType) {
   const [description, setDescription] = useState<string>("");
@@ -35,6 +36,9 @@ function CreateTaskModal({ isOpen, onClose }: ModalDataType) {
 
   const taskMutation = useMutation({
     mutationFn: createTask,
+    onError: (error: AxiosResponse) => {
+      setErrorMessage(error.request.response);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       onClose();
@@ -53,10 +57,12 @@ function CreateTaskModal({ isOpen, onClose }: ModalDataType) {
     const validation = TaskSchema.safeParse(taskData);
     if (!validation.success) {
       setErrorMessage(
-        validation.error.message
-          .slice(validation.error.message.search("message"))
-          .split(":")[1]
-          .split(",")[0]
+        JSON.parse(
+          validation.error.message
+            .slice(validation.error.message.search("message"))
+            .split(":")[1]
+            .split(",")[0]
+        )
       );
       return;
     }
@@ -131,6 +137,7 @@ function CreateTaskModal({ isOpen, onClose }: ModalDataType) {
                   onChange={(e) => setDueTime(e.target.value)}
                 />
               </div>
+              {errorMessage && <p className="text-white">{errorMessage}</p>}
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>

@@ -42,10 +42,12 @@ function LoginForm() {
     const validation = LoginSchema.safeParse(loginData);
     if (!validation.success) {
       setErrorMessage(
-        validation.error.message
-          .slice(validation.error.message.search("message"))
-          .split(":")[1]
-          .split(",")[0]
+        JSON.parse(
+          validation.error.message
+            .slice(validation.error.message.search("message"))
+            .split(":")[1]
+            .split(",")[0]
+        )
       );
       return;
     }
