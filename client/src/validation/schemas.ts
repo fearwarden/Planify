@@ -1,11 +1,14 @@
 import { z } from "zod";
 
 export const TaskSchema = z.object({
-  description: z.string(),
-  categoryId: z.number().min(1),
-  priorityId: z.number().min(1),
-  statusId: z.number().min(1),
-  due: z.string().min(15),
+  description: z
+    .string()
+    .min(1, { message: "Description is required." })
+    .max(255, { message: "Description should be less then 255 characters." }),
+  categoryId: z.number().min(1, { message: "Category is required." }),
+  priorityId: z.number().min(1, { message: "Priority is required." }),
+  statusId: z.number().min(1, { message: "Status is required." }),
+  due: z.string().min(15, { message: "Invalid due date." }),
 });
 
 export const LoginSchema = z.object({

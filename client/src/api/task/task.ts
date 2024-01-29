@@ -4,6 +4,7 @@ import {
   TaskMetadataResponse,
   TaskDataType,
 } from "@/types/TaskType";
+import { AxiosResponse } from "axios";
 
 export const fetchTasks = async (
   page = 1
@@ -17,7 +18,9 @@ export const fetchTaskMetadata = async (): Promise<TaskMetadataResponse> => {
   return data;
 };
 
-export const createTask = async (data: TaskDataType) => {
+export const createTask = async (
+  data: TaskDataType
+): Promise<AxiosResponse> => {
   return await api.post("/api/v1/tasks", data);
 };
 
