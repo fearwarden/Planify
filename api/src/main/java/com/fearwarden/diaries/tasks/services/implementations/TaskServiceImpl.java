@@ -81,13 +81,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void updateTask(String id, String description, Integer categoryId, Integer priorityId, Integer statusId) {
+    public void updateTask(String id, String description, Integer categoryId, Integer priorityId, Integer statusId, String due) {
         TaskEntity task = this.taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
         CategoryEntity category = this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
         StatusEntity status = this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
 
         task.setDescription(description);
+        task.setDue(HelperFunctions.convertStringToLocalDateTime(due));
         task.setCategoryEntity(category);
         task.setPriorityEntity(priority);
         task.setStatusEntity(status);

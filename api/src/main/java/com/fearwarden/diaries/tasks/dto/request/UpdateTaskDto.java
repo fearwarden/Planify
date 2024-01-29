@@ -10,6 +10,9 @@ public class UpdateTaskDto {
     @NotNull(message = "Description is required.")
     @NotBlank(message = "Description should not be blank.")
     private String description;
+    @NotNull(message = "Due is required.")
+    @NotBlank(message = "Due should not be blank.")
+    private String due;
     @NotNull(message = "Category ID is required.")
     @Min(0)
     private Integer categoryId;

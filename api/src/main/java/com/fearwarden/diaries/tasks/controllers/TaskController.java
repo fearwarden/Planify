@@ -19,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+
 @RestController
 @RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
@@ -92,7 +94,13 @@ public class TaskController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateTask(@PathVariable String id, @RequestBody @Validated UpdateTaskDto body) {
         this.taskService
-                .updateTask(id, body.getDescription(), body.getCategoryId(), body.getPriorityId(), body.getStatusId());
+                .updateTask(
+                        id, body.getDescription(),
+                        body.getCategoryId(),
+                        body.getPriorityId(),
+                        body.getStatusId(),
+                        body.getDue()
+                );
         return ResponseEntity.noContent().build();
     }
 
