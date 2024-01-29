@@ -11,9 +11,8 @@ import {
 } from "@nextui-org/react";
 import { ModalDataType } from "@/types/ModalDataType";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchTaskMetadata } from "@/api/task/task";
+import { createTask, fetchTaskMetadata } from "@/api/task/task";
 import { useState } from "react";
-import { api } from "@/hooks/api";
 import { TaskDataType } from "@/types/TaskType";
 import { TaskSchema } from "@/validation/schemas";
 import { convertToTimestamp } from "@/tools/utils";
@@ -35,9 +34,7 @@ function CreateTaskModal({ isOpen, onClose }: ModalDataType) {
   });
 
   const taskMutation = useMutation({
-    mutationFn: (taskData: TaskDataType) => {
-      return api.post("/api/v1/tasks", taskData);
-    },
+    mutationFn: createTask,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       onClose();

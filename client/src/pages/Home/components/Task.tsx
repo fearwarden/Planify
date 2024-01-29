@@ -1,3 +1,4 @@
+import { deleteTask } from "@/api/task/task";
 import {
   Card,
   CardHeader,
@@ -5,7 +6,9 @@ import {
   CardFooter,
   Divider,
   Chip,
+  Button,
 } from "@nextui-org/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface TaskDataProps {
   id: string;
@@ -26,6 +29,15 @@ function Task({
   priority,
   status,
 }: TaskDataProps) {
+  const queryClient = useQueryClient();
+
+  const deleteTaskMutation = useMutation({
+    mutationFn: deleteTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+
   return (
     <Card className="max-w-[400px] rounded-[28px]">
       <CardHeader className="flex gap-3">
@@ -44,6 +56,15 @@ function Task({
           <Chip color="primary">{category}</Chip>
           <Chip color="danger">{priority}</Chip>
           <Chip color="success">{status}</Chip>
+          <Button
+            color="danger"
+            size="sm"
+            onClick={() => {
+              deleteTaskMutation.mutate(id);
+            }}
+          >
+            Delete Task
+          </Button>
         </div>
       </CardFooter>
     </Card>
