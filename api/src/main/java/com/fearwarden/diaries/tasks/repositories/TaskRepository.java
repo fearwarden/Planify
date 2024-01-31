@@ -8,11 +8,16 @@ import com.fearwarden.diaries.users.models.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface TaskRepository extends JpaRepository<TaskEntity, String> {
+public interface TaskRepository extends JpaRepository<TaskEntity, String>, JpaSpecificationExecutor<TaskEntity> {
     Optional<TaskEntity> findById(UUID id);
     Page<TaskEntity> findByUserEntityOrderByDueDesc(UserEntity user, Pageable pageable);
     Page<TaskEntity> findAllByUserEntityAndCategoryEntityOrderByDueDesc(UserEntity user, CategoryEntity category, Pageable pageable);

@@ -20,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
@@ -70,6 +71,7 @@ public class TaskController {
             @PathVariable Integer statusId,
             @RequestParam(name = "page") Integer page
             ) {
+        System.out.println(page);
         Integer validatedPage = HelperFunctions.validatePage(page);
         Page<TaskDto> tasks = this.taskService.getAllTasksForUserByStatus(user, statusId, validatedPage);
         return ResponseEntity.ok(tasks);
@@ -114,5 +116,17 @@ public class TaskController {
     public ResponseEntity<TaskMetadataDto> getMetadata(@AuthenticationPrincipal UserEntity user) {
         TaskMetadataDto metadata = this.taskService.getMetadata(user);
         return ResponseEntity.ok(metadata);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<Page<TaskDto>> filterTasks(
+            @RequestParam(name = "category", required = false) String category,
+            @RequestParam(name = "priority", required = false) String priority,
+            @RequestParam(name = "status", required = false) String status,
+            @RequestParam(name = "page") int page
+    ) {
+        int validatedPage = HelperFunctions.validatePage(page);
+        Page<TaskDto> filteredTasks = taskService.getFilteredTasks(category, priority, status, validatedPage);
+        return ResponseEntity.ok(filteredTasks);
     }
 }

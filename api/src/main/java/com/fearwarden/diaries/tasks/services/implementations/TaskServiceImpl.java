@@ -1,5 +1,6 @@
 package com.fearwarden.diaries.tasks.services.implementations;
 
+import com.fearwarden.diaries.SpecificationBuilder;
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
 import com.fearwarden.diaries.tasks.exceptions.throwables.CategoryNotFoundException;
@@ -13,6 +14,7 @@ import com.fearwarden.diaries.tasks.repositories.PriorityRepository;
 import com.fearwarden.diaries.tasks.repositories.StatusRepository;
 import com.fearwarden.diaries.tasks.repositories.TaskRepository;
 import com.fearwarden.diaries.tasks.services.TaskService;
+import com.fearwarden.diaries.tasks.specifications.TaskSpecifications;
 import com.fearwarden.diaries.tasks.tools.HelperFunctions;
 import com.fearwarden.diaries.users.models.CategoryEntity;
 import com.fearwarden.diaries.users.models.UserEntity;
@@ -20,7 +22,7 @@ import com.fearwarden.diaries.users.repositories.CategoryRepository;
 import com.fearwarden.diaries.users.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -139,5 +141,20 @@ public class TaskServiceImpl implements TaskService {
         List<PriorityEntity> priorities = (List<PriorityEntity>) this.priorityRepository.findAll();
         List<StatusEntity> status = (List<StatusEntity>) this.statusRepository.findAll();
         return new TaskMetadataDto(categories, priorities, status);
+    }
+
+    @Override
+    public Page<TaskDto> getFilteredTasks(String category, String priority, String status, int page) {
+        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
+        Specification<TaskEntity> initialSpec = Specification.where(null);
+        Specification<TaskEntity> spec = new SpecificationBuilder<TaskEntity>(initialSpec)
+                .with(category != null, TaskSpecifications.withCategory(category))
+                .with(priority != null, TaskSpecifications.withPriority(priority))
+                .with(status != null, TaskSpecifications.withStatus(status))
+                .with(true, TaskSpecifications.withPageable(pageable))
+                .build();
+        Page<TaskEntity> tasks = taskRepository.findAll(spec, pageable);
+        List<TaskDto> taskDto = tasks.stream().map(TaskDto::new).toList();
+        return new PageImpl<>(taskDto, pageable, tasks.getTotalElements());
     }
 }
