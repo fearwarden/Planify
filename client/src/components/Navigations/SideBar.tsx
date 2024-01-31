@@ -1,11 +1,29 @@
-import { useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import CreateTaskModal from "@/pages/Home/modals/CreateTaskModal";
 
-function SideBar() {
+export interface IsFilterActiveProps {
+  isActive: boolean;
+  type: string;
+  criteria: string;
+}
+
+function SideBar({
+  handleIsActive,
+}: {
+  handleIsActive: (filterData: IsFilterActiveProps) => void;
+}) {
   const user = useSelector((state: RootState) => state.users);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleFilters = (type: string, criteria: string) => {
+    handleIsActive({ isActive: true, type, criteria });
+  };
+
+  const clearFilters = () => {
+    handleIsActive({ isActive: false, type: "", criteria: "" });
+  };
 
   const handleOpen = () => onOpen();
   return (
@@ -79,7 +97,13 @@ function SideBar() {
                   </span>
                   Complete
                 </li>
-                <li className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-white">
+                <li
+                  onClick={() => {
+                    handleFilters("status", "PROGRESS");
+                  }}
+                  value={"progress"}
+                  className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-white"
+                >
                   <span className="mr-5">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -273,6 +297,9 @@ function SideBar() {
             </span>
             Personal Task 3
           </div>
+          <Button color="success" onClick={clearFilters}>
+            Clear Filters
+          </Button>
           <div className="m-6">
             <div className="px-4 py-8 bg-gray-100 rounded-[28px] dark:bg-gray-800 text-center">
               <h2 className="text-sm font-semibold leading-6 text-gray-800 dark:text-white">

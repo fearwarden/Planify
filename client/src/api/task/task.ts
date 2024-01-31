@@ -27,3 +27,14 @@ export const createTask = async (
 export const deleteTask = async (id: string) => {
   return await api.delete(`/api/v1/tasks/${id}`);
 };
+
+export const fetchTasksFiltered = async (
+  page = 1,
+  type: string,
+  criteria: string
+): Promise<ApiResponse<TaskResponse>> => {
+  const { data } = await api.get(
+    `/api/v1/tasks/filter?${type}=${criteria}&page=${page}`
+  );
+  return data;
+};
