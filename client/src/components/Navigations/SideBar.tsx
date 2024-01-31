@@ -78,7 +78,12 @@ function SideBar({
                 />
               </svg>
               <ul className="duration-400 peer-checked:max-h-96 m-2 flex max-h-0 flex-col overflow-hidden rounded-2xl bg-gray-100 transition-all duration-300">
-                <li className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-white">
+                <li
+                  onClick={() => {
+                    handleFilters("status", "COMPLETE");
+                  }}
+                  className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-white"
+                >
                   <span className="mr-5">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +106,6 @@ function SideBar({
                   onClick={() => {
                     handleFilters("status", "PROGRESS");
                   }}
-                  value={"progress"}
                   className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-white"
                 >
                   <span className="mr-5">

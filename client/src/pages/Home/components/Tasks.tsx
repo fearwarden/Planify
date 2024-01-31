@@ -15,7 +15,7 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
   });
 
   const filteredData = useQuery({
-    queryKey: ["tasks", criteria],
+    queryKey: ["tasks", filterPage, criteria],
     queryFn: () => fetchTasksFiltered(filterPage, type, criteria),
     placeholderData: keepPreviousData,
     enabled: isActive,
