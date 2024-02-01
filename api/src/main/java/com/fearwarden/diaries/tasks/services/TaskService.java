@@ -16,9 +16,6 @@ public interface TaskService {
     TaskDto getTaskById(String id);
     void updateTask(String id, String description, Integer categoryId, Integer priorityId, Integer statusId, String due);
     void deleteTask(String id);
-    Page<TaskDto> getAllTasksForUserByCategory(UserEntity userDetails, Integer categoryId, Integer page);
-    Page<TaskDto> getAllTasksForUserByStatus(UserEntity userDetails, Integer statusId, Integer page);
-    Page<TaskDto> getAllTasksForUserByPriority(UserEntity userDetails, Integer priorityId, Integer page);
     TaskMetadataDto getMetadata(UserEntity user);
     Page<TaskDto> getFilteredTasks(String category, String priority, String status, int page);
 }

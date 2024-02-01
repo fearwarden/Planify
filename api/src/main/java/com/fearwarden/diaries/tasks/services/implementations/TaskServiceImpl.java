@@ -105,37 +105,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<TaskDto> getAllTasksForUserByCategory(UserEntity user, Integer categoryId, Integer page) {
-        CategoryEntity category =
-                this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
-        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
-        Page<TaskEntity> tasks =
-                this.taskRepository.findAllByUserEntityAndCategoryEntityOrderByDueDesc(user, category, pageable);
-        List<TaskDto> taskDtos = tasks.stream().map(TaskDto::new).toList();
-        return new PageImpl<>(taskDtos, pageable, tasks.getTotalElements());
-    }
-
-    @Override
-    public Page<TaskDto> getAllTasksForUserByStatus(UserEntity user, Integer statusId, Integer page) {
-        StatusEntity status = this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
-        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
-        Page<TaskEntity> tasks =
-                this.taskRepository.findAllByUserEntityAndStatusEntityOrderByDueDesc(user, status, pageable);
-        List<TaskDto> taskDtos = tasks.stream().map(TaskDto::new).toList();
-        return new PageImpl<>(taskDtos, pageable, tasks.getTotalElements());
-    }
-
-    @Override
-    public Page<TaskDto> getAllTasksForUserByPriority(UserEntity user, Integer priorityId, Integer page) {
-        PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
-        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
-        Page<TaskEntity> taskEntities =
-                this.taskRepository.findAllByUserEntityAndPriorityEntityOrderByDueDesc(user, priority, pageable);
-        List<TaskDto> taskDtos = taskEntities.stream().map(TaskDto::new).toList();
-        return new PageImpl<>(taskDtos, pageable, taskEntities.getTotalElements());
-    }
-
-    @Override
     public TaskMetadataDto getMetadata(UserEntity user) {
         List<CategoryEntity> categories = (List<CategoryEntity>) this.categoryRepository.findAll();
         List<PriorityEntity> priorities = (List<PriorityEntity>) this.priorityRepository.findAll();

@@ -54,40 +54,6 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<Page<TaskDto>> getAllTasksForUserByCategory(
-            @AuthenticationPrincipal UserEntity user,
-            @PathVariable Integer categoryId,
-            @RequestParam(name = "page") Integer page
-    ) {
-        Integer validatePage = HelperFunctions.validatePage(page);
-        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByCategory(user, categoryId, validatePage);
-        return ResponseEntity.ok(tasks);
-    }
-
-    @GetMapping("/status/{statusId}")
-    public ResponseEntity<Page<TaskDto>> getAllTasksForUserByStatus(
-            @AuthenticationPrincipal UserEntity user,
-            @PathVariable Integer statusId,
-            @RequestParam(name = "page") Integer page
-            ) {
-        System.out.println(page);
-        Integer validatedPage = HelperFunctions.validatePage(page);
-        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByStatus(user, statusId, validatedPage);
-        return ResponseEntity.ok(tasks);
-    }
-
-    @GetMapping("/priority/{priorityId}")
-    public ResponseEntity<Page<TaskDto>> getAllTasksForUserByPriority(
-            @AuthenticationPrincipal UserEntity user,
-            @PathVariable Integer priorityId,
-            @RequestParam(name = "page") Integer page
-    ) {
-        page = HelperFunctions.validatePage(page);
-        Page<TaskDto> tasks = this.taskService.getAllTasksForUserByPriority(user, priorityId, page);
-        return ResponseEntity.ok(tasks);
-    }
-
     @QueryMapping
     public TaskDto getTaskById(@Argument String id) {
         return this.taskService.getTaskById(id);
