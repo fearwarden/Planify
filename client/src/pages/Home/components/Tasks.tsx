@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQueries } from "@tanstack/react-query";
 import { fetchTasks, fetchTasksFiltered } from "@/api/task/task";
 import Task from "./Task";
 import { Button } from "@nextui-org/react";
@@ -8,29 +8,33 @@ import { IsFilterActiveProps } from "@/components/Navigations/SideBar";
 function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
   const [page, setPage] = useState<number>(1);
   const [filterPage, setFilterPage] = useState<number>(1);
-  const { data, isError, isPending, error, isPlaceholderData } = useQuery({
-    queryKey: ["tasks", page],
-    queryFn: () => fetchTasks(page),
-    placeholderData: keepPreviousData, // displaying previous data while fetching new data
-  });
 
-  const filteredData = useQuery({
-    queryKey: ["tasks", filterPage, criteria],
-    queryFn: () => fetchTasksFiltered(filterPage, type, criteria),
-    placeholderData: keepPreviousData,
-    enabled: isActive,
+  const [taskQuery, filterTaskQuery] = useQueries({
+    queries: [
+      {
+        queryKey: ["tasks", page],
+        queryFn: () => fetchTasks(page),
+        placeholderData: keepPreviousData, // displaying previous data while fetching new data
+      },
+      {
+        queryKey: ["tasks", filterPage, criteria],
+        queryFn: () => fetchTasksFiltered(filterPage, type, criteria),
+        placeholderData: keepPreviousData,
+        enabled: isActive,
+      },
+    ],
   });
 
   const handleNextPage = () => {
-    if (!isPlaceholderData && data!.totalPages > page) {
+    if (!taskQuery.isPlaceholderData && taskQuery.data!.totalPages > page) {
       setPage((old) => old + 1);
     }
   };
 
   const handleFilterNextPage = () => {
     if (
-      !filteredData.isPlaceholderData &&
-      filteredData.data!.totalPages > filterPage
+      !filterTaskQuery.isPlaceholderData &&
+      filterTaskQuery.data!.totalPages > filterPage
     ) {
       setFilterPage((old) => old + 1);
     }
@@ -40,13 +44,17 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
   const handleFilterPreviousPage = () =>
     setFilterPage((old) => Math.max(old - 1, 0));
 
-  if (isPending) return <span>Loading...</span>;
-  if (isError) return <span>Error: {error.message}</span>;
+  if (taskQuery.isPending) return <span>Loading...</span>;
+  if (taskQuery.isError) return <span>Error: {taskQuery.error.message}</span>;
+
+  if (isActive && filterTaskQuery.isPending) return <span>Loading...</span>;
+  if (isActive && filterTaskQuery.isError)
+    return <span>Error: {filterTaskQuery.error.message}</span>;
   return (
     <>
       <div className="p-5 grid grid-cols-3 gap-4 overflow-y-scroll">
-        {isActive && filteredData.data && filteredData.data.content
-          ? filteredData.data.content.map((task) => (
+        {isActive && filterTaskQuery.data && filterTaskQuery.data.content
+          ? filterTaskQuery.data.content.map((task) => (
               <div className="pb-5">
                 <Task
                   id={task.id}
@@ -59,7 +67,7 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                 />
               </div>
             ))
-          : data.content.map((task) => (
+          : taskQuery.data.content.map((task) => (
               <div className="pb-5">
                 <Task
                   id={task.id}
@@ -86,13 +94,13 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                 color="primary"
                 onClick={handleFilterNextPage}
                 isDisabled={
-                  isPlaceholderData ||
-                  (filteredData.data?.totalPages
-                    ? filteredData.data?.totalPages <= filterPage
+                  filterTaskQuery.isPlaceholderData ||
+                  (filterTaskQuery.data?.totalPages
+                    ? filterTaskQuery.data?.totalPages <= filterPage
                     : false)
                 }
               >
-                {filterPage} of {filteredData.data?.totalPages} pages / Next
+                {filterPage} of {filterTaskQuery.data?.totalPages} pages / Next
                 page...
               </Button>
             </>
@@ -108,9 +116,12 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
               <Button
                 color="primary"
                 onClick={handleNextPage}
-                isDisabled={isPlaceholderData || data.totalPages <= page}
+                isDisabled={
+                  taskQuery.isPlaceholderData ||
+                  taskQuery.data.totalPages <= page
+                }
               >
-                {page} of {data.totalPages} pages / Next page...
+                {page} of {taskQuery.data.totalPages} pages / Next page...
               </Button>
             </>
           )}
