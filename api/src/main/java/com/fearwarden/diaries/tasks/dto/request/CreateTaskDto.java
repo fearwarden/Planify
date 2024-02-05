@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public class CreateTaskDto {
     @NotNull(message = "Description is required.")
     @NotBlank(message = "Description should not be blank.")
-    @Max(value = 255, message = "Description should be less then 255 characters.")
     private String description;
     @NotNull(message = "Due is required.")
     @NotBlank(message = "Due should not be blank.")
