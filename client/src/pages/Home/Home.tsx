@@ -17,11 +17,11 @@ function Home() {
   };
   return (
     <div
-      className="flex h-screen bg-cover bg-center overflow-hidden"
+      className="flex h-screen bg-cover bg-center overflow-hidden pr-2.5"
       style={{ backgroundImage: `url(${backgroundImageGreen})` }}
     >
       <SideBar handleIsActive={handleActiveFilter} />
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full">
         <NavBar />
         <Dashboard isActive={isFilterActive} type={type} criteria={criteria} />
       </div>
