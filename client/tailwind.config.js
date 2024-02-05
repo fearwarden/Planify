@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const { nextui } = require("@nextui-org/react");
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -13,6 +14,11 @@ module.exports = {
     extend: {
       colors: {
         customGreen: "#56CB56",
+        startBtn: "#31792F",
+        dropshadowBtn: "#163F15",
+      },
+      fontFamily: {
+        sans: ["Inter", "Arial", "sans-serif"], // Fallback to Arial and generic sans-serif
       },
     },
   },

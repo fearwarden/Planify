@@ -2,6 +2,7 @@ import { Button, useDisclosure } from "@nextui-org/react";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import CreateTaskModal from "@/pages/Home/modals/CreateTaskModal";
+import Plus from "../../assets/img/Sidebar/PlusButton.svg";
 
 export interface IsFilterActiveProps {
   isActive: boolean;
@@ -277,45 +278,22 @@ function SideBar({
             </span>
             Personal Task 2
           </div>
-          <div className="relative m-2 flex cursor-pointer items-center rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-gray-50">
-            <span className="mr-5 flex w-5 text-gray-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-            </span>
-            Personal Task 3
-          </div>
           <Button color="success" onClick={clearFilters}>
             Clear Filters
           </Button>
           <div className="m-6">
-            <div className="px-4 py-8 rounded-[28px] bg-black bg-opacity-30 text-center">
-              <h2 className="text-sm font-semibold leading-6 text-gray-800 dark:text-white">
+            <div className="px-4 pt-6 pb-4 rounded-[28px] bg-black bg-opacity-30 text-center border-2 border-green-500/20">
+              <h2 className="text-base font-semibold text-white pb-[6px]">
                 Start Organizing!
               </h2>
-              <p className="pb-5 mt-1 text-xs text-gray-500 dark:text-gray-400">
+              <p className="pb-5 mt-1 text-sm opacity-80 font-medium text-white">
                 Creating or adding new tasks couldn't be easier
               </p>
               <button
-                className="py-3 px-6 rounded-[12px] bg-customGreen text-white shadow-lg hover:shadow-xl"
+                className="py-3 px-5 w-full flex items-center justify-center rounded-[12px] bg-startBtn text-white text-sm font-semibold shadow-dropshadowBtn shadow-md"
                 onClick={handleOpen}
               >
+                <img src={Plus} className="h-3 mr-2"></img>
                 Add New Task
               </button>
             </div>
