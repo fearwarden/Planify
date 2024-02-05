@@ -77,7 +77,7 @@ function SideBar({
                   d="M19 9l-7 7-7-7"
                 />
               </svg>
-              <ul className="duration-400 peer-checked:max-h-96 m-2 flex max-h-0 flex-col overflow-hidden rounded-2xl bg-gray-100 transition-all duration-300">
+              <ul className="duration-400 peer-checked:max-h-96 m-2 flex max-h-0 flex-col overflow-hidden rounded-2xl bg-gray-100 transition-all ">
                 <li
                   onClick={() => {
                     handleFilters("status", "COMPLETE");
@@ -305,7 +305,7 @@ function SideBar({
             Clear Filters
           </Button>
           <div className="m-6">
-            <div className="px-4 py-8 bg-gray-100 rounded-[28px] dark:bg-gray-800 text-center">
+            <div className="px-4 py-8 rounded-[28px] bg-black bg-opacity-30 text-center">
               <h2 className="text-sm font-semibold leading-6 text-gray-800 dark:text-white">
                 Start Organizing!
               </h2>
