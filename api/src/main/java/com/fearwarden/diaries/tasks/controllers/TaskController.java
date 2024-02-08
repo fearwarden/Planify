@@ -14,6 +14,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
@@ -59,6 +60,7 @@ public class TaskController {
         return this.taskService.getTaskById(id);
     }
 
+    @PreAuthorize("@taskAuthorizationService.isOwner(#id, principal.username) or hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateTask(@PathVariable String id, @RequestBody @Validated UpdateTaskDto body) {
         this.taskService
@@ -72,6 +74,7 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("@taskAuthorizationService.isOwner(#id, principal.username) or hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable String id) {
         this.taskService.deleteTask(id);
