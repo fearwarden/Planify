@@ -60,7 +60,7 @@ public class TaskController {
         return this.taskService.getTaskById(id);
     }
 
-    @PreAuthorize("@taskAuthorizationService.isOwner(#id, principal.username) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("@taskAuthorizationService.isOwner(#id, principal.username) or hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateTask(@PathVariable String id, @RequestBody @Validated UpdateTaskDto body) {
         this.taskService
@@ -74,7 +74,7 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("@taskAuthorizationService.isOwner(#id, principal.username) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("@taskAuthorizationService.isOwner(#id, principal.username) or hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable String id) {
         this.taskService.deleteTask(id);
