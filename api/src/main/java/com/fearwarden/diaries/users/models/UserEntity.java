@@ -25,7 +25,7 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
     private UUID id;
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
