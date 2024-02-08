@@ -1,6 +1,7 @@
 package com.fearwarden.diaries.security.config;
 
 import com.fearwarden.diaries.security.filters.JwtAuthenticationFilter;
+import com.fearwarden.diaries.users.enums.Role;
 import com.fearwarden.diaries.users.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +36,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(request ->
                         request.requestMatchers("/api/v1/auth/**", "/graphiql", "/graphql")
                                 .permitAll()
+                                .requestMatchers("/api/v1/tasks/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

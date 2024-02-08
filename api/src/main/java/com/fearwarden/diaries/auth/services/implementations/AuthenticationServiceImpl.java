@@ -45,6 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         refreshToken.setRefreshToken(this.jwtService.generateRefreshToken());
         refreshToken.setUserEntity(user);
         this.tokenRepository.save(refreshToken);
+        log.info("User {} successfully created.", user.getEmail());
     }
 
     @Override
