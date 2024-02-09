@@ -30,22 +30,22 @@ function SideBar({
   return (
     <div>
       <div className="h-screen overflow-hidden pb-5">
-        <div className="m-2.5 flex h-full w-64 flex-col rounded-[28px] bg-black bg-opacity-60 bg-blend-normal">
+        <div className="m-2.5 flex h-full w-64 flex-col rounded-[28px] bg-[#0F090C] bg-opacity-65 backdrop-blur-3xl drop-shadow-lg">
           <ul className="mt-10 flex flex-col">
-            <label className="px-11 text-xs text-gray-500 uppercase dark:text-gray-400 tracking-tighter leading-6 text-opacity-60 font-medium	">
+            <label className="px-11 text-xs text-white uppercase leading-6 text-opacity-30 font-medium">
               Task Manager
             </label>
-            <label className="px-11 pb-4 text-sm text-white uppercase dark:text-gray-400 font-medium">
+            <label className="px-11 pb-4 text-sm text-white uppercase font-medium">
               {user.firstName + " " + user.lastName}
             </label>
-            <div className="w-full h-px max-w-6xl mx-auto bg-gradient-to-r from-transparent via-purple-800 to-transparent"></div>
-            <label className="px-11 py-3 text-xs text-gray-200 uppercase dark:text-gray-400 tracking-tighter leading-6 text-opacity-30 font-medium	">
+            <div className="mx-4 h-px bg-gradient-to-r from-transparent via-[#A33B3B]/20 to-transparent"></div>
+            <label className="py-3 px-11 text-xs text-gray-200 uppercase leading-6 text-opacity-30 font-medium	">
               Tasks
             </label>
             <li className="relative transition">
               <input className="peer hidden" type="checkbox" id="menu-1" />
-              <div className="relative m-2 mx-6 flex items-center rounded-xl border-b-4 bg-black bg-opacity-30 bg-blend-normal py-3 pl-5 text-sm text-gray-500">
-                <span className="mr-5 flex w-5 text-gray-500">
+              <div className="relative m-2 mx-6 flex items-center rounded-xl bg-white bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+                <span className="mr-5 flex w-5 text-gray-200">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -78,7 +78,7 @@ function SideBar({
                   d="M19 9l-7 7-7-7"
                 />
               </svg>
-              <ul className="duration-400 peer-checked:max-h-96 m-2 flex max-h-0 flex-col overflow-hidden rounded-2xl bg-gray-100 transition-all ">
+              <ul className="duration-400 peer-checked:max-h-96 m-2 flex max-h-0 flex-col overflow-hidden rounded-2xl  transition-all ">
                 <li
                   onClick={() => {
                     handleFilters("status", "COMPLETE");
@@ -227,6 +227,7 @@ function SideBar({
               </div>
             </li>
           </ul>
+          <div className="w-full h-px max-w-6xl mx-auto bg-gradient-to-r from-transparent via-[#CC8B8B]/30 to-transparent"></div>
           <label className="px-11 py-3 text-xs text-gray-200 uppercase dark:text-gray-400 tracking-tighter leading-6 text-opacity-30 font-medium	">
             PINNED TASKS
           </label>

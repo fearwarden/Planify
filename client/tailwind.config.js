@@ -16,9 +16,10 @@ module.exports = {
         customGreen: "#56CB56",
         startBtn: "#31792F",
         dropshadowBtn: "#163F15",
+        borderBtn: "#662525",
       },
       fontFamily: {
-        sans: ["Inter", "Arial", "sans-serif"], // Fallback to Arial and generic sans-serif
+        sans: ["Inter", "Arial", "sans-serif"],
       },
     },
   },
