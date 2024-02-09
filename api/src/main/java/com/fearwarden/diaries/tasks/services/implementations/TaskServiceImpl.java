@@ -126,4 +126,14 @@ public class TaskServiceImpl implements TaskService {
         List<TaskDto> taskDto = tasks.stream().map(TaskDto::new).toList();
         return new PageImpl<>(taskDto, pageable, tasks.getTotalElements());
     }
+
+    @Override
+    public List<TaskDto> searchTasks(String params, UserEntity user) {
+        Specification<TaskEntity> initialSpec = Specification.where(null);
+        Specification<TaskEntity> spec = new SpecificationBuilder<>(initialSpec)
+                .with(params != null, TaskSpecifications.withDescriptionSearch(params, user))
+                .build();
+        List<TaskEntity> tasks = taskRepository.findAll(spec);
+        return tasks.stream().map(TaskDto::new).toList();
+    }
 }

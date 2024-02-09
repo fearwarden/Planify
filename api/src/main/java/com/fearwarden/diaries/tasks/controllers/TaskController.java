@@ -98,4 +98,12 @@ public class TaskController {
         Page<TaskDto> filteredTasks = taskService.getFilteredTasks(category, priority, status, validatedPage);
         return ResponseEntity.ok(filteredTasks);
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<TaskDto>> searchTask(
+            @RequestParam(name = "params") String params,
+            @AuthenticationPrincipal UserEntity user
+    ) {
+        List<TaskDto> tasks = taskService.searchTasks(params, user);
+        return ResponseEntity.ok(tasks);
+    }
 }
