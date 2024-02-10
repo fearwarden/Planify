@@ -44,7 +44,7 @@ function SideBar({
             </label>
             <li className="relative transition">
               <input className="peer hidden" type="checkbox" id="menu-1" />
-              <div className="relative m-2 mx-6 flex items-center rounded-xl bg-white bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+              <div className="relative mx-6 mt-2 flex items-center rounded-xl bg-white bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
                 <span className="mr-5 flex w-5 text-gray-200">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +78,44 @@ function SideBar({
                   d="M19 9l-7 7-7-7"
                 />
               </svg>
-              <ul className="duration-400 peer-checked:max-h-96 m-2 flex max-h-0 flex-col overflow-hidden rounded-2xl  transition-all ">
+              <ul className="duration-400 peer-checked:max-h-96 ml-2 flex max-h-0 flex-col overflow-hidden rounded-2xl transition-all w-[90%] pl-10">
+                <li className=" flex cursor-pointer rounded-xl">
+                  <div className="h-full w-full mx-2">
+                    <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
+                      <div className="absolute left-0 top-0 -ml-px h-full w-6 border-l-2 border-white/15 text-transparent">
+                        <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-b-2 border-white/15 text-transparent"></div>
+                      </div>
+                      <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
+                        <div className="h-3 w-3 bg-green-400 rounded-full mr-[10px]"></div>
+                        Complete
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li className="flex cursor-pointer rounded-xl">
+                  <div className="h-full w-full mx-2">
+                    <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
+                      <div className="absolute left-0 top-0 -ml-px h-full w-6 border-l-2 border-white/15 text-transparent">
+                        <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-b-2 border-white/15 text-transparent"></div>
+                      </div>
+                      <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
+                        <div className="h-3 w-3 bg-yellow-400 rounded-full mr-[10px]"></div>
+                        Progress
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li className="flex cursor-pointer rounded-xl">
+                  <div className="h-full w-full mx-2">
+                    <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
+                      <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-l-2 border-b-2 border-white/15 text-transparent"></div>
+                      <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
+                        <div className="h-3 w-3 bg-red-400 rounded-full mr-[10px]"></div>
+                        On Hold
+                      </div>
+                    </div>
+                  </div>
+                </li>
                 <li
                   onClick={() => {
                     handleFilters("status", "COMPLETE");
