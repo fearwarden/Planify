@@ -8,19 +8,14 @@ import com.fearwarden.diaries.tasks.services.TaskService;
 import com.fearwarden.diaries.tasks.tools.HelperFunctions;
 import com.fearwarden.diaries.users.models.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -53,11 +48,6 @@ public class TaskController {
         Integer validatePage = HelperFunctions.validatePage(page);
         Page<TaskDto> tasks = this.taskService.getAllTasksForUser(user, validatePage);
         return ResponseEntity.ok(tasks);
-    }
-
-    @QueryMapping
-    public TaskDto getTaskById(@Argument String id) {
-        return this.taskService.getTaskById(id);
     }
 
     @PreAuthorize("@taskAuthorizationService.isOwner(#id, principal.username) or hasAuthority('ADMIN')")
