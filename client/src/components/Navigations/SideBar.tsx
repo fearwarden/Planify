@@ -39,7 +39,7 @@ function SideBar({
               {user.firstName + " " + user.lastName}
             </label>
             <div className="mx-4 h-px bg-gradient-to-r from-transparent via-[#A33B3B]/20 to-transparent"></div>
-            <label className="py-3 px-11 text-xs text-gray-200 uppercase leading-6 text-opacity-30 font-medium	">
+            <label className="pt-3 px-11 text-xs text-gray-200 uppercase leading-6 text-opacity-30 font-medium	">
               Tasks
             </label>
             <li className="relative transition">
@@ -79,7 +79,12 @@ function SideBar({
                 />
               </svg>
               <ul className="duration-400 peer-checked:max-h-96 ml-2 flex max-h-0 flex-col overflow-hidden rounded-2xl transition-all w-[90%] pl-10">
-                <li className=" flex cursor-pointer rounded-xl">
+                <li
+                  onClick={() => {
+                    handleFilters("status", "COMPLETE");
+                  }}
+                  className=" flex cursor-pointer rounded-xl"
+                >
                   <div className="h-full w-full mx-2">
                     <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
                       <div className="absolute left-0 top-0 -ml-px h-full w-6 border-l-2 border-white/15 text-transparent">
@@ -92,7 +97,12 @@ function SideBar({
                     </div>
                   </div>
                 </li>
-                <li className="flex cursor-pointer rounded-xl">
+                <li
+                  onClick={() => {
+                    handleFilters("status", "PROGRESS");
+                  }}
+                  className="flex cursor-pointer rounded-xl"
+                >
                   <div className="h-full w-full mx-2">
                     <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
                       <div className="absolute left-0 top-0 -ml-px h-full w-6 border-l-2 border-white/15 text-transparent">
@@ -116,151 +126,113 @@ function SideBar({
                     </div>
                   </div>
                 </li>
-                <li
-                  onClick={() => {
-                    handleFilters("status", "COMPLETE");
-                  }}
-                  className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-white"
-                >
-                  <span className="mr-5">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                      />
-                    </svg>
-                  </span>
-                  Complete
-                </li>
-                <li
-                  onClick={() => {
-                    handleFilters("status", "PROGRESS");
-                  }}
-                  className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-white"
-                >
-                  <span className="mr-5">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                      />
-                    </svg>
-                  </span>
-                  Progress
-                </li>
-                <li className="m-2 flex cursor-pointer rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-white">
-                  <span className="mr-5">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                      />
-                    </svg>
-                  </span>
-                  On Hold
-                </li>
               </ul>
             </li>
-            <li className="relative transition">
-              <div className="relative m-2 flex cursor-pointer items-center rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-gray-50">
-                <span className="mr-5 flex w-5 text-gray-500">
+            <li className="relative pb-10 mx-6">
+              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+                <span className=" flex w-5 text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
+                    className="icon icon-tabler icon-tabler-book"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
-                    stroke="currentColor"
                     stroke-width="2"
+                    stroke="#ffffff"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+                    <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+                    <path d="M3 6l0 13" />
+                    <path d="M12 6l0 13" />
+                    <path d="M21 6l0 13" />
                   </svg>
                 </span>
-                Personal Task 1
+                Education
+                <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
+                  3
+                </div>
               </div>
-            </li>
-            <li className="relative transition">
-              <div className="relative m-2 flex cursor-pointer items-center rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-gray-50">
-                <span className="mr-5 flex w-5 text-gray-500">
+              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+                <span className=" flex w-5 text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
+                    className="icon icon-tabler icon-tabler-coins"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
-                    stroke="currentColor"
                     stroke-width="2"
+                    stroke="#ffffff"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M9 14c0 1.657 2.686 3 6 3s6 -1.343 6 -3s-2.686 -3 -6 -3s-6 1.343 -6 3z" />
+                    <path d="M9 14v4c0 1.656 2.686 3 6 3s6 -1.344 6 -3v-4" />
+                    <path d="M3 6c0 1.072 1.144 2.062 3 2.598s4.144 .536 6 0c1.856 -.536 3 -1.526 3 -2.598c0 -1.072 -1.144 -2.062 -3 -2.598s-4.144 -.536 -6 0c-1.856 .536 -3 1.526 -3 2.598z" />
+                    <path d="M3 6v10c0 .888 .772 1.45 2 2" />
+                    <path d="M3 11c0 .888 .772 1.45 2 2" />
                   </svg>
                 </span>
-                Personal Task 1
+                Finance
+                <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
+                  8
+                </div>
               </div>
-            </li>
-            <li className="relative transition">
-              <div className="relative m-2 flex cursor-pointer items-center rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-gray-50">
-                <span className="mr-5 flex w-5 text-gray-500">
+              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+                <span className=" flex w-5 text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
+                    className="icon icon-tabler icon-tabler-id"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
-                    stroke="currentColor"
                     stroke-width="2"
+                    stroke="#ffffff"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" />
+                    <path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                    <path d="M15 8l2 0" />
+                    <path d="M15 12l2 0" />
+                    <path d="M7 16l10 0" />
                   </svg>
                 </span>
-                Personal Task 1
+                Personal
+                <div className="w-6 h-6 flex items-center justify-center text-xs"></div>
+              </div>
+              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+                <span className=" flex w-5 text-gray-500">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="icon icon-tabler icon-tabler-checklist"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="#ffffff"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8" />
+                    <path d="M14 19l2 2l4 -4" />
+                    <path d="M9 8h4" />
+                    <path d="M9 12h2" />
+                  </svg>
+                </span>
+                Other Tasks
+                <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
+                  2
+                </div>
               </div>
             </li>
           </ul>
@@ -268,7 +240,7 @@ function SideBar({
           <label className="px-11 py-3 text-xs text-gray-200 uppercase dark:text-gray-400 tracking-tighter leading-6 text-opacity-30 font-medium	">
             PINNED TASKS
           </label>
-          <div className="relative m-2 flex cursor-pointer items-center rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-gray-50">
+          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
             <span className="mr-5 flex w-5 text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -292,7 +264,7 @@ function SideBar({
             </span>
             Personal Task 1
           </div>
-          <div className="relative m-2 flex cursor-pointer items-center rounded-xl py-3 pl-5 text-sm text-gray-500 hover:bg-gray-50">
+          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
             <span className="mr-5 flex w-5 text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -316,6 +288,7 @@ function SideBar({
             </span>
             Personal Task 2
           </div>
+
           <Button color="success" onClick={clearFilters}>
             Clear Filters
           </Button>
