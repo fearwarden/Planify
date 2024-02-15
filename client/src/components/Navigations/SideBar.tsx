@@ -39,9 +39,35 @@ function SideBar({
               {user.firstName + " " + user.lastName}
             </label>
             <div className="mx-4 h-px bg-gradient-to-r from-transparent via-[#A33B3B]/20 to-transparent"></div>
-            <label className="pt-3 px-11 text-xs text-gray-200 uppercase leading-6 text-opacity-30 font-medium	">
-              Tasks
-            </label>
+            <div className="flex items-center justify-between mr-8">
+              <label className="px-11 py-3 text-xs text-gray-200 uppercase dark:text-gray-400 tracking-tighter leading-6 text-opacity-30 font-medium	">
+                PINNED TASKS
+              </label>
+              <Button
+                onClick={clearFilters}
+                className=" flex w-5 text-gray-500"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler icon-tabler-trash"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 28 28"
+                  stroke-width="2"
+                  stroke="#ffffff"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M4 7l16 0" />
+                  <path d="M10 11l0 6" />
+                  <path d="M14 11l0 6" />
+                  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                </svg>
+              </Button>
+            </div>
             <li className="relative transition">
               <input className="peer hidden" type="checkbox" id="menu-1" />
               <div className="relative mx-6 mt-2 flex items-center rounded-xl bg-white bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
@@ -128,8 +154,8 @@ function SideBar({
                 </li>
               </ul>
             </li>
-            <li className="relative pb-10 mx-6">
-              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+            <li className="relative mx-6 mb-2">
+              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200">
                 <span className=" flex w-5 text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +182,7 @@ function SideBar({
                   3
                 </div>
               </div>
-              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 ">
                 <span className=" flex w-5 text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +209,7 @@ function SideBar({
                   8
                 </div>
               </div>
-              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+              <div className="relative mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200">
                 <span className=" flex w-5 text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +234,7 @@ function SideBar({
                 Personal
                 <div className="w-6 h-6 flex items-center justify-center text-xs"></div>
               </div>
-              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 ">
                 <span className=" flex w-5 text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -237,9 +263,29 @@ function SideBar({
             </li>
           </ul>
           <div className="w-full h-px max-w-6xl mx-auto bg-gradient-to-r from-transparent via-[#CC8B8B]/30 to-transparent"></div>
-          <label className="px-11 py-3 text-xs text-gray-200 uppercase dark:text-gray-400 tracking-tighter leading-6 text-opacity-30 font-medium	">
-            PINNED TASKS
-          </label>
+          <div className="flex items-center justify-between mr-8">
+            <label className="px-11 py-3 text-xs text-gray-200 uppercase dark:text-gray-400 tracking-tighter leading-6 text-opacity-30 font-medium	">
+              PINNED TASKS
+            </label>
+            <button className=" flex w-5 text-gray-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-plus"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="#ffffff"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 5l0 14" />
+                <path d="M5 12l14 0" />
+              </svg>
+            </button>
+          </div>
           <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
             <span className="mr-5 flex w-5 text-gray-500">
               <svg
@@ -288,10 +334,30 @@ function SideBar({
             </span>
             Personal Task 2
           </div>
-
-          <Button color="success" onClick={clearFilters}>
-            Clear Filters
-          </Button>
+          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+            <span className="mr-5 flex w-5 text-gray-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </span>
+            Personal Task 3
+          </div>
           <div className="m-6">
             <div className="px-4 pt-6 pb-4 rounded-[28px] bg-black bg-opacity-30 text-center border-2 border-green-500/20">
               <h2 className="text-base font-semibold text-white pb-[6px]">
