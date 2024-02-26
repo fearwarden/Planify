@@ -70,7 +70,7 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                   }
                 />
                 <hr />
-                <div className="flex flex-col gap-2 w-full h-72 overflow-y-scroll">
+                <div className="flex flex-col gap-2 w-full max-h-72 overflow-y-scroll">
                   {data &&
                     data.length > 0 &&
                     data.map((task) => (
