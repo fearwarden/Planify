@@ -4,10 +4,13 @@ import { fetchTasks, fetchTasksFiltered } from "@/api/task/task";
 import Task from "./Task";
 import { Button } from "@nextui-org/react";
 import { IsFilterActiveProps } from "@/components/Navigations/SideBar";
+import { useContextMenu } from "@/hooks/useContextMenu";
+import ContextMenu from "@/components/ContextMenu/ContextMenu";
 
 function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
   const [page, setPage] = useState<number>(1);
   const [filterPage, setFilterPage] = useState<number>(1);
+  const { clicked, setClicked, mouseCoords, setMouseCoords } = useContextMenu();
 
   const [taskQuery, filterTaskQuery] = useQueries({
     queries: [
@@ -64,6 +67,11 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                   category={task.category}
                   priority={task.priority}
                   status={task.status}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    setClicked(true);
+                    setMouseCoords({ x: e.pageX, y: e.pageY });
+                  }}
                 />
               </div>
             ))
@@ -77,6 +85,11 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                   category={task.category}
                   priority={task.priority}
                   status={task.status}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    setClicked(true);
+                    setMouseCoords({ x: e.pageX, y: e.pageY });
+                  }}
                 />
               </div>
             ))}
@@ -126,6 +139,19 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
             </>
           )}
         </div>
+        {clicked && (
+          <ContextMenu
+            top={mouseCoords.y}
+            left={mouseCoords.x}
+            children={
+              <ul>
+                <li>Edit</li>
+                <li>Copy</li>
+                <li>Delete</li>
+              </ul>
+            }
+          ></ContextMenu>
+        )}
       </div>
     </>
   );

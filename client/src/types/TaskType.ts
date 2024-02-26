@@ -4,9 +4,9 @@ import { z } from "zod";
 export interface TaskResponse {
   id: string;
   description: string;
-  due: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  due: string;
+  createdAt: string;
+  updatedAt: string;
   userId: string;
   category: string;
   priority: string;

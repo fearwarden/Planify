@@ -12,9 +12,12 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSearchedTasks } from "@/api/task/task";
 import Task from "../components/Task";
+import { useContextMenu } from "@/hooks/useContextMenu";
+import ContextMenu from "@/components/ContextMenu/ContextMenu";
 
 function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
   const [searchParam, setSearchParam] = useState<string>("");
+  const { clicked, setClicked, mouseCoords, setMouseCoords } = useContextMenu();
 
   const { data, isPending, isError, error, refetch } = useQuery({
     queryKey: ["tasks", searchParam],
@@ -82,6 +85,11 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                           category={task.category}
                           priority={task.priority}
                           status={task.status}
+                          onContextMenu={(e) => {
+                            e.preventDefault();
+                            setClicked(true);
+                            setMouseCoords({ x: e.pageX, y: e.pageY });
+                          }}
                         />
                       </div>
                     ))
@@ -103,6 +111,19 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
           )}
         </ModalContent>
       </Modal>
+      {clicked && (
+        <ContextMenu
+          top={mouseCoords.y}
+          left={mouseCoords.x}
+          children={
+            <ul>
+              <li>Edit</li>
+              <li>Copy</li>
+              <li>Delete</li>
+            </ul>
+          }
+        ></ContextMenu>
+      )}
     </div>
   );
 }

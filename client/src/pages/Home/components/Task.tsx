@@ -12,11 +12,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface TaskDataProps {
   id: string;
   description: string;
-  due: Date;
-  createdAt: Date;
+  due: string;
+  createdAt: string;
   category: string;
   priority: string;
   status: string;
+  onContextMenu: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 function Task({
@@ -27,8 +28,15 @@ function Task({
   category,
   priority,
   status,
+  onContextMenu,
 }: TaskDataProps) {
   const queryClient = useQueryClient();
+
+  // format date based on browser settings
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return `${date.toLocaleDateString("en-GB")} ${date.toLocaleTimeString()}`;
+  };
 
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTask,
@@ -38,7 +46,10 @@ function Task({
   });
 
   return (
-    <Card className="max-w-[400px] rounded-[28px]">
+    <Card
+      className="max-w-[400px] rounded-[28px]"
+      onContextMenu={onContextMenu}
+    >
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
           <p className="text-lg">{description}</p>
@@ -46,8 +57,8 @@ function Task({
       </CardHeader>
       <Divider />
       <CardBody>
-        <p>Due date: {due.toString()}</p>
-        <p>Created at: {createdAt.toString()}</p>
+        <p>Due date: {formatDate(due)}</p>
+        <p>Created at: {formatDate(createdAt)}</p>
       </CardBody>
       <Divider />
       <CardFooter>
