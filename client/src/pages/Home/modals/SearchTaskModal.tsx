@@ -70,9 +70,8 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                   }
                 />
                 <hr />
-                <div className="flex flex-col gap-2 w-full max-h-72 overflow-y-scroll">
-                  {data &&
-                    data.length > 0 &&
+                <div className="flex flex-col gap-2 w-full h-72 overflow-y-scroll">
+                  {data && data.length > 0 ? (
                     data.map((task) => (
                       <div className="pb-5">
                         <Task
@@ -85,7 +84,12 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                           status={task.status}
                         />
                       </div>
-                    ))}
+                    ))
+                  ) : (
+                    <div className="text-white flex justify-center">
+                      There is no data to display
+                    </div>
+                  )}
                   {isPending && <span>Loading...</span>}
                   {isError && <span>Error: {error.message}</span>}
                 </div>
