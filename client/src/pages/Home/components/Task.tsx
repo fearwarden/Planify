@@ -6,7 +6,6 @@ import {
   CardFooter,
   Divider,
   Chip,
-  Button,
 } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -56,15 +55,30 @@ function Task({
           <Chip color="primary">{category}</Chip>
           <Chip color="danger">{priority}</Chip>
           <Chip color="success">{status}</Chip>
-          <Button
-            color="danger"
-            size="sm"
-            onClick={() => {
-              deleteTaskMutation.mutate(id);
-            }}
+          <button
+            onClick={() => deleteTaskMutation.mutate(id)}
+            className="flex w-5 text-gray-500"
           >
-            Delete Task
-          </Button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="icon icon-tabler icon-tabler-trash"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              stroke-width="2"
+              stroke="#F31260"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M4 7l16 0" />
+              <path d="M10 11l0 6" />
+              <path d="M14 11l0 6" />
+              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+            </svg>
+          </button>
         </div>
       </CardFooter>
     </Card>
