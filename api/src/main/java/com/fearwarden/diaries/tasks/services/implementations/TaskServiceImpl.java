@@ -21,6 +21,7 @@ import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.repositories.CategoryRepository;
 import com.fearwarden.diaries.users.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final PriorityRepository priorityRepository;
@@ -38,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
     private final CategoryRepository categoryRepository;
     private final UserService userService;
 
-    private final Integer PAGINATION_SIZE = 10;
+    private final Integer PAGINATION_SIZE = 9;
 
     @Override
     public TaskDto createTask(
@@ -134,6 +136,7 @@ public class TaskServiceImpl implements TaskService {
                 .with(params != null, TaskSpecifications.withDescriptionSearch(params, user))
                 .build();
         List<TaskEntity> tasks = taskRepository.findAll(spec);
+        log.info("Tasks successfully fetched: {}", tasks);
         return tasks.stream().map(TaskDto::new).toList();
     }
 }

@@ -38,3 +38,10 @@ export const fetchTasksFiltered = async (
   );
   return data;
 };
+
+export const fetchSearchedTasks = async (
+  params: string
+): Promise<TaskResponse[]> => {
+  const { data } = await api.get(`/api/v1/tasks/search?params=${params}`);
+  return data;
+};
