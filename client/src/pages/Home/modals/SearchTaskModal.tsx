@@ -40,8 +40,7 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
         backdrop="blur"
         isOpen={isOpen}
         onClose={onClose}
-        className="dark"
-        isDismissable={false}
+        className="dark bg-opacity-90"
       >
         <ModalContent>
           {(onClose) => (
@@ -77,7 +76,7 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                   }
                 />
                 <Divider className="my-4" />
-                <div className="flex flex-col gap-2 w-full h-72 overflow-y-scroll">
+                <div className="flex flex-col gap-2 w-full h-72 overflow-y-scroll px-4">
                   {data && data.length > 0 ? (
                     data.map((task) => (
                       <div className="pb-5">
@@ -98,9 +97,9 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                       </div>
                     ))
                   ) : (
-                    <Card className="bg-gray-800">
+                    <Card className="bg-gray-800 bg-opacity-35">
                       <CardBody className="flex items-center">
-                        <p>There is no data to display.</p>
+                        <p>No recent searches</p>
                       </CardBody>
                     </Card>
                   )}
