@@ -6,6 +6,10 @@ import {
   ModalFooter,
   Button,
   Input,
+  Divider,
+  Card,
+  CardBody,
+  Chip,
 } from "@nextui-org/react";
 import { ModalDataType } from "@/types/ModalDataType";
 import { useEffect, useState } from "react";
@@ -72,7 +76,7 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                     </div>
                   }
                 />
-                <hr />
+                <Divider className="my-4" />
                 <div className="flex flex-col gap-2 w-full h-72 overflow-y-scroll">
                   {data && data.length > 0 ? (
                     data.map((task) => (
@@ -94,9 +98,11 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                       </div>
                     ))
                   ) : (
-                    <div className="text-white flex justify-center">
-                      There is no data to display
-                    </div>
+                    <Card className="bg-gray-800">
+                      <CardBody className="flex items-center">
+                        <p>There is no data to display.</p>
+                      </CardBody>
+                    </Card>
                   )}
                   {isPending && <span>Loading...</span>}
                   {isError && <span>Error: {error.message}</span>}
@@ -116,13 +122,19 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
           top={mouseCoords.y}
           left={mouseCoords.x}
           children={
-            <ul>
-              <li>Edit</li>
-              <li>Copy</li>
-              <li>Delete</li>
-            </ul>
+            <div className="flex flex-col gap-4 justify-center">
+              <Chip color="default" className="cursor-pointer">
+                Edit
+              </Chip>
+              <Chip color="default" className="cursor-pointer">
+                Delete
+              </Chip>
+              <Chip color="default" className="cursor-pointer">
+                Complete
+              </Chip>
+            </div>
           }
-        ></ContextMenu>
+        />
       )}
     </div>
   );

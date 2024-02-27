@@ -6,10 +6,12 @@ import { Button } from "@nextui-org/react";
 import { IsFilterActiveProps } from "@/components/Navigations/SideBar";
 import { useContextMenu } from "@/hooks/useContextMenu";
 import ContextMenu from "@/components/ContextMenu/ContextMenu";
+import { TaskResponse } from "@/types/TaskType";
 
 function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
   const [page, setPage] = useState<number>(1);
   const [filterPage, setFilterPage] = useState<number>(1);
+  const [selectedTask, setSelectedTask] = useState<TaskResponse | null>(null);
   const { clicked, setClicked, mouseCoords, setMouseCoords } = useContextMenu();
 
   const [taskQuery, filterTaskQuery] = useQueries({
@@ -43,6 +45,10 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
     }
   };
 
+  const handleContextMenuEdit = () => {
+    console.log(selectedTask);
+  };
+
   const handlePreviousPage = () => setPage((old) => Math.max(old - 1, 0));
   const handleFilterPreviousPage = () =>
     setFilterPage((old) => Math.max(old - 1, 0));
@@ -58,7 +64,7 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
       <div className="p-5 grid grid-cols-3 gap-4 overflow-y-scroll">
         {isActive && filterTaskQuery.data && filterTaskQuery.data.content
           ? filterTaskQuery.data.content.map((task) => (
-              <div className="pb-5">
+              <div className="pb-5" key={task.id}>
                 <Task
                   id={task.id}
                   description={task.description}
@@ -71,12 +77,13 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                     e.preventDefault();
                     setClicked(true);
                     setMouseCoords({ x: e.pageX, y: e.pageY });
+                    setSelectedTask(task);
                   }}
                 />
               </div>
             ))
           : taskQuery.data.content.map((task) => (
-              <div className="pb-5">
+              <div className="pb-5" key={task.id}>
                 <Task
                   id={task.id}
                   description={task.description}
@@ -89,6 +96,7 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                     e.preventDefault();
                     setClicked(true);
                     setMouseCoords({ x: e.pageX, y: e.pageY });
+                    setSelectedTask(task);
                   }}
                 />
               </div>
@@ -144,13 +152,23 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
             top={mouseCoords.y}
             left={mouseCoords.x}
             children={
-              <ul>
-                <li>Edit</li>
-                <li>Copy</li>
-                <li>Delete</li>
-              </ul>
+              <div className="flex flex-col gap-4 items-center">
+                <Button
+                  color="default"
+                  variant="light"
+                  onClick={handleContextMenuEdit}
+                >
+                  Edit
+                </Button>
+                <Button color="default" variant="light">
+                  Delete
+                </Button>
+                <Button color="default" variant="light">
+                  Complete
+                </Button>
+              </div>
             }
-          ></ContextMenu>
+          />
         )}
       </div>
     </>

@@ -1,3 +1,4 @@
+import { Card, CardBody } from "@nextui-org/react";
 import { ReactElement } from "react";
 
 export interface ContextMenuProps {
@@ -11,16 +12,14 @@ function ContextMenu({ top, left, children }: ContextMenuProps) {
     <div
       style={{
         position: "absolute",
-        width: "200px",
-        backgroundColor: "#383838",
-        borderRadius: "5px",
-        boxSizing: "border-box",
         top: `${top}px`,
         left: `${left}px`,
         zIndex: 100,
       }}
     >
-      {children}
+      <Card>
+        <CardBody>{children}</CardBody>
+      </Card>
     </div>
   );
 }
