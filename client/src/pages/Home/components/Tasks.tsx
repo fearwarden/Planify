@@ -147,7 +147,21 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
             }
           />
         )}
-        <EditTaskModal onClose={onClose} isOpen={isOpen} />
+        {selectedTask && (
+          <EditTaskModal
+            onClose={onClose}
+            isOpen={isOpen}
+            id={selectedTask.id}
+            description={selectedTask.description}
+            due={selectedTask.due}
+            createdAt={selectedTask.createdAt}
+            category={selectedTask.category}
+            priority={selectedTask.priority}
+            status={selectedTask.status}
+            updatedAt={selectedTask.updatedAt}
+            userId={selectedTask.userId}
+          />
+        )}
       </div>
     </>
   );
