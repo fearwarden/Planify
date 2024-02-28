@@ -1,18 +1,25 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { keepPreviousData, useQueries } from "@tanstack/react-query";
 import { fetchTasks, fetchTasksFiltered } from "@/api/task/task";
 import Task from "./Task";
-import { Button } from "@nextui-org/react";
+import { Button, Pagination, useDisclosure } from "@nextui-org/react";
 import { IsFilterActiveProps } from "@/components/Navigations/SideBar";
 import { useContextMenu } from "@/hooks/useContextMenu";
 import ContextMenu from "@/components/ContextMenu/ContextMenu";
 import { TaskResponse } from "@/types/TaskType";
+import EditTaskModal from "../modals/EditTaskModal";
+import { deleteTask } from "@/api/task/task";
 
 function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
+  const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(1);
   const [filterPage, setFilterPage] = useState<number>(1);
+  const contextMenuRef = useRef<HTMLDivElement | null>(null);
   const [selectedTask, setSelectedTask] = useState<TaskResponse | null>(null);
-  const { clicked, setClicked, mouseCoords, setMouseCoords } = useContextMenu();
+  const { isTaskSelected, setIsTaskSelected, mouseCoords, setMouseCoords } =
+    useContextMenu(contextMenuRef);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [taskQuery, filterTaskQuery] = useQueries({
     queries: [
@@ -30,28 +37,22 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
     ],
   });
 
-  const handleNextPage = () => {
-    if (!taskQuery.isPlaceholderData && taskQuery.data!.totalPages > page) {
-      setPage((old) => old + 1);
-    }
-  };
-
-  const handleFilterNextPage = () => {
-    if (
-      !filterTaskQuery.isPlaceholderData &&
-      filterTaskQuery.data!.totalPages > filterPage
-    ) {
-      setFilterPage((old) => old + 1);
-    }
-  };
+  const deleteTaskMutation = useMutation({
+    mutationFn: deleteTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
 
   const handleContextMenuEdit = () => {
-    console.log(selectedTask);
+    onOpen();
+    setIsTaskSelected(false);
   };
-
-  const handlePreviousPage = () => setPage((old) => Math.max(old - 1, 0));
-  const handleFilterPreviousPage = () =>
-    setFilterPage((old) => Math.max(old - 1, 0));
+  const handleDeleteTaskContextMenu = () => {
+    if (!selectedTask) return;
+    deleteTaskMutation.mutate(selectedTask.id);
+    setIsTaskSelected(false);
+  };
 
   if (taskQuery.isPending) return <span>Loading...</span>;
   if (taskQuery.isError) return <span>Error: {taskQuery.error.message}</span>;
@@ -75,7 +76,7 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                   status={task.status}
                   onContextMenu={(e) => {
                     e.preventDefault();
-                    setClicked(true);
+                    setIsTaskSelected(true);
                     setMouseCoords({ x: e.pageX, y: e.pageY });
                     setSelectedTask(task);
                   }}
@@ -94,7 +95,7 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                   status={task.status}
                   onContextMenu={(e) => {
                     e.preventDefault();
-                    setClicked(true);
+                    setIsTaskSelected(true);
                     setMouseCoords({ x: e.pageX, y: e.pageY });
                     setSelectedTask(task);
                   }}
@@ -103,54 +104,26 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
             ))}
         <div className="flex gap-2">
           {isActive ? (
-            <>
-              <Button
-                color="primary"
-                onClick={handleFilterPreviousPage}
-                isDisabled={filterPage <= 1}
-              >
-                Previous page
-              </Button>
-              <Button
-                color="primary"
-                onClick={handleFilterNextPage}
-                isDisabled={
-                  filterTaskQuery.isPlaceholderData ||
-                  (filterTaskQuery.data?.totalPages
-                    ? filterTaskQuery.data?.totalPages <= filterPage
-                    : false)
-                }
-              >
-                {filterPage} of {filterTaskQuery.data?.totalPages} pages / Next
-                page...
-              </Button>
-            </>
+            <Pagination
+              initialPage={1}
+              page={filterPage}
+              total={filterTaskQuery.data!.totalPages}
+              onChange={(nextPage) => setFilterPage(nextPage)}
+            />
           ) : (
-            <>
-              <Button
-                color="primary"
-                onClick={handlePreviousPage}
-                isDisabled={page <= 1}
-              >
-                Previous page
-              </Button>
-              <Button
-                color="primary"
-                onClick={handleNextPage}
-                isDisabled={
-                  taskQuery.isPlaceholderData ||
-                  taskQuery.data.totalPages <= page
-                }
-              >
-                {page} of {taskQuery.data.totalPages} pages / Next page...
-              </Button>
-            </>
+            <Pagination
+              initialPage={1}
+              page={page}
+              total={taskQuery.data.totalPages}
+              onChange={(nextPage) => setPage(nextPage)}
+            />
           )}
         </div>
-        {clicked && (
+        {isTaskSelected && (
           <ContextMenu
             top={mouseCoords.y}
             left={mouseCoords.x}
+            contextMenuRef={contextMenuRef}
             children={
               <div className="flex flex-col gap-4 items-center">
                 <Button
@@ -160,7 +133,11 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                 >
                   Edit
                 </Button>
-                <Button color="default" variant="light">
+                <Button
+                  color="default"
+                  variant="light"
+                  onClick={handleDeleteTaskContextMenu}
+                >
                   Delete
                 </Button>
                 <Button color="default" variant="light">
@@ -170,6 +147,7 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
             }
           />
         )}
+        <EditTaskModal onClose={onClose} isOpen={isOpen} />
       </div>
     </>
   );

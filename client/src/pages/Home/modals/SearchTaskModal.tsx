@@ -9,19 +9,15 @@ import {
   Divider,
   Card,
   CardBody,
-  Chip,
 } from "@nextui-org/react";
 import { ModalDataType } from "@/types/ModalDataType";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSearchedTasks } from "@/api/task/task";
 import Task from "../components/Task";
-import { useContextMenu } from "@/hooks/useContextMenu";
-import ContextMenu from "@/components/ContextMenu/ContextMenu";
 
 function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
   const [searchParam, setSearchParam] = useState<string>("");
-  const { clicked, setClicked, mouseCoords, setMouseCoords } = useContextMenu();
 
   const { data, isPending, isError, error, refetch } = useQuery({
     queryKey: ["tasks", searchParam],
@@ -79,7 +75,7 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                 <div className="flex flex-col gap-2 w-full h-72 overflow-y-scroll px-4">
                   {data && data.length > 0 ? (
                     data.map((task) => (
-                      <div className="pb-5">
+                      <div className="pb-5" key={task.id}>
                         <Task
                           id={task.id}
                           description={task.description}
@@ -88,11 +84,7 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                           category={task.category}
                           priority={task.priority}
                           status={task.status}
-                          onContextMenu={(e) => {
-                            e.preventDefault();
-                            setClicked(true);
-                            setMouseCoords({ x: e.pageX, y: e.pageY });
-                          }}
+                          onContextMenu={() => {}}
                         />
                       </div>
                     ))
@@ -116,25 +108,6 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
           )}
         </ModalContent>
       </Modal>
-      {clicked && (
-        <ContextMenu
-          top={mouseCoords.y}
-          left={mouseCoords.x}
-          children={
-            <div className="flex flex-col gap-4 justify-center">
-              <Chip color="default" className="cursor-pointer">
-                Edit
-              </Chip>
-              <Chip color="default" className="cursor-pointer">
-                Delete
-              </Chip>
-              <Chip color="default" className="cursor-pointer">
-                Complete
-              </Chip>
-            </div>
-          }
-        />
-      )}
     </div>
   );
 }

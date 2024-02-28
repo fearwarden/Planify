@@ -5,11 +5,18 @@ export interface ContextMenuProps {
   top: number;
   left: number;
   children: ReactElement;
+  contextMenuRef: React.RefObject<HTMLDivElement>;
 }
 
-function ContextMenu({ top, left, children }: ContextMenuProps) {
+function ContextMenu({
+  top,
+  left,
+  children,
+  contextMenuRef,
+}: ContextMenuProps) {
   return (
     <div
+      ref={contextMenuRef}
       style={{
         position: "absolute",
         top: `${top}px`,

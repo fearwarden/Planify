@@ -1,4 +1,3 @@
-import { deleteTask } from "@/api/task/task";
 import {
   Card,
   CardHeader,
@@ -7,7 +6,6 @@ import {
   Divider,
   Chip,
 } from "@nextui-org/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface TaskDataProps {
   id: string;
@@ -21,7 +19,6 @@ interface TaskDataProps {
 }
 
 function Task({
-  id,
   description,
   due,
   createdAt,
@@ -30,30 +27,35 @@ function Task({
   status,
   onContextMenu,
 }: TaskDataProps) {
-  const queryClient = useQueryClient();
-
   // format date based on browser settings
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return `${date.toLocaleDateString("en-GB")} ${date.toLocaleTimeString()}`;
   };
 
-  const deleteTaskMutation = useMutation({
-    mutationFn: deleteTask,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
-  });
-
   return (
     <Card
       className="max-w-[400px] rounded-[28px]"
       onContextMenu={onContextMenu}
     >
-      <CardHeader className="flex gap-3">
-        <div className="flex flex-col">
-          <p className="text-lg">{description}</p>
-        </div>
+      <CardHeader className="flex gap-3 justify-between">
+        <p className="text-lg">{description}</p>
+        <button className="">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
+            />
+          </svg>
+        </button>
       </CardHeader>
       <Divider />
       <CardBody>
@@ -66,30 +68,6 @@ function Task({
           <Chip color="primary">{category}</Chip>
           <Chip color="danger">{priority}</Chip>
           <Chip color="success">{status}</Chip>
-          <button
-            onClick={() => deleteTaskMutation.mutate(id)}
-            className="flex w-5 text-gray-500"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="icon icon-tabler icon-tabler-trash"
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              stroke-width="2"
-              stroke="#F31260"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M4 7l16 0" />
-              <path d="M10 11l0 6" />
-              <path d="M14 11l0 6" />
-              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-            </svg>
-          </button>
         </div>
       </CardFooter>
     </Card>
