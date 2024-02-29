@@ -63,7 +63,7 @@ Content-Type: application/json
   "description": "Chores",
   "categoryId": 2,
   "priorityId": 1,
-  "statusId": 1
+  "statusId": 1,
 }
 
 ### Delete Task
