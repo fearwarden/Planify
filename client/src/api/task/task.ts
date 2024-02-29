@@ -45,3 +45,10 @@ export const fetchSearchedTasks = async (
   const { data } = await api.get(`/api/v1/tasks/search?params=${params}`);
   return data;
 };
+
+export const editTask = async (args: {
+  data: TaskDataType;
+  id: string;
+}): Promise<AxiosResponse> => {
+  return await api.put(`/api/v1/tasks/${args.id}`, args.data);
+};
