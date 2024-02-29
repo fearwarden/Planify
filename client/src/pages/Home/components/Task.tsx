@@ -50,7 +50,7 @@ function Task({
 
   const handleCompleteTask = () => {
     if (status.toUpperCase() === "COMPLETE") {
-      setErrorMessage("Status is already completed.");
+      setErrorMessage("Task is already completed.");
       return;
     }
     completeTaskMutation.mutate({ id, statusId: 2 });
