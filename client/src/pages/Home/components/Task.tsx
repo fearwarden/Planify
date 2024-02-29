@@ -1,4 +1,6 @@
+import { completeTask } from "@/api/task/task";
 import { formatDate } from "@/tools/utils";
+import { TaskStatus } from "@/types/TaskType";
 import {
   Card,
   CardHeader,
@@ -6,7 +8,11 @@ import {
   CardFooter,
   Divider,
   Chip,
+  Checkbox,
 } from "@nextui-org/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
+import { useState } from "react";
 
 interface TaskDataProps {
   id: string;
@@ -26,11 +32,29 @@ function Task({
   category,
   priority,
   status,
+  id,
   onContextMenu,
 }: TaskDataProps) {
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const queryClient = useQueryClient();
+
+  const completeTaskMutation = useMutation({
+    mutationFn: completeTask,
+    onError: (error: AxiosResponse) => {
+      setErrorMessage(error.request.response);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+
+  const handleCompleteTask = () => {
+    completeTaskMutation.mutate({ id, statusId: 2 });
+    console.log("dosao");
+  };
   return (
     <Card
-      className="max-w-[400px] rounded-[28px]"
+      className="max-w-[500px] rounded-[28px]"
       onContextMenu={onContextMenu}
     >
       <CardHeader className="flex gap-3 justify-between">
@@ -59,12 +83,30 @@ function Task({
       </CardBody>
       <Divider />
       <CardFooter>
-        <div className="flex items-end gap-4">
+        <div className="flex gap-4">
           <Chip color="primary">{category}</Chip>
           <Chip color="danger">{priority}</Chip>
           <Chip color="success">{status}</Chip>
+          <Checkbox
+            color="success"
+            defaultSelected={
+              status.toUpperCase() === TaskStatus.COMPLETE ? true : false
+            }
+            isDisabled={
+              status.toUpperCase() === TaskStatus.COMPLETE ? true : false
+            }
+            lineThrough={
+              status.toUpperCase() === TaskStatus.COMPLETE ? true : false
+            }
+            onClick={handleCompleteTask}
+          >
+            {status.toUpperCase() === TaskStatus.COMPLETE
+              ? "Completed"
+              : "Complete Task"}
+          </Checkbox>
         </div>
       </CardFooter>
+      {errorMessage && <Chip color="danger">{errorMessage}</Chip>}
     </Card>
   );
 }

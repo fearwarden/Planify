@@ -35,3 +35,7 @@ export type StatusType = {
 };
 
 export type TaskDataType = z.infer<typeof TaskSchema>;
+
+export enum TaskStatus {
+  COMPLETE = "COMPLETE",
+}
