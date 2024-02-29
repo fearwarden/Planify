@@ -49,8 +49,11 @@ function Task({
   });
 
   const handleCompleteTask = () => {
+    if (status.toUpperCase() === "COMPLETE") {
+      setErrorMessage("Status is already completed.");
+      return;
+    }
     completeTaskMutation.mutate({ id, statusId: 2 });
-    console.log("dosao");
   };
   return (
     <Card
