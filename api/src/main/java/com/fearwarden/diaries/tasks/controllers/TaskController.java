@@ -1,5 +1,6 @@
 package com.fearwarden.diaries.tasks.controllers;
 
+import com.fearwarden.diaries.tasks.dto.request.CompleteTaskDto;
 import com.fearwarden.diaries.tasks.dto.request.CreateTaskDto;
 import com.fearwarden.diaries.tasks.dto.request.UpdateTaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
@@ -95,5 +96,11 @@ public class TaskController {
     ) {
         List<TaskDto> tasks = taskService.searchTasks(params, user);
         return ResponseEntity.ok(tasks);
+    }
+
+    @PatchMapping("/complete/{id}")
+    public ResponseEntity<Void> completeTask(@PathVariable String id, @RequestBody @Validated CompleteTaskDto body) {
+        taskService.completeTask(id, body.getStatusId());
+        return ResponseEntity.noContent().build();
     }
 }

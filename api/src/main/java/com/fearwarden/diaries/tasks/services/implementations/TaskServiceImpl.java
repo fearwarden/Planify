@@ -3,10 +3,7 @@ package com.fearwarden.diaries.tasks.services.implementations;
 import com.fearwarden.diaries.SpecificationBuilder;
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
-import com.fearwarden.diaries.tasks.exceptions.throwables.CategoryNotFoundException;
-import com.fearwarden.diaries.tasks.exceptions.throwables.PriorityNotFoundException;
-import com.fearwarden.diaries.tasks.exceptions.throwables.StatusNotFoundException;
-import com.fearwarden.diaries.tasks.exceptions.throwables.TaskNotFoundException;
+import com.fearwarden.diaries.tasks.exceptions.throwables.*;
 import com.fearwarden.diaries.tasks.models.PriorityEntity;
 import com.fearwarden.diaries.tasks.models.StatusEntity;
 import com.fearwarden.diaries.tasks.models.TaskEntity;
@@ -138,5 +135,16 @@ public class TaskServiceImpl implements TaskService {
         List<TaskEntity> tasks = taskRepository.findAll(spec);
         log.info("Tasks successfully fetched: {}", tasks);
         return tasks.stream().map(TaskDto::new).toList();
+    }
+
+    @Override
+    public void completeTask(String id, int statusId) {
+        StatusEntity status = statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
+        if (!status.getId().equals(2) && !status.getProgress().equalsIgnoreCase("COMPLETE")) {
+            throw new InvalidCompleteStatusException();
+        }
+        TaskEntity task = taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
+        task.setStatusEntity(status);
+        taskRepository.save(task);
     }
 }

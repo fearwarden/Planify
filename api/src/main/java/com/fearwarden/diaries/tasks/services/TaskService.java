@@ -19,4 +19,5 @@ public interface TaskService {
     TaskMetadataDto getMetadata(UserEntity user);
     Page<TaskDto> getFilteredTasks(String category, String priority, String status, int page);
     List<TaskDto> searchTasks(String params, UserEntity user);
+    void completeTask(String id, int statusId);
 }

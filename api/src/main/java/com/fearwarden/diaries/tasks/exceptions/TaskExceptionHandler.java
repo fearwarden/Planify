@@ -1,6 +1,7 @@
 package com.fearwarden.diaries.tasks.exceptions;
 
 import com.fearwarden.diaries.tasks.exceptions.throwables.CategoryNotFoundException;
+import com.fearwarden.diaries.tasks.exceptions.throwables.InvalidCompleteStatusException;
 import com.fearwarden.diaries.tasks.exceptions.throwables.PriorityNotFoundException;
 import com.fearwarden.diaries.tasks.exceptions.throwables.TaskNotFoundException;
 import org.springframework.core.Ordered;
@@ -30,5 +31,11 @@ public class TaskExceptionHandler {
     @ExceptionHandler(PriorityNotFoundException.class)
     public ResponseEntity<String> priorityNotFoundHandler(PriorityNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(InvalidCompleteStatusException.class)
+    public ResponseEntity<String> invalidCompleteStatusHandler(InvalidCompleteStatusException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
