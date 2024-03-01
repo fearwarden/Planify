@@ -286,7 +286,7 @@ function SideBar({
               </svg>
             </button>
           </div>
-          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 ">
             <span className="mr-5 flex w-5 text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -307,7 +307,7 @@ function SideBar({
             </span>
             Personal Task 1
           </div>
-          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 ">
             <span className="mr-5 flex w-5 text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -328,7 +328,7 @@ function SideBar({
             </span>
             Personal Task 2
           </div>
-          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 border-[0.5px] border-borderBtn/[12%]">
+          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 ">
             <span className="mr-5 flex w-5 text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
