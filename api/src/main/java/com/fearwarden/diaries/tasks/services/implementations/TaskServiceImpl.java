@@ -16,7 +16,6 @@ import com.fearwarden.diaries.tasks.tools.HelperFunctions;
 import com.fearwarden.diaries.users.models.CategoryEntity;
 import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.repositories.CategoryRepository;
-import com.fearwarden.diaries.users.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
@@ -35,7 +34,6 @@ public class TaskServiceImpl implements TaskService {
     private final PriorityRepository priorityRepository;
     private final StatusRepository statusRepository;
     private final CategoryRepository categoryRepository;
-    private final UserService userService;
 
     private final Integer PAGINATION_SIZE = 9;
 
@@ -115,7 +113,7 @@ public class TaskServiceImpl implements TaskService {
     public Page<TaskDto> getFilteredTasks(String category, String priority, String status, int page) {
         Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE);
         Specification<TaskEntity> initialSpec = Specification.where(null);
-        Specification<TaskEntity> spec = new SpecificationBuilder<TaskEntity>(initialSpec)
+        Specification<TaskEntity> spec = new SpecificationBuilder<>(initialSpec)
                 .with(category != null, TaskSpecifications.withCategory(category))
                 .with(priority != null, TaskSpecifications.withPriority(priority))
                 .with(status != null, TaskSpecifications.withStatus(status))
