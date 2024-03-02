@@ -3,6 +3,12 @@ import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import CreateTaskModal from "@/pages/Home/modals/CreateTaskModal";
 import Plus from "../../assets/img/Sidebar/PlusButton.svg";
+import {
+  TaskCategory,
+  TaskMetadata,
+  TaskPriority,
+  TaskStatus,
+} from "@/types/TaskType";
 
 export interface IsFilterActiveProps {
   isActive: boolean;
@@ -84,7 +90,7 @@ function SideBar({
                     />
                   </svg>
                 </span>
-                Dashboard
+                Categories
                 <label
                   htmlFor="menu-1"
                   className="absolute inset-0 h-full w-full cursor-pointer"
@@ -107,7 +113,7 @@ function SideBar({
               <ul className="duration-400 peer-checked:max-h-96 ml-2 flex max-h-0 flex-col overflow-hidden rounded-2xl transition-all w-[90%] pl-10">
                 <li
                   onClick={() => {
-                    handleFilters("status", "COMPLETE");
+                    handleFilters(TaskMetadata.CATEGORY, TaskCategory.WORK);
                   }}
                   className=" flex cursor-pointer rounded-xl"
                 >
@@ -118,14 +124,14 @@ function SideBar({
                       </div>
                       <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
                         <div className="h-3 w-3 bg-green-400 rounded-full mr-[10px]"></div>
-                        Complete
+                        Work
                       </div>
                     </div>
                   </div>
                 </li>
                 <li
                   onClick={() => {
-                    handleFilters("status", "PROGRESS");
+                    handleFilters(TaskMetadata.CATEGORY, TaskCategory.PERSONAL);
                   }}
                   className="flex cursor-pointer rounded-xl"
                 >
@@ -136,18 +142,138 @@ function SideBar({
                       </div>
                       <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
                         <div className="h-3 w-3 bg-yellow-400 rounded-full mr-[10px]"></div>
-                        Progress
+                        Personal
                       </div>
                     </div>
                   </div>
                 </li>
-                <li className="flex cursor-pointer rounded-xl">
+                <li
+                  onClick={() => {
+                    handleFilters(TaskMetadata.CATEGORY, TaskCategory.HEALTH);
+                  }}
+                  className="flex cursor-pointer rounded-xl"
+                >
                   <div className="h-full w-full mx-2">
                     <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
                       <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-l-2 border-b-2 border-white/15 text-transparent"></div>
                       <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
                         <div className="h-3 w-3 bg-red-400 rounded-full mr-[10px]"></div>
-                        On Hold
+                        Health
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li
+                  onClick={() => {
+                    handleFilters(
+                      TaskMetadata.CATEGORY,
+                      TaskCategory.EDUCATION
+                    );
+                  }}
+                  className="flex cursor-pointer rounded-xl"
+                >
+                  <div className="h-full w-full mx-2">
+                    <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
+                      <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-l-2 border-b-2 border-white/15 text-transparent"></div>
+                      <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
+                        <div className="h-3 w-3 bg-red-400 rounded-full mr-[10px]"></div>
+                        Education
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li
+                  onClick={() => {
+                    handleFilters(TaskMetadata.CATEGORY, TaskCategory.HOME);
+                  }}
+                  className="flex cursor-pointer rounded-xl"
+                >
+                  <div className="h-full w-full mx-2">
+                    <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
+                      <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-l-2 border-b-2 border-white/15 text-transparent"></div>
+                      <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
+                        <div className="h-3 w-3 bg-red-400 rounded-full mr-[10px]"></div>
+                        Home
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li
+                  onClick={() => {
+                    handleFilters(TaskMetadata.CATEGORY, TaskCategory.FINANCE);
+                  }}
+                  className="flex cursor-pointer rounded-xl"
+                >
+                  <div className="h-full w-full mx-2">
+                    <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
+                      <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-l-2 border-b-2 border-white/15 text-transparent"></div>
+                      <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
+                        <div className="h-3 w-3 bg-red-400 rounded-full mr-[10px]"></div>
+                        Finance
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li
+                  onClick={() => {
+                    handleFilters(TaskMetadata.CATEGORY, TaskCategory.URGENT);
+                  }}
+                  className="flex cursor-pointer rounded-xl"
+                >
+                  <div className="h-full w-full mx-2">
+                    <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
+                      <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-l-2 border-b-2 border-white/15 text-transparent"></div>
+                      <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
+                        <div className="h-3 w-3 bg-red-400 rounded-full mr-[10px]"></div>
+                        Urgent
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li
+                  onClick={() => {
+                    handleFilters(TaskMetadata.CATEGORY, TaskCategory.IDEAS);
+                  }}
+                  className="flex cursor-pointer rounded-xl"
+                >
+                  <div className="h-full w-full mx-2">
+                    <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
+                      <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-l-2 border-b-2 border-white/15 text-transparent"></div>
+                      <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
+                        <div className="h-3 w-3 bg-red-400 rounded-full mr-[10px]"></div>
+                        Ideas
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li
+                  onClick={() => {
+                    handleFilters(TaskMetadata.CATEGORY, TaskCategory.GAMES);
+                  }}
+                  className="flex cursor-pointer rounded-xl"
+                >
+                  <div className="h-full w-full mx-2">
+                    <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
+                      <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-l-2 border-b-2 border-white/15 text-transparent"></div>
+                      <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
+                        <div className="h-3 w-3 bg-red-400 rounded-full mr-[10px]"></div>
+                        Games
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li
+                  onClick={() => {
+                    handleFilters(TaskMetadata.CATEGORY, TaskCategory.OTHER);
+                  }}
+                  className="flex cursor-pointer rounded-xl"
+                >
+                  <div className="h-full w-full mx-2">
+                    <div className="relative py-2 pl-4 text-sm text-white/55 hover:text-white h-full">
+                      <div className="absolute left-0 top-0 -ml-px h-1/2 w-4 rounded-bl-xl border-l-2 border-b-2 border-white/15 text-transparent"></div>
+                      <div className="hover:ring-white-2 hover:bg-white/[3%] py-4 px-[10px] rounded-[10px] flex items-center">
+                        <div className="h-3 w-3 bg-red-400 rounded-full mr-[10px]"></div>
+                        Other
                       </div>
                     </div>
                   </div>
@@ -155,7 +281,12 @@ function SideBar({
               </ul>
             </li>
             <li className="relative mx-6 mb-2">
-              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200">
+              <div
+                onClick={() =>
+                  handleFilters(TaskMetadata.STATUS, TaskStatus.COMPLETE)
+                }
+                className="cursor-pointer relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200"
+              >
                 <span className=" flex w-5 text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -177,12 +308,17 @@ function SideBar({
                     <path d="M21 6l0 13" />
                   </svg>
                 </span>
-                Education
+                Complete
                 <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
                   3
                 </div>
               </div>
-              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 ">
+              <div
+                onClick={() =>
+                  handleFilters(TaskMetadata.STATUS, TaskStatus.PROGRESS)
+                }
+                className="cursor-pointer relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 "
+              >
                 <span className=" flex w-5 text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -204,12 +340,17 @@ function SideBar({
                     <path d="M3 11c0 .888 .772 1.45 2 2" />
                   </svg>
                 </span>
-                Finance
+                Progress
                 <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
                   8
                 </div>
               </div>
-              <div className="relative mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200">
+              <div
+                onClick={() =>
+                  handleFilters(TaskMetadata.STATUS, TaskStatus.ONHOLD)
+                }
+                className="cursor-pointer relative mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200"
+              >
                 <span className=" flex w-5 text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -231,62 +372,39 @@ function SideBar({
                     <path d="M7 16l10 0" />
                   </svg>
                 </span>
-                Personal
+                On Hold
                 <div className="w-6 h-6 flex items-center justify-center text-xs"></div>
-              </div>
-              <div className="relative  mt-2 flex items-center rounded-xl justify-between hover:bg-white hover:bg-opacity-[2%] py-3 px-5 text-sm text-gray-200 ">
-                <span className=" flex w-5 text-gray-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon icon-tabler icon-tabler-checklist"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="#ffffff"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8" />
-                    <path d="M14 19l2 2l4 -4" />
-                    <path d="M9 8h4" />
-                    <path d="M9 12h2" />
-                  </svg>
-                </span>
-                Other Tasks
-                <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
-                  2
-                </div>
               </div>
             </li>
           </ul>
           <div className="w-full h-px max-w-6xl mx-auto bg-gradient-to-r from-transparent via-[#CC8B8B]/30 to-transparent"></div>
           <div className="flex items-center justify-between mr-8">
             <label className="px-11 py-3 text-xs text-gray-200 uppercase dark:text-gray-400 tracking-tighter leading-6 text-opacity-30 font-medium	">
-              PINNED TASKS
+              Task Priority
             </label>
-            <button className=" flex w-5 text-gray-500">
+            <button className="flex w-5 text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-plus"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="#ffffff"
                 fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                viewBox="0 0 22 22"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6"
               >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 5l0 14" />
-                <path d="M5 12l14 0" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+                />
               </svg>
             </button>
           </div>
-          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 ">
+          <div
+            onClick={() =>
+              handleFilters(TaskMetadata.PRIORITY, TaskPriority.HIGH)
+            }
+            className="cursor-pointer relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 "
+          >
             <span className="mr-5 flex w-5 text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -305,9 +423,14 @@ function SideBar({
                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
               </svg>
             </span>
-            Personal Task 1
+            High
           </div>
-          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 ">
+          <div
+            onClick={() =>
+              handleFilters(TaskMetadata.PRIORITY, TaskPriority.MEDIUM)
+            }
+            className="cursor-pointer relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 "
+          >
             <span className="mr-5 flex w-5 text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -326,9 +449,14 @@ function SideBar({
                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
               </svg>
             </span>
-            Personal Task 2
+            Medium
           </div>
-          <div className="relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 ">
+          <div
+            onClick={() =>
+              handleFilters(TaskMetadata.PRIORITY, TaskPriority.LOW)
+            }
+            className="cursor-pointer relative mx-6 mt-2 flex items-center rounded-xl hover:bg-white hover:bg-opacity-[2%] py-3 pl-5 text-sm text-gray-200 "
+          >
             <span className="mr-5 flex w-5 text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -347,7 +475,7 @@ function SideBar({
                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
               </svg>
             </span>
-            Personal Task 3
+            Low
           </div>
           <div className="m-6">
             <div className="px-4 pt-6 pb-4 rounded-[28px] bg-black bg-opacity-30 text-center border-2 border-green-500/20">
