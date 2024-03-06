@@ -18,6 +18,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { editTask, fetchTaskMetadata } from "@/api/task/task";
 import { AxiosResponse } from "axios";
 import { TaskSchema } from "@/validation/schemas";
+import { useNavigate } from "react-router-dom";
 
 interface EditModalProps extends ModalDataType, TaskResponse {}
 
@@ -41,6 +42,7 @@ function EditTaskModal({
   const [editedStatus, setEditedStatus] = useState<number | null>();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data, isError, isPending, isLoading, error } = useQuery({
     queryKey: ["task-metadata"],
@@ -55,7 +57,6 @@ function EditTaskModal({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      onClose();
     },
   });
 
@@ -90,6 +91,7 @@ function EditTaskModal({
       return;
     }
     editTaskMutation.mutate({ data: validation.data, id });
+    navigate(0);
   };
 
   useEffect(() => {
