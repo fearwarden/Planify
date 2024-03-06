@@ -136,9 +136,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void completeTask(String id, int statusId) {
-        StatusEntity status = statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
-        if (!status.getId().equals(2) && !status.getProgress().equalsIgnoreCase("COMPLETE")) {
+    public void completeTask(String id) {
+        StatusEntity status = statusRepository.findCompleteStatus();
+        if (status == null) {
             throw new InvalidCompleteStatusException();
         }
         TaskEntity task = taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
