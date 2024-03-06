@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 public interface StatusRepository extends CrudRepository<StatusEntity, Integer> {
-    @Query("SELECT s FROM StatusEntity s WHERE s.progress = 'COMPLETE'")
+    @Query("SELECT s FROM StatusEntity s WHERE s.id = 2")
     StatusEntity findCompleteStatus();
 }
