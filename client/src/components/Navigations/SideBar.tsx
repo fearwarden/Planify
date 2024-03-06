@@ -9,6 +9,8 @@ import {
   TaskPriority,
   TaskStatus,
 } from "@/types/TaskType";
+import { useQuery } from "@tanstack/react-query";
+import { taskMetadataMetrics } from "@/api/task/task";
 
 export interface IsFilterActiveProps {
   isActive: boolean;
@@ -24,6 +26,11 @@ function SideBar({
   const user = useSelector((state: RootState) => state.users);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const { data, isError, isPending, error } = useQuery({
+    queryKey: ["tasks-metadata-metrics"],
+    queryFn: taskMetadataMetrics,
+  });
+
   const handleFilters = (type: string, criteria: string) => {
     handleIsActive({ isActive: true, type, criteria });
   };
@@ -33,6 +40,8 @@ function SideBar({
   };
 
   const handleOpen = () => onOpen();
+  if (isPending) return <span>Loading...</span>;
+  if (isError) return <span>Error: {error.message}</span>;
   return (
     <div>
       <div className="h-screen overflow-hidden pb-5">
@@ -310,7 +319,7 @@ function SideBar({
                 </span>
                 Complete
                 <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
-                  3
+                  {data.data.statusMetrics.COMPLETE ?? 0}
                 </div>
               </div>
               <div
@@ -342,7 +351,7 @@ function SideBar({
                 </span>
                 Progress
                 <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
-                  8
+                  {data.data.statusMetrics.PROGRESS ?? 0}
                 </div>
               </div>
               <div
@@ -373,7 +382,9 @@ function SideBar({
                   </svg>
                 </span>
                 On Hold
-                <div className="w-6 h-6 flex items-center justify-center text-xs"></div>
+                <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
+                  {data.data.statusMetrics["ON HOLD"] ?? 0}
+                </div>
               </div>
             </li>
           </ul>
@@ -424,6 +435,9 @@ function SideBar({
               </svg>
             </span>
             High
+            <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
+              {data.data.priorityMetrics.HIGH ?? 0}
+            </div>
           </div>
           <div
             onClick={() =>
@@ -450,6 +464,9 @@ function SideBar({
               </svg>
             </span>
             Medium
+            <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
+              {data.data.priorityMetrics.MEDIUM ?? 0}
+            </div>
           </div>
           <div
             onClick={() =>
@@ -476,6 +493,9 @@ function SideBar({
               </svg>
             </span>
             Low
+            <div className="w-6 h-6 bg-yellow-500 rounded text-black flex items-center justify-center text-xs">
+              {data.data.priorityMetrics.LOW ?? 0}
+            </div>
           </div>
           <div className="m-6">
             <div className="px-4 pt-6 pb-4 rounded-[28px] bg-black bg-opacity-30 text-center border-2 border-green-500/20">

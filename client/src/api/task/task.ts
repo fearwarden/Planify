@@ -56,3 +56,7 @@ export const editTask = async (args: {
 export const completeTask = async (id: string): Promise<AxiosResponse> => {
   return await api.patch(`/api/v1/tasks/complete/${id}`);
 };
+
+export const taskMetadataMetrics = async (): Promise<AxiosResponse> => {
+  return await api.get("/api/v1/tasks/count-by-metadata");
+};
