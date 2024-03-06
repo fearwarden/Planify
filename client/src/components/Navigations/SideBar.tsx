@@ -27,7 +27,7 @@ function SideBar({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data, isError, isPending, error } = useQuery({
-    queryKey: ["tasks-metadata-metrics"],
+    queryKey: ["tasks", "-metadata-metrics"],
     queryFn: taskMetadataMetrics,
   });
 

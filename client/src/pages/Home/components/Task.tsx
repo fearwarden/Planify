@@ -48,7 +48,9 @@ function Task({
       setErrorMessage(error.request.response);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({
+        queryKey: ["tasks"],
+      });
     },
   });
 
