@@ -23,4 +23,11 @@ public interface TaskRepository extends JpaRepository<TaskEntity, String>, JpaSp
     Page<TaskEntity> findAllByUserEntityAndCategoryEntityOrderByDueDesc(UserEntity user, CategoryEntity category, Pageable pageable);
     Page<TaskEntity> findAllByUserEntityAndStatusEntityOrderByDueDesc(UserEntity user, StatusEntity status, Pageable pageable);
     Page<TaskEntity> findAllByUserEntityAndPriorityEntityOrderByDueDesc(UserEntity user, PriorityEntity priority, Pageable pageable);
+    @Query("SELECT t.statusEntity.progress, COUNT(t) FROM TaskEntity t WHERE t.userEntity.id = :userId GROUP BY t.statusEntity.id")
+    List<Object[]> countTaskEntitiesByStatusEntity(@Param("userId") UUID userId);
+    @Query("SELECT t.priorityEntity.level, COUNT(t) from TaskEntity t WHERE t.userEntity.id = :userId GROUP BY t.priorityEntity.id")
+    List<Object[]> countTaskEntitiesByPriorityEntity(@Param("userId") UUID userId);
+    @Query("SELECT t.categoryEntity.name, COUNT(t) from TaskEntity t WHERE t.userEntity.id = :userId GROUP BY t.categoryEntity.id")
+    List<Object[]> countTaskEntitiesByCategoryEntity(@Param("userId") UUID userId);
 }
+

@@ -3,6 +3,7 @@ package com.fearwarden.diaries.tasks.services.implementations;
 import com.fearwarden.diaries.SpecificationBuilder;
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
+import com.fearwarden.diaries.tasks.dto.response.TaskMetadataMetricsDto;
 import com.fearwarden.diaries.tasks.exceptions.throwables.*;
 import com.fearwarden.diaries.tasks.models.PriorityEntity;
 import com.fearwarden.diaries.tasks.models.StatusEntity;
@@ -23,7 +24,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -144,5 +147,25 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity task = taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
         task.setStatusEntity(status);
         taskRepository.save(task);
+    }
+
+    @Override
+    public TaskMetadataMetricsDto countTasksByMetadata(UserEntity user) {
+        List<Object[]> countStatus = taskRepository.countTaskEntitiesByStatusEntity(user.getId());
+        List<Object[]> countPriorities = taskRepository.countTaskEntitiesByPriorityEntity(user.getId());
+        List<Object[]> countCategories = taskRepository.countTaskEntitiesByCategoryEntity(user.getId());
+        Map<String, Long> statusMetrics = new HashMap<>();
+        Map<String, Long> priorityMetrics = new HashMap<>();
+        Map<String, Long> categoryMetrics = new HashMap<>();
+        for (Object[] row : countStatus) {
+            statusMetrics.put(row[0].toString(), (Long) row[1]);
+        }
+        for (Object[] row : countPriorities) {
+            priorityMetrics.put(row[0].toString(), (Long) row[1]);
+        }
+        for (Object[] row : countCategories) {
+            categoryMetrics.put(row[0].toString(), (Long) row[1]);
+        }
+        return new TaskMetadataMetricsDto(statusMetrics, priorityMetrics, categoryMetrics);
     }
 }

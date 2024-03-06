@@ -4,6 +4,7 @@ import com.fearwarden.diaries.tasks.dto.request.CreateTaskDto;
 import com.fearwarden.diaries.tasks.dto.request.UpdateTaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
+import com.fearwarden.diaries.tasks.dto.response.TaskMetadataMetricsDto;
 import com.fearwarden.diaries.tasks.services.TaskService;
 import com.fearwarden.diaries.tasks.tools.HelperFunctions;
 import com.fearwarden.diaries.users.models.UserEntity;
@@ -101,5 +102,11 @@ public class TaskController {
     public ResponseEntity<Void> completeTask(@PathVariable String id) {
         taskService.completeTask(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/count-by-metadata")
+    public ResponseEntity<TaskMetadataMetricsDto> countByMetadata(@AuthenticationPrincipal UserEntity user) {
+        TaskMetadataMetricsDto metrics = taskService.countTasksByMetadata(user);
+        return ResponseEntity.ok(metrics);
     }
 }

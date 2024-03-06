@@ -2,6 +2,7 @@ package com.fearwarden.diaries.tasks.services;
 
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
+import com.fearwarden.diaries.tasks.dto.response.TaskMetadataMetricsDto;
 import com.fearwarden.diaries.users.models.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,4 +21,5 @@ public interface TaskService {
     Page<TaskDto> getFilteredTasks(String category, String priority, String status, int page);
     List<TaskDto> searchTasks(String params, UserEntity user);
     void completeTask(String id);
+    TaskMetadataMetricsDto countTasksByMetadata(UserEntity user);
 }
