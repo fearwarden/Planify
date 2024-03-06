@@ -53,11 +53,6 @@ export const editTask = async (args: {
   return await api.put(`/api/v1/tasks/${args.id}`, args.data);
 };
 
-export const completeTask = async (args: {
-  id: string;
-  statusId: number;
-}): Promise<AxiosResponse> => {
-  return await api.patch(`/api/v1/tasks/complete/${args.id}`, {
-    statusId: args.statusId,
-  });
+export const completeTask = async (id: string): Promise<AxiosResponse> => {
+  return await api.patch(`/api/v1/tasks/complete/${id}`);
 };
