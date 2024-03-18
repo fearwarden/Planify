@@ -37,6 +37,7 @@ function Task({
   onContextMenu,
 }: TaskDataProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -54,6 +55,11 @@ function Task({
 
   const handleIsEditModalOpen = () => {
     onOpen();
+    setIsSettingsOpen(false);
+  };
+
+  const handleIsSettingsOpen = () => {
+    setIsSettingsOpen(!isSettingsOpen);
   };
 
   const handleCompleteTask = () => {
@@ -70,9 +76,13 @@ function Task({
     >
       <CardHeader className="flex gap-3 justify-between">
         <p className="text-lg">{description}</p>
-        <Popover placement="right-end" color="foreground">
+        <Popover
+          placement="right-end"
+          color="foreground"
+          isOpen={isSettingsOpen}
+        >
           <PopoverTrigger>
-            <button>
+            <button onClick={handleIsSettingsOpen}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
