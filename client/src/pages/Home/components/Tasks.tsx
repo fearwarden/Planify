@@ -67,6 +67,7 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
           ? filterTaskQuery.data.content.map((task) => (
               <div className="pb-5" key={task.id}>
                 <Task
+                  key={task.id}
                   id={task.id}
                   description={task.description}
                   due={task.due}
@@ -74,6 +75,8 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                   category={task.category}
                   priority={task.priority}
                   status={task.status}
+                  updatedAt={task.updatedAt}
+                  userId={task.userId}
                   onContextMenu={(e) => {
                     e.preventDefault();
                     setIsTaskSelected(true);
@@ -86,6 +89,7 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
           : taskQuery.data.content.map((task) => (
               <div className="pb-5" key={task.id}>
                 <Task
+                  key={task.id}
                   id={task.id}
                   description={task.description}
                   due={task.due}
@@ -93,6 +97,8 @@ function Tasks({ isActive, type, criteria }: IsFilterActiveProps) {
                   category={task.category}
                   priority={task.priority}
                   status={task.status}
+                  updatedAt={task.updatedAt}
+                  userId={task.userId}
                   onContextMenu={(e) => {
                     e.preventDefault();
                     setIsTaskSelected(true);

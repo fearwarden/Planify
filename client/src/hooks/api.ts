@@ -27,7 +27,6 @@ async function refreshToken() {
   try {
     await api.get("/api/v1/auth/refresh");
   } catch (e) {
-    console.log(e);
     throw e;
   }
 }

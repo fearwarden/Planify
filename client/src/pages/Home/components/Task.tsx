@@ -1,6 +1,6 @@
 import { completeTask } from "@/api/task/task";
 import { formatDate } from "@/tools/utils";
-import { TaskStatus } from "@/types/TaskType";
+import { TaskResponse, TaskStatus } from "@/types/TaskType";
 import {
   Card,
   CardHeader,
@@ -13,19 +13,14 @@ import {
   PopoverTrigger,
   PopoverContent,
   Button,
+  useDisclosure,
 } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { useState } from "react";
+import EditTaskModal from "../modals/EditTaskModal";
 
-interface TaskDataProps {
-  id: string;
-  description: string;
-  due: string;
-  createdAt: string;
-  category: string;
-  priority: string;
-  status: string;
+interface TaskDataProps extends TaskResponse {
   onContextMenu: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
@@ -37,10 +32,13 @@ function Task({
   priority,
   status,
   id,
+  updatedAt,
+  userId,
   onContextMenu,
 }: TaskDataProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const queryClient = useQueryClient();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const completeTaskMutation = useMutation({
     mutationFn: completeTask,
@@ -53,6 +51,10 @@ function Task({
       });
     },
   });
+
+  const handleIsEditModalOpen = () => {
+    onOpen();
+  };
 
   const handleCompleteTask = () => {
     if (status.toUpperCase() === TaskStatus.COMPLETE) {
@@ -89,7 +91,11 @@ function Task({
           </PopoverTrigger>
           <PopoverContent>
             <div className="flex flex-col gap-2 items-cente">
-              <Button className="text-white" variant="light">
+              <Button
+                className="text-white"
+                variant="light"
+                onClick={handleIsEditModalOpen}
+              >
                 Edit
               </Button>
               <Button className="text-white" variant="light">
@@ -133,6 +139,20 @@ function Task({
         </div>
       </CardFooter>
       {errorMessage && <Chip color="danger">{errorMessage}</Chip>}
+      <EditTaskModal
+        id={id}
+        description={description}
+        due={due}
+        createdAt={createdAt}
+        category={category}
+        priority={priority}
+        status={status}
+        isOpen={isOpen}
+        onClose={onClose}
+        updatedAt={updatedAt}
+        userId={userId}
+        key={id}
+      />
     </Card>
   );
 }

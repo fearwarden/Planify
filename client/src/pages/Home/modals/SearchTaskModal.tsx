@@ -84,6 +84,8 @@ function SearchTaskModal({ isOpen, onClose }: ModalDataType) {
                           category={task.category}
                           priority={task.priority}
                           status={task.status}
+                          updatedAt={task.updatedAt}
+                          userId={task.userId}
                           onContextMenu={() => {}}
                         />
                       </div>
