@@ -37,7 +37,6 @@ function Task({
   onContextMenu,
 }: TaskDataProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -53,15 +52,6 @@ function Task({
     },
   });
 
-  const handleIsEditModalOpen = () => {
-    onOpen();
-    setIsSettingsOpen(false);
-  };
-
-  const handleIsSettingsOpen = () => {
-    setIsSettingsOpen(!isSettingsOpen);
-  };
-
   const handleCompleteTask = () => {
     if (status.toUpperCase() === TaskStatus.COMPLETE) {
       setErrorMessage("Task is already completed.");
@@ -76,13 +66,9 @@ function Task({
     >
       <CardHeader className="flex gap-3 justify-between">
         <p className="text-lg">{description}</p>
-        <Popover
-          placement="right-end"
-          color="foreground"
-          isOpen={isSettingsOpen}
-        >
+        <Popover placement="right-end" color="foreground">
           <PopoverTrigger>
-            <button onClick={handleIsSettingsOpen}>
+            <button>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -101,11 +87,7 @@ function Task({
           </PopoverTrigger>
           <PopoverContent>
             <div className="flex flex-col gap-2 items-cente">
-              <Button
-                className="text-white"
-                variant="light"
-                onClick={handleIsEditModalOpen}
-              >
+              <Button className="text-white" variant="light" onClick={onOpen}>
                 Edit
               </Button>
               <Button className="text-white" variant="light">

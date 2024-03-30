@@ -49,9 +49,12 @@ public class TaskServiceImpl implements TaskService {
             Integer statusId,
             UserEntity user
     ) {
-        CategoryEntity category = this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
-        PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
-        StatusEntity status = this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
+        CategoryEntity category =
+                this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
+        PriorityEntity priority =
+                this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
+        StatusEntity status =
+                this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
 
         LocalDateTime dueConverted = HelperFunctions.convertStringToLocalDateTime(due);
 
@@ -68,7 +71,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<TaskDto> getAllTasksForUser(UserEntity user, Integer page) {
-        Pageable pageable = PageRequest.of(page - 1, this.PAGINATION_SIZE, Sort.by("due").descending());
+        Pageable pageable =
+                PageRequest.of(page - 1, this.PAGINATION_SIZE, Sort.by("due").descending());
         Page<TaskEntity> taskEntities = this.taskRepository.findByUserEntityOrderByDueDesc(user, pageable);
         List<TaskDto> taskDtos = taskEntities.stream()
                 .map(TaskDto::new)
@@ -83,11 +87,21 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void updateTask(String id, String description, Integer categoryId, Integer priorityId, Integer statusId, String due) {
-        TaskEntity task = this.taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
-        CategoryEntity category = this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
-        PriorityEntity priority = this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
-        StatusEntity status = this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
+    public void updateTask(
+            String id,
+            String description,
+            Integer categoryId,
+            Integer priorityId,
+            Integer statusId, String due
+    ) {
+        TaskEntity task =
+                this.taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
+        CategoryEntity category =
+                this.categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
+        PriorityEntity priority =
+                this.priorityRepository.findById(priorityId).orElseThrow(PriorityNotFoundException::new);
+        StatusEntity status =
+                this.statusRepository.findById(statusId).orElseThrow(StatusNotFoundException::new);
 
         task.setDescription(description);
         task.setDue(HelperFunctions.convertStringToLocalDateTime(due));
