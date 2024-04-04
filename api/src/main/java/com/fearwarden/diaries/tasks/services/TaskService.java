@@ -5,10 +5,7 @@ import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataMetricsDto;
 import com.fearwarden.diaries.users.models.UserEntity;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskService {

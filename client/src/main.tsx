@@ -6,19 +6,17 @@ import "@/index.css";
 import Router from "@/routes/Router";
 import { store } from "@/store/store";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { NextUIProvider } from "@nextui-org/react";
+import { ThemeProvider } from "./theme-provider";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <Provider store={store}>
-      <NextUIProvider>
-        <main className="dark text-foreground bg-background">
-          <RouterProvider router={Router.router} />
-          <ReactQueryDevtools />
-        </main>
-      </NextUIProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <RouterProvider router={Router.router} />
+        <ReactQueryDevtools />
+      </ThemeProvider>
     </Provider>
   </QueryClientProvider>
 );
