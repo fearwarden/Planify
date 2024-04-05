@@ -1,25 +1,17 @@
-import path from "path";
-
-import { columns } from "./components/columns";
-import DataTable from "./components/data-table";
-import { keepPreviousData, useQueries } from "@tanstack/react-query";
+import DataTable from "./components/DataTable";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { fetchTasks } from "@/api/task/task";
 import { useState } from "react";
-import { TaskDataType } from "@/types/TaskType";
 
 function Tasks() {
   const [page, setPage] = useState<number>(1);
-  const [taskQuery] = useQueries({
-    queries: [
-      {
-        queryKey: ["tasks", page],
-        queryFn: () => fetchTasks(page),
-        placeholderData: keepPreviousData, // displaying previous data while fetching new data
-      },
-    ],
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: ["tasks", page],
+    queryFn: () => fetchTasks(page),
+    placeholderData: keepPreviousData, // displaying previous data while fetching new data
   });
-  if (taskQuery.isPending) return <span>Loading...</span>;
-  if (taskQuery.isError) return <span>Error: {taskQuery.error.message}</span>;
+  if (isPending) return <span>Loading...</span>;
+  if (isError) return <span>Error: {error.message}</span>;
   return (
     <>
       <div className="md:hidden"></div>
@@ -28,12 +20,12 @@ function Tasks() {
           <div>
             <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
             <p className="text-muted-foreground">
-              Here&apos;s a list of your tasks for this month!
+              Here&apos;s a list of your most recent tasks!
             </p>
           </div>
           <div className="flex items-center space-x-2"></div>
         </div>
-        <DataTable data={taskQuery.data?.content} columns={columns} />
+        <DataTable data={data} page={page} />
       </div>
     </>
   );
