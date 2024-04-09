@@ -1,6 +1,7 @@
 package com.fearwarden.diaries.tasks.services.implementations;
 
 import com.fearwarden.diaries.SpecificationBuilder;
+import com.fearwarden.diaries.tasks.dto.response.CompleteTaskStatisticsDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataMetricsDto;
@@ -181,5 +182,13 @@ public class TaskServiceImpl implements TaskService {
             categoryMetrics.put(row[0].toString(), (Long) row[1]);
         }
         return new TaskMetadataMetricsDto(statusMetrics, priorityMetrics, categoryMetrics);
+    }
+
+    @Override
+    public CompleteTaskStatisticsDto completeTaskStatistics(UserEntity user) {
+        long totalNumberOfTasks = taskRepository.countAllByUserEntity(user);
+        StatusEntity completeStatus = statusRepository.findCompleteStatus();
+        long completedTasks = taskRepository.countByStatusEntityAndUserEntity(completeStatus, user);
+        return new CompleteTaskStatisticsDto(completedTasks, totalNumberOfTasks);
     }
 }

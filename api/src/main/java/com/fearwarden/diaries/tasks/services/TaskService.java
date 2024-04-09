@@ -1,5 +1,6 @@
 package com.fearwarden.diaries.tasks.services;
 
+import com.fearwarden.diaries.tasks.dto.response.CompleteTaskStatisticsDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataMetricsDto;
@@ -19,4 +20,5 @@ public interface TaskService {
     List<TaskDto> searchTasks(String params, UserEntity user);
     void completeTask(String id);
     TaskMetadataMetricsDto countTasksByMetadata(UserEntity user);
+    CompleteTaskStatisticsDto completeTaskStatistics(UserEntity user);
 }
