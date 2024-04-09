@@ -44,14 +44,6 @@ function DataTableFacetedFilter({
     dispatch(filter(payload));
   };
 
-  const clearFilters = () => {
-    const payload: FilterState = {
-      isActive: false,
-      filter: "",
-      type: "",
-    };
-    dispatch(filter(payload));
-  };
   return (
     <div className="flex gap-5">
       <Popover>
@@ -105,11 +97,6 @@ function DataTableFacetedFilter({
           </RadioGroup>
         </PopoverContent>
       </Popover>
-      {filters.isActive && (
-        <Button size="sm" variant="outline" onClick={clearFilters}>
-          Clear Filter
-        </Button>
-      )}
     </div>
   );
 }
