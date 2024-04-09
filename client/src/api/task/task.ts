@@ -3,6 +3,7 @@ import {
   TaskResponse,
   TaskMetadataResponse,
   TaskDataType,
+  CompleteTaskMetadata,
 } from "@/types/TaskType";
 import { AxiosResponse } from "axios";
 
@@ -60,3 +61,9 @@ export const completeTask = async (id: string): Promise<AxiosResponse> => {
 export const taskMetadataMetrics = async (): Promise<AxiosResponse> => {
   return await api.get("/api/v1/tasks/count-by-metadata");
 };
+
+export const completedTaskMetadata =
+  async (): Promise<CompleteTaskMetadata> => {
+    const data = await api.get("/api/v1/tasks/complete-metadata");
+    return data.data;
+  };

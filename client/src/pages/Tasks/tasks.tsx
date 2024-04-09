@@ -1,17 +1,48 @@
 import DataTable from "./components/DataTable";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { fetchTasks } from "@/api/task/task";
+import { keepPreviousData, useQueries } from "@tanstack/react-query";
+import { fetchTasks, fetchTasksFiltered } from "@/api/task/task";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 function Tasks() {
   const [page, setPage] = useState<number>(1);
-  const { data, isPending, isError, error } = useQuery({
-    queryKey: ["tasks", page],
-    queryFn: () => fetchTasks(page),
-    placeholderData: keepPreviousData, // displaying previous data while fetching new data
+  const [filterPage, setFilterPage] = useState<number>(1);
+  const filter = useSelector((state: RootState) => state.filters);
+
+  const [taskQuery, filterTaskQuery] = useQueries({
+    queries: [
+      {
+        queryKey: ["tasks", page],
+        queryFn: () => fetchTasks(page),
+        placeholderData: keepPreviousData, // displaying previous data while fetching new data
+      },
+      {
+        queryKey: ["tasks", filterPage, filter.filter],
+        queryFn: () =>
+          fetchTasksFiltered(filterPage, filter.type, filter.filter),
+        placeholderData: keepPreviousData,
+        enabled: filter.isActive,
+      },
+    ],
   });
-  if (isPending) return <span>Loading...</span>;
-  if (isError) return <span>Error: {error.message}</span>;
+
+  function handlePageCallback(data: number) {
+    setPage(data);
+    taskQuery.refetch();
+  }
+
+  function handleFilterPageCallback(data: number) {
+    setFilterPage(data);
+    filterTaskQuery.refetch();
+  }
+
+  if (taskQuery.isPending) return <span>Loading Tasks...</span>;
+  if (taskQuery.isError) return <span>Error: {taskQuery.error.message}</span>;
+  if (filter.isActive && filterTaskQuery.isPending)
+    return <span>Loading Filter tasks...</span>;
+  if (filter.isActive && filterTaskQuery.isError)
+    return <span>Error: {filterTaskQuery.error.message}</span>;
   return (
     <>
       <div className="md:hidden"></div>
@@ -25,7 +56,19 @@ function Tasks() {
           </div>
           <div className="flex items-center space-x-2"></div>
         </div>
-        <DataTable data={data} page={page} />
+        {filter.isActive && filterTaskQuery.data ? (
+          <DataTable
+            data={filterTaskQuery.data}
+            page={filterPage}
+            callback={handleFilterPageCallback}
+          />
+        ) : (
+          <DataTable
+            data={taskQuery.data}
+            page={page}
+            callback={handlePageCallback}
+          />
+        )}
       </div>
     </>
   );

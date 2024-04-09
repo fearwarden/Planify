@@ -9,15 +9,18 @@ import {
 import { TaskResponse } from "@/types/TaskType";
 import DataTablePagination from "./DataTablePagination";
 import { ApiResponse } from "@/hooks/api";
+import DataTableToolbar from "./DataTableToolbar";
 
 interface DataTableProps {
   data: ApiResponse<TaskResponse>;
   page: number;
+  callback: (data: number) => void;
 }
 
-function DataTable({ data, page }: DataTableProps) {
+function DataTable({ data, page, callback }: DataTableProps) {
   return (
     <div className="space-y-4">
+      <DataTableToolbar />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -48,6 +51,7 @@ function DataTable({ data, page }: DataTableProps) {
         page={page}
         pageSize={data.size}
         totalPageNumber={data.totalPages}
+        callback={callback}
       />
     </div>
   );
