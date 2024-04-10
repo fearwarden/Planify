@@ -4,6 +4,17 @@ import {
   ArrowUpIcon,
   ArrowDownIcon,
   ArrowRightIcon,
+  PersonIcon,
+  CookieIcon,
+  FileTextIcon,
+  SketchLogoIcon,
+  MagicWandIcon,
+  LaptopIcon,
+  TokensIcon,
+  ClockIcon,
+  CheckCircledIcon,
+  QuestionMarkCircledIcon,
+  LapTimerIcon,
 } from "@radix-ui/react-icons";
 
 import DataTableFacetedFilter from "./DataTableFacetedFilter";
@@ -32,9 +43,15 @@ function DataTableToolbar() {
         <DataTableFacetedFilter
           title="category"
           options={[
-            { label: "work", icon: DesktopIcon },
-            { label: "personal", icon: DesktopIcon },
-            { label: "health", icon: DesktopIcon },
+            { label: "work", icon: LaptopIcon },
+            { label: "personal", icon: PersonIcon },
+            { label: "health", icon: CookieIcon },
+            { label: "education", icon: FileTextIcon },
+            { label: "finance", icon: SketchLogoIcon },
+            { label: "urgent", icon: ClockIcon },
+            { label: "ideas", icon: MagicWandIcon },
+            { label: "games", icon: DesktopIcon },
+            { label: "other", icon: TokensIcon },
           ]}
         />
         <DataTableFacetedFilter
@@ -43,6 +60,14 @@ function DataTableToolbar() {
             { label: "HIGH", icon: ArrowUpIcon },
             { label: "MEDIUM", icon: ArrowRightIcon },
             { label: "LOW", icon: ArrowDownIcon },
+          ]}
+        />
+        <DataTableFacetedFilter
+          title="status"
+          options={[
+            { label: "COMPLETE", icon: CheckCircledIcon },
+            { label: "PROGRESS", icon: QuestionMarkCircledIcon },
+            { label: "ON HOLD", icon: LapTimerIcon },
           ]}
         />
         {filters.isActive && (
