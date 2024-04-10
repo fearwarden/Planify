@@ -1,6 +1,5 @@
 import { Input } from "@/components/ui/input";
 import {
-  DesktopIcon,
   ArrowUpIcon,
   ArrowDownIcon,
   ArrowRightIcon,
@@ -15,6 +14,8 @@ import {
   CheckCircledIcon,
   QuestionMarkCircledIcon,
   LapTimerIcon,
+  KeyboardIcon,
+  TrashIcon,
 } from "@radix-ui/react-icons";
 
 import DataTableFacetedFilter from "./DataTableFacetedFilter";
@@ -50,7 +51,7 @@ function DataTableToolbar() {
             { label: "finance", icon: SketchLogoIcon },
             { label: "urgent", icon: ClockIcon },
             { label: "ideas", icon: MagicWandIcon },
-            { label: "games", icon: DesktopIcon },
+            { label: "games", icon: KeyboardIcon },
             { label: "other", icon: TokensIcon },
           ]}
         />
@@ -72,7 +73,7 @@ function DataTableToolbar() {
         />
         {filters.isActive && (
           <Button size="sm" variant="outline" onClick={clearFilters}>
-            Clear Filter
+            {<TrashIcon />} Clear Filter
           </Button>
         )}
       </div>
