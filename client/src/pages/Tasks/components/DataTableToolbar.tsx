@@ -23,9 +23,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { filter, FilterState } from "@/store/slice/filterSlice";
 import { Button } from "@/components/ui/button";
+import CreateTask from "../modals/CreateTask";
+
 function DataTableToolbar() {
   const dispatch = useDispatch();
   const filters = useSelector((state: RootState) => state.filters);
+
   const clearFilters = () => {
     const payload: FilterState = {
       isActive: false,
@@ -34,12 +37,16 @@ function DataTableToolbar() {
     };
     dispatch(filter(payload));
   };
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter tasks..."
           className="h-8 w-[150px] lg:w-[250px]"
+          placeholder="Filter tasks..."
+          onClick={() => {
+            console.log("sadasd");
+          }}
         />
         <DataTableFacetedFilter
           title="category"
@@ -77,6 +84,7 @@ function DataTableToolbar() {
           </Button>
         )}
       </div>
+      <CreateTask />
     </div>
   );
 }

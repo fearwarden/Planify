@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 
 interface DataTableFacetedFilterProps {
-  title?: string;
+  title: string;
   options: {
     label: string;
     icon?: React.ComponentType<{ className?: string }>;
@@ -34,7 +34,6 @@ function DataTableFacetedFilter({
   const filters = useSelector((state: RootState) => state.filters);
 
   const handleFilter = (params: string) => {
-    if (!title) return;
     setSelectedFilter(params);
     const payload: FilterState = {
       isActive: true,

@@ -10,6 +10,7 @@ import { TaskResponse } from "@/types/TaskType";
 import DataTablePagination from "./DataTablePagination";
 import { ApiResponse } from "@/hooks/api";
 import DataTableToolbar from "./DataTableToolbar";
+import DataTableRowAction from "./DataTableRowAction";
 
 interface DataTableProps {
   data: ApiResponse<TaskResponse>;
@@ -31,6 +32,7 @@ function DataTable({ data, page, callback }: DataTableProps) {
               <TableHead>Category</TableHead>
               <TableHead>Priority</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -42,6 +44,9 @@ function DataTable({ data, page, callback }: DataTableProps) {
                 <TableCell>{task.category}</TableCell>
                 <TableCell>{task.priority}</TableCell>
                 <TableCell>{task.status}</TableCell>
+                <TableCell>
+                  <DataTableRowAction data={task} />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
