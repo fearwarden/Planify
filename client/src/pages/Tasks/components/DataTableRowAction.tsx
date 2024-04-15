@@ -17,12 +17,23 @@ import {
 } from "@/components/ui/command";
 import { TaskResponse } from "@/types/TaskType";
 import EditTaskModal from "../modals/EditTaskModal";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteTask } from "@/api/task/task";
 
 export interface DataTableRowActionProps<TData> {
   data: TData;
 }
 
 function DataTableRowAction({ data }: DataTableRowActionProps<TaskResponse>) {
+  const queryClient = useQueryClient();
+
+  const deleteTaskMutation = useMutation({
+    mutationFn: deleteTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+
   return (
     <Popover>
       <PopoverTrigger asChild className="hover:cursor-pointer">
@@ -35,7 +46,7 @@ function DataTableRowAction({ data }: DataTableRowActionProps<TaskResponse>) {
               <CommandItem className="gap-2 hover:cursor-pointer">
                 <EditTaskModal taskData={data} />
               </CommandItem>
-              <a>
+              <a onClick={() => deleteTaskMutation.mutate(data.id)}>
                 <CommandItem className="gap-2 hover:cursor-pointer">
                   <TrashIcon />
                   <span>Delete</span>
