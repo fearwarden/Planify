@@ -15,16 +15,21 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { TaskResponse } from "@/types/TaskType";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { TaskResponse, TaskStatus } from "@/types/TaskType";
 import EditTaskModal from "../modals/EditTaskModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteTask } from "@/api/task/task";
+import { completeTask, deleteTask } from "@/api/task/task";
+import { AxiosResponse } from "axios";
+import { useState } from "react";
 
 export interface DataTableRowActionProps<TData> {
   data: TData;
 }
 
 function DataTableRowAction({ data }: DataTableRowActionProps<TaskResponse>) {
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
   const queryClient = useQueryClient();
 
   const deleteTaskMutation = useMutation({
@@ -33,6 +38,26 @@ function DataTableRowAction({ data }: DataTableRowActionProps<TaskResponse>) {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },
   });
+
+  const completeTaskMutation = useMutation({
+    mutationFn: completeTask,
+    onError: (error: AxiosResponse) => {
+      setErrorMessage(error.request.response);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tasks"],
+      });
+    },
+  });
+
+  const handleCompleteTask = () => {
+    if (data.status.toUpperCase() === TaskStatus.COMPLETE) {
+      alert("Task is already completed.");
+      return;
+    }
+    completeTaskMutation.mutate(data.id);
+  };
 
   return (
     <Popover>
@@ -52,13 +77,22 @@ function DataTableRowAction({ data }: DataTableRowActionProps<TaskResponse>) {
                   <span>Delete</span>
                 </CommandItem>
               </a>
-              <a>
+              <a onClick={handleCompleteTask}>
                 <CommandItem className="gap-2 hover:cursor-pointer">
                   <CheckCircledIcon />
-                  <span>Complete</span>
+
+                  {data.status.toUpperCase() === TaskStatus.COMPLETE
+                    ? "Completed"
+                    : "Complete"}
                 </CommandItem>
               </a>
             </CommandGroup>
+            {errorMessage && (
+              <Alert variant="destructive">
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{errorMessage}</AlertDescription>
+              </Alert>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>

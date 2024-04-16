@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input";
 import {
   ArrowUpIcon,
   ArrowDownIcon,
@@ -24,6 +23,7 @@ import { RootState } from "@/store/store";
 import { filter, FilterState } from "@/store/slice/filterSlice";
 import { Button } from "@/components/ui/button";
 import CreateTask from "../modals/CreateTask";
+import SearchTasksModal from "../modals/SearchTasksModal";
 
 function DataTableToolbar() {
   const dispatch = useDispatch();
@@ -41,13 +41,7 @@ function DataTableToolbar() {
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
-        <Input
-          className="h-8 w-[150px] lg:w-[250px]"
-          placeholder="Filter tasks..."
-          onClick={() => {
-            console.log("sadasd");
-          }}
-        />
+        <SearchTasksModal />
         <DataTableFacetedFilter
           title="category"
           options={[

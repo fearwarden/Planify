@@ -29,7 +29,7 @@ import { TaskDataType, TaskResponse } from "@/types/TaskType";
 import { TaskSchema } from "@/validation/schemas";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 
-export interface EditTaskModalProps<T> {
+interface EditTaskModalProps<T> {
   taskData: T;
 }
 
@@ -97,7 +97,6 @@ function EditTaskModal({ taskData }: EditTaskModalProps<TaskResponse>) {
 
   if (open && isPending) return <span>Loading...</span>;
   if (open && isError) return <span>Error: {error.message}</span>;
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="w-full">
