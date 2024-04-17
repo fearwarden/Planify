@@ -3,10 +3,6 @@ import {
   ArrowDownIcon,
   ArrowRightIcon,
   PersonIcon,
-  CookieIcon,
-  FileTextIcon,
-  SketchLogoIcon,
-  MagicWandIcon,
   LaptopIcon,
   TokensIcon,
   ClockIcon,
@@ -16,6 +12,12 @@ import {
   KeyboardIcon,
   TrashIcon,
 } from "@radix-ui/react-icons";
+import {
+  CircleDollarSign,
+  Lightbulb,
+  HeartPulse,
+  GraduationCap,
+} from "lucide-react";
 
 import DataTableFacetedFilter from "./DataTableFacetedFilter";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,11 +49,11 @@ function DataTableToolbar() {
           options={[
             { label: "work", icon: LaptopIcon },
             { label: "personal", icon: PersonIcon },
-            { label: "health", icon: CookieIcon },
-            { label: "education", icon: FileTextIcon },
-            { label: "finance", icon: SketchLogoIcon },
+            { label: "health", icon: HeartPulse },
+            { label: "education", icon: GraduationCap },
+            { label: "finance", icon: CircleDollarSign },
             { label: "urgent", icon: ClockIcon },
-            { label: "ideas", icon: MagicWandIcon },
+            { label: "ideas", icon: Lightbulb },
             { label: "games", icon: KeyboardIcon },
             { label: "other", icon: TokensIcon },
           ]}
