@@ -1,46 +1,127 @@
-import SearchTaskModal from "@/pages/Home/modals/SearchTaskModal";
-import { useDisclosure } from "@nextui-org/react";
+import { HOME } from "@/constants/constants";
+import { Link } from "react-router-dom";
+import { CircleUser, Menu, ClipboardCheck } from "lucide-react";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 function NavBar() {
-  const { isOpen, onClose, onOpen } = useDisclosure();
-
   return (
-    <div className="h-[140px] w-full overflow-hidden pb-2.5">
-      <div className="mt-2.5 flex h-full w-full flex-col rounded-[28px] bg-black bg-opacity-60 bg-blend-normal">
-        <div className="h-[140px] flex items-center justify-between px-4">
-          <form className="max-w-sm px-4">
-            <a className="relative cursor-pointer" onClick={onOpen}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </a>
-          </form>
-          <div className="flex-grow flex justify-center">
-            <div className="flex space-x-6 text-white">
-              <div className="cursor-pointer">Tasks</div>
-              <div className="cursor-pointer">Sticky Notes</div>
-              <div className="cursor-pointer">Calories</div>
-              <div className="cursor-pointer">Drive</div>
-            </div>
-          </div>
-          <div className="mr-4">
-            <div className="text-white cursor-pointer">Profile</div>
-          </div>
-        </div>
+    <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+      <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+        <Link
+          to={""}
+          className="flex items-center gap-2 text-lg font-semibold md:text-base"
+        >
+          <ClipboardCheck className="h-6 w-6" />
+          <span className="sr-only">Icon</span>
+        </Link>
+        <Link
+          to={HOME}
+          className="text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Tasks
+        </Link>
+        <Link
+          to={""}
+          className="text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Notes
+        </Link>
+        <Link
+          to={""}
+          className="text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Calories
+        </Link>
+        <Link
+          to={""}
+          className="text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Drive
+        </Link>
+        <Link
+          to={""}
+          className="text-foreground transition-colors hover:text-foreground"
+        >
+          Settings
+        </Link>
+      </nav>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+            <Menu className="h-5 w-5" />
+            <span className="sr-only">Toggle navigation menu</span>
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left">
+          <nav className="grid gap-6 text-lg font-medium">
+            <Link
+              to={""}
+              className="flex items-center gap-2 text-lg font-semibold"
+            >
+              <ClipboardCheck className="h-6 w-6" />
+              <span className="sr-only">Acme Inc</span>
+            </Link>
+            <Link
+              to={""}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Tasks
+            </Link>
+            <Link
+              to={""}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Sticky Notes
+            </Link>
+            <Link
+              to={""}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Calories
+            </Link>
+            <Link
+              to={""}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Drive
+            </Link>
+            <Link to={""} className="hover:text-foreground">
+              Settings
+            </Link>
+          </nav>
+        </SheetContent>
+      </Sheet>
+      <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            asChild
+            className="ml-auto flex-1 sm:flex-initial"
+          >
+            <Button variant="secondary" size="icon" className="rounded-full">
+              <CircleUser className="h-5 w-5" />
+              <span className="sr-only">Toggle user menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      <SearchTaskModal isOpen={isOpen} onClose={onClose} />
-    </div>
+    </header>
   );
 }
 
