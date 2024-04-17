@@ -2,6 +2,7 @@ package com.fearwarden.diaries.tasks.controllers;
 
 import com.fearwarden.diaries.tasks.dto.request.CreateTaskDto;
 import com.fearwarden.diaries.tasks.dto.request.UpdateTaskDto;
+import com.fearwarden.diaries.tasks.dto.response.CompleteTaskStatisticsDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataMetricsDto;
@@ -108,5 +109,11 @@ public class TaskController {
     public ResponseEntity<TaskMetadataMetricsDto> countByMetadata(@AuthenticationPrincipal UserEntity user) {
         TaskMetadataMetricsDto metrics = taskService.countTasksByMetadata(user);
         return ResponseEntity.ok(metrics);
+    }
+
+    @GetMapping("/complete-metadata")
+    public ResponseEntity<CompleteTaskStatisticsDto> completedTasksMetadata(@AuthenticationPrincipal UserEntity user) {
+        CompleteTaskStatisticsDto statistics = taskService.completeTaskStatistics(user);
+        return ResponseEntity.ok(statistics);
     }
 }

@@ -1,14 +1,12 @@
 package com.fearwarden.diaries.tasks.services;
 
+import com.fearwarden.diaries.tasks.dto.response.CompleteTaskStatisticsDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataDto;
 import com.fearwarden.diaries.tasks.dto.response.TaskMetadataMetricsDto;
 import com.fearwarden.diaries.users.models.UserEntity;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskService {
@@ -22,4 +20,5 @@ public interface TaskService {
     List<TaskDto> searchTasks(String params, UserEntity user);
     void completeTask(String id);
     TaskMetadataMetricsDto countTasksByMetadata(UserEntity user);
+    CompleteTaskStatisticsDto completeTaskStatistics(UserEntity user);
 }

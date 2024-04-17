@@ -1,5 +1,6 @@
 package com.fearwarden.diaries.tasks.repositories;
 
+import com.fearwarden.diaries.tasks.models.StatusEntity;
 import com.fearwarden.diaries.tasks.models.TaskEntity;
 import com.fearwarden.diaries.users.models.UserEntity;
 import org.springframework.data.domain.Page;
@@ -20,5 +21,7 @@ public interface TaskRepository extends JpaRepository<TaskEntity, UUID>, JpaSpec
     List<Object[]> countTaskEntitiesByPriorityEntity(@Param("userId") UUID userId);
     @Query("SELECT t.categoryEntity.name, COUNT(t) from TaskEntity t WHERE t.userEntity.id = :userId GROUP BY t.categoryEntity.id")
     List<Object[]> countTaskEntitiesByCategoryEntity(@Param("userId") UUID userId);
+    long countAllByUserEntity(UserEntity user);
+    long countByStatusEntityAndUserEntity(StatusEntity statusEntity, UserEntity user);
 }
 

@@ -66,3 +66,8 @@ export enum TaskMetadata {
   CATEGORY = "category",
   PRIORITY = "priority",
 }
+
+export type CompleteTaskMetadata = {
+  completedTasks: number;
+  totalNumberOfTasks: number;
+};
