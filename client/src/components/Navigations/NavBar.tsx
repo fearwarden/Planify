@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ModeToggle } from "./ModeToggle";
 
 function NavBar() {
   return (
@@ -101,11 +102,11 @@ function NavBar() {
         </SheetContent>
       </Sheet>
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+        <div className="ml-auto flex-1 sm:flex-initial">
+          <ModeToggle />
+        </div>
         <DropdownMenu>
-          <DropdownMenuTrigger
-            asChild
-            className="ml-auto flex-1 sm:flex-initial"
-          >
+          <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
               <CircleUser className="h-5 w-5" />
               <span className="sr-only">Toggle user menu</span>
