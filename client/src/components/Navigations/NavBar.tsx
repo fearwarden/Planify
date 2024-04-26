@@ -1,4 +1,4 @@
-import { HOME } from "@/constants/constants";
+import { HOME, USER_ACCOUNT } from "@/constants/constants";
 import { Link } from "react-router-dom";
 import { CircleUser, Menu, ClipboardCheck } from "lucide-react";
 import { Button } from "../ui/button";
@@ -113,9 +113,11 @@ function NavBar() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>User Settings</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <Link to={USER_ACCOUNT}>
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+            </Link>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Logout</DropdownMenuItem>
