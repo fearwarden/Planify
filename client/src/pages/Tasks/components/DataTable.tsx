@@ -54,7 +54,6 @@ function DataTable({ data, page, callback }: DataTableProps) {
       </div>
       <DataTablePagination
         page={page}
-        pageSize={data.size}
         totalPageNumber={data.totalPages}
         callback={callback}
       />

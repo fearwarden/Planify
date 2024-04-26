@@ -6,13 +6,6 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { completedTaskMetadata } from "@/api/task/task";
@@ -20,17 +13,14 @@ import { completedTaskMetadata } from "@/api/task/task";
 interface DataTablePaginationProps {
   page: number;
   totalPageNumber: number;
-  pageSize: number;
   callback: (data: number) => void;
 }
 
 function DataTablePagination({
   page,
-  pageSize,
   totalPageNumber,
   callback,
 }: DataTablePaginationProps) {
-  const [pageSizeState, setPageSizeState] = useState<number>(pageSize);
   const [localPage, setLocalPage] = useState<number>(page);
 
   const { data, isError, isPending, error } = useQuery({
@@ -66,25 +56,7 @@ function DataTablePagination({
       <div className="flex-1 text-sm text-muted-foreground">
         {data.completedTasks} of {data.totalNumberOfTasks} tasks completed.
       </div>
-      <div className="flex items-center space-x-6">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
-          <Select
-            defaultValue={`${pageSizeState}`}
-            onValueChange={(value) => setPageSizeState(parseInt(value))}
-          >
-            <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue placeholder={pageSizeState} />
-            </SelectTrigger>
-            <SelectContent side="top">
-              {[10, 20, 30, 40, 50].map((el) => (
-                <SelectItem key={el} value={`${el}`}>
-                  {el}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="flex items-center space-x-1">
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
           Page {page} of {totalPageNumber}
         </div>
