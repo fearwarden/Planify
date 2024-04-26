@@ -1,6 +1,7 @@
 package com.fearwarden.diaries.tasks.dto.response;
 
 import com.fearwarden.diaries.tasks.models.TaskEntity;
+import com.fearwarden.diaries.tasks.tools.HelperFunctions;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -9,9 +10,9 @@ import java.time.LocalDateTime;
 public class TaskDto {
     private String id;
     private String description;
-    private LocalDateTime due;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String due;
+    private String createdAt;
+    private String updatedAt;
     private String userId;
     private String category;
     private String priority;
@@ -20,9 +21,9 @@ public class TaskDto {
     public TaskDto(TaskEntity task) {
         this.id = task.getId().toString();
         this.description = task.getDescription();
-        this.due = task.getDue();
-        this.createdAt = task.getCreatedAt();
-        this.updatedAt = task.getUpdatedAt();
+        this.due = HelperFunctions.convertDateToString(task.getDue());
+        this.createdAt = HelperFunctions.convertDateToString(task.getCreatedAt());
+        this.updatedAt = HelperFunctions.convertDateToString(task.getUpdatedAt());
         this.userId = task.getUserEntity().getId().toString();
         this.category = task.getCategoryEntity().getName();
         this.priority = task.getPriorityEntity().getLevel();

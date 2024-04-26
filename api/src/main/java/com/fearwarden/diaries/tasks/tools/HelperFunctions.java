@@ -21,4 +21,9 @@ public class HelperFunctions {
             throw new RuntimeException(e);
         }
     }
+
+    public static String convertDateToString(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d. yyyy, HH:mm");
+        return formatter.format(date);
+    }
 }
