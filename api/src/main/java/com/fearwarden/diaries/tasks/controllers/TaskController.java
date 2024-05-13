@@ -43,7 +43,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<TaskDto>> getAllTasksForUser(
+    public ResponseEntity<Page<TaskDto>> getAllTasks(
                 @AuthenticationPrincipal UserEntity user,
                 @RequestParam(name = "page") Integer page
             ) {
