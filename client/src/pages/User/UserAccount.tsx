@@ -14,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 
 function UserAccount() {
   const user = useSelector((state: RootState) => state.users);
+
   return (
     <div className="h-screen w-screen flex flex-col items-center gap-16 p-8">
       <div>
@@ -21,7 +22,7 @@ function UserAccount() {
           {user.firstName + " " + user.lastName + "'s"} account
         </h2>
         <p className="text-muted-foreground">
-          Here you can see and edit your personal informations
+          Here you can see and edit your personal information
         </p>
       </div>
       <div>

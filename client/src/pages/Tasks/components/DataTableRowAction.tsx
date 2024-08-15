@@ -23,8 +23,8 @@ import { completeTask, deleteTask } from "@/api/task/task";
 import { AxiosResponse } from "axios";
 import { useState } from "react";
 
-export interface DataTableRowActionProps<TData> {
-  data: TData;
+export interface DataTableRowActionProps<T> {
+  data: T;
 }
 
 function DataTableRowAction({ data }: DataTableRowActionProps<TaskResponse>) {

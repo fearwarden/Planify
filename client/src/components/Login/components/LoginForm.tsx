@@ -1,12 +1,28 @@
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button.tsx";
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { AlertCircle } from "lucide-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/hooks/api";
 import { login } from "@/store/slice/userSlice";
 import { HOME } from "@/constants/constants";
 import { LoginDataType } from "@/types/AuthenticationTypes";
 import { LoginSchema } from "@/validation/schemas";
+import LoginSvg from "@/assets/img/login.svg"
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -60,118 +76,74 @@ function LoginForm() {
     }, 10000);
   });
   return (
-    <div
-      className="w-11/12 p-12 rounded-[28px] bg-black bg-opacity-60 bg-blend-normal sm:w-8/12 md:w-1/2 lg:w-5/12 relative lg:px-24 border-2 border-green-500/20"
-      style={{
-        maxWidth: "900px",
-        boxShadow: "0 64px 64px -32px rgba(0, 10, 10, 0.9)",
-      }}
-    >
-      {" "}
-      <h1 className="text-3xl font-bold text-white select-none">Login</h1>
-      <h1 className="text-xl font-semibold text-white select-none pt-4">
-        Welcome Back, Please login to your account.
-      </h1>
-      <div className="mt-6">
-        <label
-          htmlFor="email"
-          className="block text-lg font-normal text-white select-none	"
-        >
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          name="email"
-          placeholder="example@example.com"
-          autoComplete="email"
-          className="block w-full pl-6 mt-2 text-gray-700 bg-white appearance-none focus:outline-none focus:bg-gray-200 focus:shadow-inner rounded-xl h-14 border-2"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label
-          htmlFor="password"
-          className="block mt-8 text-lg font-normal text-white select-none	"
-        >
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          placeholder="********"
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="block w-full pl-6 mt-2 text-gray-700 bg-white appearance-none focus:outline-none focus:bg-gray-100 focus:shadow-inner rounded-xl h-14 border-2"
-          required
-        />
-        <div className="flex">
-          <label className="flex mt-3 text-md text-white cursor-pointer hover:text-gray-200 mr-auto select-none">
-            <input type="checkbox" className="mr-2" />
-            Remember Me
-          </label>
-          <p className="flex justify-end mt-3 text-md text-white cursor-pointer hover:text-gray-200 select-none">
-            Forgot password?
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={handleLogin}
-          className="w-full py-4 mt-9 font-medium tracking-widest text-white uppercase bg-green-600 shadow-lg focus:outline-none hover:bg-gray-950 hover:shadow-none rounded-xl"
-        >
-          Sign in
-        </button>
-
-        {errorMessage && <p>{errorMessage}</p>}
-
-        <div className="flex flex-col items-center w-full mt-10">
-          <p className="text-md text-white select-none">or continue with</p>
-        </div>
-        <div className="flex items-center w-full mt-2">
-          <div className="w-full md:w-1/3 px-3 pt-4 mx-2">
-            <button className="appearance-none flex items-center justify-center w-full bg-white shadow border rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
-              <svg
-                className="h-6 w-6 fill-current text-gray-700"
-                viewBox="0 0 512 512"
-              >
-                <path d="M455.27,32H56.73A24.74,24.74,0,0,0,32,56.73V455.27A24.74,24.74,0,0,0,56.73,480H256V304H202.45V240H256V189c0-57.86,40.13-89.36,91.82-89.36,24.73,0,51.33,1.86,57.51,2.68v60.43H364.15c-28.12,0-33.48,13.3-33.48,32.9V240h67l-8.75,64H330.67V480h124.6A24.74,24.74,0,0,0,480,455.27V56.73A24.74,24.74,0,0,0,455.27,32Z" />
-              </svg>
-            </button>
-          </div>
-          <div className="w-full md:w-1/3 px-3 pt-4 mx-2">
-            <button className="appearance-none flex items-center justify-center w-full bg-white shadow border rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
-              <svg
-                className="h-6 w-6 fill-current text-gray-700"
-                viewBox="0 0 512 512"
-              >
-                <path d="M455.27,32H56.73A24.74,24.74,0,0,0,32,56.73V455.27A24.74,24.74,0,0,0,56.73,480H256V304H202.45V240H256V189c0-57.86,40.13-89.36,91.82-89.36,24.73,0,51.33,1.86,57.51,2.68v60.43H364.15c-28.12,0-33.48,13.3-33.48,32.9V240h67l-8.75,64H330.67V480h124.6A24.74,24.74,0,0,0,480,455.27V56.73A24.74,24.74,0,0,0,455.27,32Z" />
-              </svg>
-            </button>
-          </div>
-          <div className="w-full md:w-1/3 px-3 pt-4 mx-2">
-            <button className="appearance-none flex items-center justify-center w-full bg-white shadow border rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
-              <svg
-                className="h-6 w-6 fill-current text-gray-700"
-                viewBox="0 0 512 512"
-              >
-                <path d="M455.27,32H56.73A24.74,24.74,0,0,0,32,56.73V455.27A24.74,24.74,0,0,0,56.73,480H256V304H202.45V240H256V189c0-57.86,40.13-89.36,91.82-89.36,24.73,0,51.33,1.86,57.51,2.68v60.43H364.15c-28.12,0-33.48,13.3-33.48,32.9V240h67l-8.75,64H330.67V480h124.6A24.74,24.74,0,0,0,480,455.27V56.73A24.74,24.74,0,0,0,455.27,32Z" />
-              </svg>
-            </button>
+      <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[1000px]">
+        <div className="flex items-center justify-center py-12">
+          <div className="mx-auto grid w-[350px] gap-6">
+            <div className="grid gap-2 text-center">
+              <h1 className="text-3xl font-bold">Login</h1>
+              <p className="text-balance text-muted-foreground">
+                Enter your email below to login to your account
+              </p>
+            </div>
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                    id="email"
+                    type="email"
+                    placeholder="m@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                  <Link
+                      to="#"
+                      className="ml-auto inline-block text-sm underline"
+                  >
+                    Forgot your password?
+                  </Link>
+                </div>
+                <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+              </div>
+              <Button type="submit" className="w-full" onClick={handleLogin}>
+                Login
+              </Button>
+              {errorMessage && <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>
+                  {errorMessage}
+                </AlertDescription>
+              </Alert>}
+              <Button variant="outline" className="w-full">
+                Login with Google
+              </Button>
+            </div>
+            <div className="mt-4 text-center text-sm">
+              Don&apos;t have an account?{" "}
+              <Link to="#" className="underline">
+                Sign up
+              </Link>
+            </div>
           </div>
         </div>
-        <div className="flex flex-col items-center w-full mt-10">
-          <p className="text-md text-white select-none flex">
-            Don't have an account yet?
-            <button className="text-md text-white pl-4 font-semibold">
-              Register here
-            </button>
-          </p>
+        <div className="hidden bg-muted lg:block">
+          <Avatar className="h-4/5 w-full object-cover">
+            <AvatarImage src={LoginSvg} alt="login-image" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
         </div>
       </div>
-    </div>
   );
 }
 
