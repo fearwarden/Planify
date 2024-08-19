@@ -19,7 +19,7 @@ import {Link, useNavigate} from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/hooks/api";
 import { login } from "@/store/slice/userSlice";
-import { HOME } from "@/constants/constants";
+import {HOME, REGISTER} from "@/constants/constants";
 import { LoginDataType } from "@/types/AuthenticationTypes";
 import { LoginSchema } from "@/validation/schemas";
 import LoginSvg from "@/assets/img/login.svg"
@@ -131,7 +131,7 @@ function LoginForm() {
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
-              <Link to="#" className="underline">
+              <Link to={REGISTER} className="underline">
                 Sign up
               </Link>
             </div>

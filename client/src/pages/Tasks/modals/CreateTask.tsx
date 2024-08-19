@@ -23,15 +23,6 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createTask, fetchTaskMetadata } from "@/api/task/task";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
 import { AxiosResponse } from "axios";
 import { convertToTimestamp } from "@/tools/utils";
 import { TaskDataType } from "@/types/TaskType";

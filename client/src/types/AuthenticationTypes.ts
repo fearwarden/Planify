@@ -1,5 +1,5 @@
 import { Role } from "@/enums/Role";
-import { LoginSchema } from "@/validation/schemas";
+import {LoginSchema, RegisterSchema} from "@/validation/schemas";
 import { z } from "zod";
 
 export interface LoginResponse {
@@ -17,3 +17,4 @@ export interface RegisterResponse {
 }
 
 export type LoginDataType = z.infer<typeof LoginSchema>;
+export type RegisterDataType = z.infer<typeof RegisterSchema>;

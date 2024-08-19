@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 
+// TODO: add baseUrl /api/v1
 export const api = axios.create({
   headers: {
     "Content-Type": "application/json",
@@ -27,7 +28,7 @@ async function refreshToken() {
   try {
     await api.get("/api/v1/auth/refresh");
   } catch (e) {
-    throw e;
+    throw new Error("Error while refreshing token");
   }
 }
 
