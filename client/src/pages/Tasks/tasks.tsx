@@ -1,14 +1,17 @@
 import DataTable from "./components/DataTable";
 import { keepPreviousData, useQueries } from "@tanstack/react-query";
 import { fetchTasks, fetchTasksFiltered } from "@/api/task/task";
-import { useState } from "react";
+import {useState} from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import useAuthRedirect from "@/hooks/useAuthRedirect.ts";
+import {LoadingSpinner} from "@/components/ui/loading-spinner.tsx";
 
 function Tasks() {
   const [page, setPage] = useState<number>(1);
   const [filterPage, setFilterPage] = useState<number>(1);
   const filter = useSelector((state: RootState) => state.filters);
+  const isChecking = useAuthRedirect();
 
   const [taskQuery, filterTaskQuery] = useQueries({
     queries: [
@@ -37,12 +40,15 @@ function Tasks() {
     filterTaskQuery.refetch();
   }
 
+  if (isChecking) return <LoadingSpinner />
+
   if (taskQuery.isPending) return <span>Loading Tasks...</span>;
   if (taskQuery.isError) return <span>Error: {taskQuery.error.message}</span>;
   if (filter.isActive && filterTaskQuery.isPending)
     return <span>Loading Filter tasks...</span>;
   if (filter.isActive && filterTaskQuery.isError)
     return <span>Error: {filterTaskQuery.error.message}</span>;
+
   return (
     <>
       <div className="md:hidden"></div>
