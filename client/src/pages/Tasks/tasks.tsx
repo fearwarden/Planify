@@ -4,7 +4,7 @@ import { fetchTasks, fetchTasksFiltered } from "@/api/task/task";
 import {useState} from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import useAuthRedirect from "@/hooks/useAuthRedirect.ts";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect.ts";
 import {LoadingSpinner} from "@/components/ui/loading-spinner.tsx";
 
 function Tasks() {
