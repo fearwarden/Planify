@@ -13,14 +13,18 @@ import {
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import {ModeToggle} from "./ModeToggle";
 import {useMutation} from "@tanstack/react-query";
-import {logout} from "@/api/auth/auth.ts";
+import {logoutApi} from "@/api/auth/auth.ts";
+import {useDispatch} from "react-redux";
+import {logout} from "@/store/slice/userSlice.ts";
 
 function NavBar() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const logoutMutation = useMutation({
-        mutationFn: logout,
+        mutationFn: logoutApi,
         onSuccess: () => {
+            dispatch(logout());
             navigate(LOGIN);
         },
         onError: (error) => {

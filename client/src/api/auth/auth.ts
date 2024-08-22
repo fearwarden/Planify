@@ -9,6 +9,6 @@ export const register = async (data: RegisterDataType): Promise<RegisterResponse
     return await api.post(`${AUTH_PREFIX_URL}/register`, data);
 }
 
-export const logout = async () => {
+export const logoutApi = async () => {
     return await api.get(`${AUTH_PREFIX_URL}/logout`);
 }
