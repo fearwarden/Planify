@@ -17,12 +17,12 @@ import {
 import { useDispatch } from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { api } from "@/hooks/api";
 import { login } from "@/store/slice/userSlice";
 import {HOME, REGISTER} from "@/constants/constants";
 import { LoginDataType } from "@/types/AuthenticationTypes";
 import { LoginSchema } from "@/validation/schemas";
 import LoginSvg from "@/assets/img/login.svg"
+import {loginApi} from "@/api/auth/auth.ts";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -32,9 +32,7 @@ function LoginForm() {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const loginMutation = useMutation({
-    mutationFn: (loginData: LoginDataType) => {
-      return api.post("/api/v1/auth/login", loginData);
-    },
+    mutationFn: loginApi,
     onError: (error) => {
       const statusCode =
         error.message.split(" ")[error.message.split(" ").length - 1];
@@ -45,7 +43,7 @@ function LoginForm() {
       }
     },
     onSuccess: (data) => {
-      dispatch(login(data.data));
+      dispatch(login(data));
       navigate(HOME);
     },
   });

@@ -18,7 +18,7 @@ import {
 import {LOGIN} from "@/constants/constants.ts";
 import {useEffect, useState} from "react";
 import {useMutation} from "@tanstack/react-query";
-import {register} from "@/api/auth/auth.ts";
+import {registerApi} from "@/api/auth/auth.ts";
 import {RegisterDataType} from "@/types/AuthenticationTypes.ts";
 import {RegisterSchema} from "@/validation/schemas.ts";
 
@@ -32,7 +32,7 @@ function RegisterForm() {
     const [registerSuccess, setRegisterSuccess] = useState<boolean>();
 
     const registerMutation = useMutation({
-        mutationFn: register,
+        mutationFn: registerApi,
         onError: (error) => {
             const statusCode = error.message.split(" ")[error.message.split(" ").length - 1];
             if (parseInt(statusCode) === 400 || parseInt(statusCode) === 404) {

@@ -1,11 +1,16 @@
 // TODO: move login function here, and create register api function
 
-import {RegisterDataType, RegisterResponse} from "@/types/AuthenticationTypes.ts";
+import {LoginDataType, LoginResponse, RegisterDataType, RegisterResponse} from "@/types/AuthenticationTypes.ts";
 import {api} from "@/hooks/api.ts";
 
 const AUTH_PREFIX_URL = "/api/v1/auth";
 
-export const register = async (data: RegisterDataType): Promise<RegisterResponse> => {
+export const loginApi = async (data: LoginDataType): Promise<LoginResponse> => {
+    const payload = await api.post(`${AUTH_PREFIX_URL}/login`, data);
+    return payload.data;
+}
+
+export const registerApi = async (data: RegisterDataType): Promise<RegisterResponse> => {
     return await api.post(`${AUTH_PREFIX_URL}/register`, data);
 }
 

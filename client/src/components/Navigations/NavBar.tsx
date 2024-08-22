@@ -24,7 +24,7 @@ function NavBar() {
     const logoutMutation = useMutation({
         mutationFn: logoutApi,
         onSuccess: () => {
-            dispatch(logout());
+            dispatch(logout()); // clear the Redux
             navigate(LOGIN);
         },
         onError: (error) => {
