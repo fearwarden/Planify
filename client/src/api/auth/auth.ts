@@ -8,3 +8,7 @@ const AUTH_PREFIX_URL = "/api/v1/auth";
 export const register = async (data: RegisterDataType): Promise<RegisterResponse> => {
     return await api.post(`${AUTH_PREFIX_URL}/register`, data);
 }
+
+export const logout = async () => {
+    return await api.get(`${AUTH_PREFIX_URL}/logout`);
+}

@@ -1,5 +1,5 @@
-import { HOME, USER_ACCOUNT } from "@/constants/constants";
-import { Link } from "react-router-dom";
+import {HOME, LOGIN, USER_ACCOUNT} from "@/constants/constants";
+import {Link, useNavigate} from "react-router-dom";
 import { CircleUser, Menu, ClipboardCheck } from "lucide-react";
 import { Button } from "../ui/button";
 import {
@@ -12,8 +12,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ModeToggle } from "./ModeToggle";
+import {useMutation} from "@tanstack/react-query";
+import {logout} from "@/api/auth/auth.ts";
 
 function NavBar() {
+  const navigate = useNavigate();
+
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      navigate(LOGIN);
+    },
+    onError: (error) => {
+      alert(error.message)
+    }
+  })
+
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -120,7 +134,7 @@ function NavBar() {
             </Link>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => logoutMutation.mutate()}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
