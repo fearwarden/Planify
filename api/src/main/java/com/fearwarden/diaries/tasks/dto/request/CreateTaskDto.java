@@ -3,8 +3,6 @@ package com.fearwarden.diaries.tasks.dto.request;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 public class CreateTaskDto {
     @NotNull(message = "Description is required.")

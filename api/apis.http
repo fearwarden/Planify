@@ -19,6 +19,9 @@ Content-Type: application/json
   "password": "Test1234"
 }
 
+### Logout request
+GET http://localhost:8080/api/v1/auth/logout
+
 ### Refresh token request
 GET http://localhost:8080/api/v1/auth/refresh
 

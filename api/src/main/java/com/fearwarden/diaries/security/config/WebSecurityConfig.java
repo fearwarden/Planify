@@ -3,6 +3,7 @@ package com.fearwarden.diaries.security.config;
 import com.fearwarden.diaries.security.filters.JwtAuthenticationFilter;
 import com.fearwarden.diaries.users.enums.Role;
 import com.fearwarden.diaries.users.services.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserService userService;
+    private final LogoutHandlerImpl logoutHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,6 +40,16 @@ public class WebSecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/api/v1/tasks/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                                 .anyRequest().authenticated()
+                )
+                .logout((logout) -> logout
+                        .logoutUrl("/api/v1/auth/logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .addLogoutHandler(logoutHandler)
+                        .logoutSuccessHandler(((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        }))
+                        .permitAll()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(this.authenticationProvider()).addFilterBefore(
