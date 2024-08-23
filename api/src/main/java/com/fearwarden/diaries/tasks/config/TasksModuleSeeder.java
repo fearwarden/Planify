@@ -28,6 +28,7 @@ public class TasksModuleSeeder {
                 this.statusRepository.save(this.createStatus("PROGRESS"));
                 this.statusRepository.save(this.createStatus("COMPLETE"));
                 this.statusRepository.save(this.createStatus("ON HOLD"));
+                this.statusRepository.save(this.createStatus("TO DO"));
             }
         };
     }
