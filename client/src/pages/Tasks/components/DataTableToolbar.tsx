@@ -1,16 +1,16 @@
 import {
-  ArrowUpIcon,
-  ArrowDownIcon,
-  ArrowRightIcon,
-  PersonIcon,
-  LaptopIcon,
-  TokensIcon,
-  ClockIcon,
-  CheckCircledIcon,
-  QuestionMarkCircledIcon,
-  LapTimerIcon,
-  KeyboardIcon,
-  TrashIcon,
+    ArrowUpIcon,
+    ArrowDownIcon,
+    ArrowRightIcon,
+    PersonIcon,
+    LaptopIcon,
+    TokensIcon,
+    ClockIcon,
+    CheckCircledIcon,
+    QuestionMarkCircledIcon,
+    LapTimerIcon,
+    KeyboardIcon,
+    TrashIcon, FileTextIcon,
 } from "@radix-ui/react-icons";
 import {
   CircleDollarSign,
@@ -72,6 +72,7 @@ function DataTableToolbar() {
             { label: "COMPLETE", icon: CheckCircledIcon },
             { label: "PROGRESS", icon: QuestionMarkCircledIcon },
             { label: "ON HOLD", icon: LapTimerIcon },
+              { label: "TO DO", icon:  FileTextIcon}
           ]}
         />
         {filters.isActive && (
