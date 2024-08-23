@@ -1,4 +1,4 @@
-package com.fearwarden.diaries.users.models;
+package com.fearwarden.diaries.metadata.models;
 
 import jakarta.persistence.*;
 import lombok.*;

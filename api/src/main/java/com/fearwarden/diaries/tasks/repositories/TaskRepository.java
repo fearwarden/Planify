@@ -1,6 +1,6 @@
 package com.fearwarden.diaries.tasks.repositories;
 
-import com.fearwarden.diaries.tasks.models.StatusEntity;
+import com.fearwarden.diaries.metadata.models.StatusEntity;
 import com.fearwarden.diaries.tasks.models.TaskEntity;
 import com.fearwarden.diaries.users.models.UserEntity;
 import org.springframework.data.domain.Page;

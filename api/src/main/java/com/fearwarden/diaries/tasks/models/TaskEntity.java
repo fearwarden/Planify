@@ -1,6 +1,8 @@
 package com.fearwarden.diaries.tasks.models;
 
-import com.fearwarden.diaries.users.models.CategoryEntity;
+import com.fearwarden.diaries.metadata.models.PriorityEntity;
+import com.fearwarden.diaries.metadata.models.StatusEntity;
+import com.fearwarden.diaries.metadata.models.CategoryEntity;
 import com.fearwarden.diaries.users.models.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;

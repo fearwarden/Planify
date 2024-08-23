@@ -1,8 +1,8 @@
 package com.fearwarden.diaries.tasks.dto.response;
 
-import com.fearwarden.diaries.tasks.models.PriorityEntity;
-import com.fearwarden.diaries.tasks.models.StatusEntity;
-import com.fearwarden.diaries.users.models.CategoryEntity;
+import com.fearwarden.diaries.metadata.models.PriorityEntity;
+import com.fearwarden.diaries.metadata.models.StatusEntity;
+import com.fearwarden.diaries.metadata.models.CategoryEntity;
 import lombok.Data;
 
 import java.util.List;

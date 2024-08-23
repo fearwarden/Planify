@@ -1,4 +1,4 @@
-package com.fearwarden.diaries.tasks.models;
+package com.fearwarden.diaries.metadata.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

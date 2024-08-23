@@ -1,6 +1,6 @@
-package com.fearwarden.diaries.tasks.repositories;
+package com.fearwarden.diaries.metadata.repositories;
 
-import com.fearwarden.diaries.tasks.models.StatusEntity;
+import com.fearwarden.diaries.metadata.models.StatusEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
