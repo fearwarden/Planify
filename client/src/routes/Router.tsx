@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import {HOME, LOGIN, REGISTER, USER_ACCOUNT} from "@/constants/constants";
 import App from "@/App";
 import Login from "@/pages/Login/Login";
-import Tasks from "@/pages/Tasks/tasks";
+import Tasks from "@/pages/Tasks/Tasks.tsx";
 import UserAccount from "@/pages/User/UserAccount";
 import Register from "@/pages/Register/Register.tsx";
 
