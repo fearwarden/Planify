@@ -1,4 +1,4 @@
-import {HOME, LOGIN, USER_ACCOUNT} from "@/constants/constants";
+import {CALORIES, HOME, LOGIN, NOTES, PROJECT_PLANNER, SETTINGS, USER_ACCOUNT} from "@/constants/constants";
 import {Link, useNavigate} from "react-router-dom";
 import {CircleUser, Menu, ClipboardCheck} from "lucide-react";
 import {Button} from "../ui/button";
@@ -16,6 +16,7 @@ import {useMutation} from "@tanstack/react-query";
 import {logoutApi} from "@/api/auth/auth.ts";
 import {useDispatch} from "react-redux";
 import {logout} from "@/store/slice/userSlice.ts";
+import NavLink from "@/components/Navigations/components/NavLink.tsx";
 
 function NavBar() {
     const navigate = useNavigate();
@@ -43,36 +44,11 @@ function NavBar() {
                     <ClipboardCheck className="h-6 w-6"/>
                     <span className="sr-only">Icon</span>
                 </Link>
-                <Link
-                    to={HOME}
-                    className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                    Tasks
-                </Link>
-                <Link
-                    to={""}
-                    className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                    Notes
-                </Link>
-                <Link
-                    to={""}
-                    className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                    Calories
-                </Link>
-                <Link
-                    to={""}
-                    className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                    Drive
-                </Link>
-                <Link
-                    to={""}
-                    className="text-foreground transition-colors hover:text-foreground"
-                >
-                    Settings
-                </Link>
+                <NavLink to={HOME}>Tasks</NavLink>
+                <NavLink to={PROJECT_PLANNER}>Project Planner</NavLink>
+                <NavLink to={NOTES}>Notes</NavLink>
+                <NavLink to={CALORIES}>Calories</NavLink>
+                <NavLink to={SETTINGS}>Settings</NavLink>
             </nav>
             <Sheet>
                 <SheetTrigger asChild>
