@@ -1,5 +1,6 @@
 package com.fearwarden.diaries.users.models;
 
+import com.fearwarden.diaries.projects.models.ProjectMembershipEntity;
 import com.fearwarden.diaries.tasks.models.TaskEntity;
 import com.fearwarden.diaries.users.enums.Role;
 import jakarta.persistence.*;
@@ -48,6 +49,9 @@ public class UserEntity implements UserDetails {
 
     @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private TokenEntity tokenEntity;
+
+    @OneToMany(mappedBy = "userEntity", orphanRemoval = true)
+    private Set<ProjectMembershipEntity> projectMembershipEntities = new LinkedHashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
