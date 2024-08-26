@@ -34,6 +34,7 @@ public class ProjectEntity {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "projectEntity", orphanRemoval = true)
+    @ToString.Exclude
     private Set<ProjectMembershipEntity> projectMembershipEntities = new LinkedHashSet<>();
 
 }
