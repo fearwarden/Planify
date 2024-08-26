@@ -1,5 +1,6 @@
 package com.fearwarden.diaries.users.services.implementations;
 
+import com.fearwarden.diaries.users.dto.response.UserDto;
 import com.fearwarden.diaries.users.exceptions.throwables.UserNotFoundException;
 import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.repositories.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,5 +33,13 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
-
+    @Override
+    public boolean checkIfUsersExist(List<UserDto> userDtoList) {
+        for (UserDto user : userDtoList) {
+            if (userRepository.findById(user.id()).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
