@@ -40,6 +40,7 @@ public class WebSecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/api/v1/tasks/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                                 .requestMatchers("/api/v1/metadata/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                                .requestMatchers("/api/v1/projects/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                                 .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout
