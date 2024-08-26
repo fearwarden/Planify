@@ -1,26 +1,15 @@
 package com.fearwarden.diaries.users.dto.response;
 
 import com.fearwarden.diaries.users.enums.Role;
-import com.fearwarden.diaries.users.models.UserEntity;
-import lombok.Data;
+import lombok.Value;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-@Data
-public class UserDto {
-    private String id;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private LocalDateTime createdAt;
-    private Role role;
-
-    public UserDto(UserEntity user) {
-        this.id = user.getId().toString();
-        this.email = user.getEmail();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.createdAt = user.getCreatedAt();
-        this.role = user.getRole();
-    }
+/**
+ * DTO for {@link com.fearwarden.diaries.users.models.UserEntity}
+ */
+public record UserDto(UUID id, String email, String firstName, String lastName, LocalDateTime createdAt,
+                      Role role) implements Serializable {
 }
