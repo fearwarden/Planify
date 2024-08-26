@@ -32,7 +32,7 @@ Content-Type: application/json
 
 {
   "description": "Test.",
-  "due": "2023-12-21T21:12:28.106Z",
+  "due": "2023-12-11T21:34:19.597523",
   "categoryId": 2,
   "priorityId": 3,
   "statusId": 2
@@ -66,25 +66,27 @@ Content-Type: application/json
   "description": "Chores",
   "categoryId": 2,
   "priorityId": 1,
-  "statusId": 1,
+  "statusId": 1
 }
 
 ### Delete Task
 DELETE http://localhost:8080/api/v1/tasks/e3175f61-3c8a-4a75-ac15-6a8d4f38f3ec
 Content-Type: application/json
 
-###
-GRAPHQL http://localhost:8080/graphql
+### Create Project
+POST http://localhost:8080/api/v1/projects/
+Content-Type: application/json
 
-query  getTaskById($id: ID!) {
-    getTaskById(id: "c8d4031a-2159-43ff-8945-0e569f5e53c8") {
-        id
-        description
-        createdAt
-        updatedAt
-        userId
-        categoryId
-        priorityId
-        statusId
+{
+  "name": "Test",
+  "users": [
+    {
+      "id": "db8b652b-4443-41db-b9b6-2bc1a55f2f5a",
+      "email": "antonijevboris@gmail.com",
+      "firstName": "Boris",
+      "lastName": "Antonijev",
+      "createdAt": "2023-12-11T21:34:19.597523",
+      "role": "USER"
     }
+  ]
 }
