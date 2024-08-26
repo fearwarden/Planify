@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/projects")
 @RequiredArgsConstructor
@@ -21,5 +23,11 @@ public class ProjectController {
     public ResponseEntity<ProjectDto> createProject(@RequestBody @Valid CreateProjectDto body, @AuthenticationPrincipal UserEntity user) {
         ProjectDto project = projectService.createProject(body.name(), body.users(), user);
         return new ResponseEntity<>(project, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProjectDto>> getAllProjects(@AuthenticationPrincipal UserEntity user) {
+        List<ProjectDto> projects = projectService.getAllProjects(user);
+        return ResponseEntity.ok(projects);
     }
 }

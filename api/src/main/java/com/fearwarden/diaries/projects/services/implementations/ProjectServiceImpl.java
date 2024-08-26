@@ -17,10 +17,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +27,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectMapper projectMapper;
 
     private final UserService userService;
-    
+
     @Override
     @Transactional
     public ProjectDto createProject(String name, List<UserDto> members, UserEntity user) {
@@ -68,5 +65,16 @@ public class ProjectServiceImpl implements ProjectService {
         }
         projectMembershipRepository.saveAll(createdMembers);
         return projectMapper.toDto(project);
+    }
+
+    // TODO: think for what user are you fetching data
+    @Override
+    public List<ProjectDto> getAllProjects(UserEntity user) {
+        Set<ProjectMembershipEntity> memberships = projectMembershipRepository.findAllByUserEntity(user);
+        List<ProjectEntity> projects = new ArrayList<>();
+        for (ProjectMembershipEntity membership : memberships) {
+            projects.add(projectRepository.findAllById(membership.getProjectEntity().getId()));
+        }
+        return projects.stream().map(projectMapper::toDto).toList();
     }
 }
