@@ -1,5 +1,6 @@
 package com.fearwarden.diaries.projects.models;
 
+import com.fearwarden.diaries.projects.enums.ProjectStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -26,6 +27,18 @@ public class ProjectEntity {
     @Column(name = "name", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private String name;
+
+    @Column(name = "icon_path")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private String iconPath;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private ProjectStatus status = ProjectStatus.BUILDING;
+
+    @Column(name = "url")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private String url;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

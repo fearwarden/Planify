@@ -15,13 +15,20 @@ import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+    @Value("${file.name.placeholder-image}")
+    private String placeholderImage;
+
     private final ProjectRepository projectRepository;
     private final ProjectMembershipRepository projectMembershipRepository;
     private final ProjectMapper projectMapper;
@@ -41,8 +48,12 @@ public class ProjectServiceImpl implements ProjectService {
             members.clear();
             members.addAll(uniqueMembers);
         }
+        // Load project placeholder image
+        String imagePath = Paths.get(uploadDir, placeholderImage).toString();
+
         ProjectEntity project = new ProjectEntity();
         project.setName(name);
+        project.setIconPath(imagePath);
         projectRepository.save(project);
 
         // Create project membership
