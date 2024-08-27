@@ -78,7 +78,6 @@ public class ProjectServiceImpl implements ProjectService {
         return projectMapper.toDto(project);
     }
 
-    // TODO: think for what user are you fetching data
     @Override
     public List<ProjectDto> getAllProjects(UserEntity user) {
         Set<ProjectMembershipEntity> memberships = projectMembershipRepository.findAllByUserEntity(user);
