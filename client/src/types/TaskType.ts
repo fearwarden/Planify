@@ -8,9 +8,9 @@ export interface TaskResponse {
   createdAt: string;
   updatedAt: string;
   userId: string;
-  category: string;
-  priority: string;
-  status: string;
+  category: CategoryType;
+  priority: PriorityType;
+  status: StatusType;
 }
 
 export interface TaskMetadataResponse {

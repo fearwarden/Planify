@@ -24,7 +24,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { editTask, fetchTaskMetadata } from "@/api/task/task";
 import { AxiosResponse } from "axios";
-import { convertToTimestamp, formatDate } from "@/tools/utils";
+import {combineDateWithT, convertToTimestamp, formatDate} from "@/tools/utils";
 import { TaskDataType, TaskResponse } from "@/types/TaskType";
 import { TaskSchema } from "@/validation/schemas";
 import { Pencil2Icon } from "@radix-ui/react-icons";
@@ -36,14 +36,15 @@ interface EditTaskModalProps<T> {
 function EditTaskModal({ taskData }: EditTaskModalProps<TaskResponse>) {
   const [open, setOpen] = useState<boolean>(false);
   const [description, setDescription] = useState<string>(taskData.description);
-  const [category, setCategory] = useState<number>(0);
-  const [priority, setPriority] = useState<number>(0);
-  const [status, setStatus] = useState<number>(0);
-  const [date, setDate] = useState<string>("");
-  const [dueTime, setDueTime] = useState<string>("");
+  const [category, setCategory] = useState<number>(taskData.category.id);
+  const [priority, setPriority] = useState<number>(taskData.priority.id);
+  const [status, setStatus] = useState<number>(taskData.status.id);
+  const [date, setDate] = useState<string>(combineDateWithT(taskData.due).split('T')[0]);
+  const [dueTime, setDueTime] = useState<string>(combineDateWithT(taskData.due).split('T')[1]);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const queryClient = useQueryClient();
+  console.log(taskData.due)
 
   const { data, isError, isPending, error } = useQuery({
     queryKey: ["task-metadata"],
@@ -76,7 +77,7 @@ function EditTaskModal({ taskData }: EditTaskModalProps<TaskResponse>) {
         data.categories.filter((cat) => cat.name === category)[0].id,
       priorityId:
         priority ??
-        data.priorities.filter((prio) => prio.level === priority)[0].id,
+        data.priorities.filter((p) => p.level === priority)[0].id,
       statusId:
         status ?? data.status.filter((s) => s.progress === status)[0].id,
     };
@@ -126,7 +127,7 @@ function EditTaskModal({ taskData }: EditTaskModalProps<TaskResponse>) {
             <Label htmlFor="categories">Category</Label>
             <Select onValueChange={(value) => setCategory(parseInt(value))}>
               <SelectTrigger className="items-start" id="categories">
-                <SelectValue placeholder={taskData.category} />
+                <SelectValue placeholder={taskData.category.name} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -147,7 +148,7 @@ function EditTaskModal({ taskData }: EditTaskModalProps<TaskResponse>) {
             <Label htmlFor="priorities">Priority</Label>
             <Select onValueChange={(value) => setPriority(parseInt(value))}>
               <SelectTrigger className="items-start" id="priorities">
-                <SelectValue placeholder={taskData.priority} />
+                <SelectValue placeholder={taskData.priority.level} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -168,7 +169,7 @@ function EditTaskModal({ taskData }: EditTaskModalProps<TaskResponse>) {
             <Label htmlFor="status">Status</Label>
             <Select onValueChange={(value) => setStatus(parseInt(value))}>
               <SelectTrigger className="items-start" id="status">
-                <SelectValue placeholder={taskData.status} />
+                <SelectValue placeholder={taskData.status.progress} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>

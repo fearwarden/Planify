@@ -18,8 +18,8 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { TaskResponse, TaskStatus } from "@/types/TaskType";
 import EditTaskModal from "../modals/EditTaskModal";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { completeTask, deleteTask } from "@/api/task/task";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {completeTask, deleteTask} from "@/api/task/task";
 import { AxiosResponse } from "axios";
 import { useState } from "react";
 
@@ -35,7 +35,7 @@ function DataTableRowAction({ data }: DataTableRowActionProps<TaskResponse>) {
   const deleteTaskMutation = useMutation({
     mutationFn: deleteTask,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({queryKey: ["tasks"]});
     },
   });
 
@@ -52,7 +52,7 @@ function DataTableRowAction({ data }: DataTableRowActionProps<TaskResponse>) {
   });
 
   const handleCompleteTask = () => {
-    if (data.status.toUpperCase() === TaskStatus.COMPLETE) {
+    if (data.status.progress.toUpperCase() === TaskStatus.COMPLETE) {
       alert("Task is already completed.");
       return;
     }
@@ -81,7 +81,7 @@ function DataTableRowAction({ data }: DataTableRowActionProps<TaskResponse>) {
                 <CommandItem className="gap-2 hover:cursor-pointer">
                   <CheckCircledIcon />
 
-                  {data.status.toUpperCase() === TaskStatus.COMPLETE
+                  {data.status.progress.toUpperCase() === TaskStatus.COMPLETE
                     ? "Completed"
                     : "Complete"}
                 </CommandItem>
