@@ -5,7 +5,7 @@ import Login from "@/pages/Login/Login";
 import Tasks from "@/pages/Tasks/Tasks.tsx";
 import UserAccount from "@/pages/User/UserAccount";
 import Register from "@/pages/Register/Register.tsx";
-import ProjectPlanner from "@/pages/ProjectPlanner/ProjectPlanner.tsx";
+import Projects from "@/pages/ProjectPlanner/Projects.tsx";
 
 export default class Router {
     public static readonly router = createBrowserRouter([
@@ -21,7 +21,7 @@ export default class Router {
             path: PROJECT_PLANNER,
             element: (
                 <App>
-                    <ProjectPlanner/>
+                    <Projects/>
                 </App>
             )
         },
