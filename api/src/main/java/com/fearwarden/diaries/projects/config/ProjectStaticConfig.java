@@ -25,6 +25,7 @@ public class ProjectStaticConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // this configuration maps requests to /images to upload directory - that's how it knows where to look for static
         registry
                 .addResourceHandler("/images/**")
                 .addResourceLocations("file:" + uploadDir)
