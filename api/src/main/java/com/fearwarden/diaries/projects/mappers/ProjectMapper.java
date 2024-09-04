@@ -3,11 +3,10 @@ package com.fearwarden.diaries.projects.mappers;
 import com.fearwarden.diaries.projects.dto.response.ProjectDto;
 import com.fearwarden.diaries.projects.models.ProjectEntity;
 import com.fearwarden.diaries.projects.tools.PathConversionService;
-import lombok.RequiredArgsConstructor;
+import com.fearwarden.diaries.tasks.tools.HelperFunctions;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class ProjectMapper {
@@ -26,7 +25,11 @@ public abstract class ProjectMapper {
     protected ProjectDto convertIconPath(ProjectEntity entity, @MappingTarget ProjectDto dto) {
         if (entity.getIconPath() != null) {
             String s = pathConversionService.convertToRelativeUrl(entity.getIconPath(), uploadDir);
-            return dto.withIconPath(s);
+            return dto.withIconPathAndDate(
+                    s,
+                    HelperFunctions.convertDateToString(entity.getCreatedAt()),
+                    HelperFunctions.convertDateToString(entity.getUpdatedAt())
+            );
         }
         return dto;
     }
