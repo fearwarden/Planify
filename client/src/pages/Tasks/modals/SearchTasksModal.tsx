@@ -57,7 +57,10 @@ function SearchTasksModal() {
           <ScrollArea className="h-[500px] w-full rounded-md border">
             {data && data.length > 0 ? (
               data.map((task) => (
-                <div className="flex items-center justify-center p-2">
+                <div
+                  className="flex items-center justify-center p-2"
+                  key={`${task.id}-div`}
+                >
                   <TaskCard data={task} key={task.id} />
                 </div>
               ))

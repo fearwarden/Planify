@@ -23,7 +23,7 @@ interface TaskCardProps<T> {
 
 function TaskCard({ data }: TaskCardProps<TaskResponse>) {
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [status, setStatus] = useState<string>(data.status);
+  const [status, setStatus] = useState<string>(data.status.progress);
 
   const queryClient = useQueryClient();
 
@@ -57,8 +57,8 @@ function TaskCard({ data }: TaskCardProps<TaskResponse>) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-row gap-2 mb-4">
-          <Badge variant="outline">{data.category}</Badge>
-          <Badge variant="outline">{data.priority}</Badge>
+          <Badge variant="outline">{data.category.name}</Badge>
+          <Badge variant="outline">{data.priority.level}</Badge>
           <Badge variant="outline">{status}</Badge>
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">

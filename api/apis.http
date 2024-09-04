@@ -82,22 +82,5 @@ Content-Type: application/json
 
 {
   "name": "Test",
-  "users": [
-    {
-      "id": "db8b652b-4443-41db-b9b6-2bc1a55f2f5a",
-      "email": "antonijevboris@gmail.com",
-      "firstName": "Boris",
-      "lastName": "Antonijev",
-      "createdAt": "2023-12-11T21:34:19.597523",
-      "role": "USER"
-    },
-    {
-      "id": "73b20cb5-d649-4d07-85f4-6b19b0b75460",
-      "email": "boris@gmail.com",
-      "firstName": "Boris",
-      "lastName": "Antonijev",
-      "createdAt": "2023-12-11T21:34:19.597523",
-      "role": "USER"
-    }
-  ]
+  "users": []
 }

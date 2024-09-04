@@ -50,6 +50,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtResponseDto login(String email, String password) {
+        System.out.println(email);
+        System.out.println(password);
         this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );

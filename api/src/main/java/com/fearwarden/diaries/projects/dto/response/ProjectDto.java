@@ -12,4 +12,7 @@ import java.util.UUID;
  */
 public record ProjectDto(UUID id, String name, LocalDateTime createdAt,
                          LocalDateTime updatedAt, String iconPath, ProjectStatus status, String url) implements Serializable {
+    public ProjectDto withIconPath(String iconPath) {
+        return new ProjectDto(id, name, createdAt, updatedAt, iconPath, status, url);
+    }
 }

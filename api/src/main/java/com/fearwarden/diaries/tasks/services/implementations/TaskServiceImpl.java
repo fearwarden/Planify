@@ -39,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
     private final StatusRepository statusRepository;
     private final CategoryRepository categoryRepository;
 
-    private final Integer PAGINATION_SIZE = 10;
+    private final int PAGINATION_SIZE = 10;
 
     @Override
     public TaskDto createTask(
