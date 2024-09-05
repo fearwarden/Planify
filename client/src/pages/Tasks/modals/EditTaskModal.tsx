@@ -44,7 +44,6 @@ function EditTaskModal({ taskData }: EditTaskModalProps<TaskResponse>) {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const queryClient = useQueryClient();
-  console.log(taskData.due)
 
   const { data, isError, isPending, error } = useQuery({
     queryKey: ["task-metadata"],
@@ -194,11 +193,11 @@ function EditTaskModal({ taskData }: EditTaskModalProps<TaskResponse>) {
         {errorMessage && <span color="danger">{errorMessage}</span>}
         <DialogFooter>
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
+            <Button type="button" variant="outline">
               Close
             </Button>
           </DialogClose>
-          <Button onClick={handleTaskEdit}>Save changes</Button>
+          <Button onClick={handleTaskEdit} variant="blue">Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

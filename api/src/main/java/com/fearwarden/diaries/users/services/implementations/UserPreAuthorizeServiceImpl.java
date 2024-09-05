@@ -16,7 +16,6 @@ public class UserPreAuthorizeServiceImpl implements UserPreAuthorizeService {
 
     @Override
     public boolean isAdminOrProjectManager(String username) {
-        System.out.println(username);
         UserEntity user = (UserEntity) userService.userDetailsService().loadUserByUsername(username);
         if (user.getRole() == Role.USER) throw new ForbiddenException();
         return true;

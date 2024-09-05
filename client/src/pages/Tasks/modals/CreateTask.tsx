@@ -196,11 +196,11 @@ function CreateTask() {
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
+            <Button type="button" variant="outline">
               Close
             </Button>
           </DialogClose>
-          <Button onClick={handleCreateTask}>Save changes</Button>
+          <Button variant="blue" onClick={handleCreateTask}>Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
