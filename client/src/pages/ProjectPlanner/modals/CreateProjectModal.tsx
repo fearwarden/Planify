@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { CaretDownIcon } from "@radix-ui/react-icons"
 import {
     Sheet,
     SheetClose,
@@ -28,6 +29,7 @@ import {ProjectSchema} from "@/validation/schemas.ts";
 import {ProjectDataType} from "@/types/ProjectType.ts";
 import {createProject} from "@/api/projects/projects.ts";
 import {AxiosResponse} from "axios";
+import {Separator} from "@/components/ui/separator.tsx";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
@@ -112,9 +114,10 @@ function CreateProjectModal() {
                         Create project and organize your team
                     </SheetDescription>
                 </SheetHeader>
+                <Separator className="mt-4 p-[1px]" />
                 <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="project-name" className="text-center whitespace-nowrap">
+                    <div className="grid grid-cols-1 items-start gap-4">
+                        <Label htmlFor="project-name" className="whitespace-nowrap">
                             Project Name
                         </Label>
                         <Input
@@ -127,7 +130,9 @@ function CreateProjectModal() {
                     </div>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="blue" className="w-20">Users</Button>
+                            <Button variant="outline" className="w-1/2 flex flex-row justify-between items-center">
+                                Employees <CaretDownIcon className="size-5"/>
+                            </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
                             <DropdownMenuLabel>Employees</DropdownMenuLabel>
