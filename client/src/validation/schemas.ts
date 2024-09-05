@@ -1,4 +1,13 @@
 import {z} from "zod";
+import {Role} from "@/enums/Role.ts";
+
+export const UserSchema = z.object({
+    id: z.string(),
+    email: z.string().email(),
+    firstName: z.string(),
+    lastName: z.string(),
+    role: z.nativeEnum(Role)
+});
 
 export const TaskSchema = z.object({
     description: z
@@ -34,3 +43,8 @@ export const RegisterSchema = z.object({
         })
     }
 })
+
+export const ProjectSchema = z.object({
+    name: z.string().min(1),
+    employees: z.array(UserSchema).nullable()
+});

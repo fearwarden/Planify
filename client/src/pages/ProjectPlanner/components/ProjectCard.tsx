@@ -13,7 +13,7 @@ import {calculateDaysAgo} from "@/tools/utils.ts";
 
 function ProjectCard({name, status, iconPath, updatedAt}: ProjectResponse) {
     return (
-        <Card className="w-[400px]">
+        <Card className="w-[400px] hover: cursor-pointer hover:border-accent-foreground">
             <CardHeader className="flex flex-row justify-between">
                 <div className="flex flex-row items-center gap-5">
                     <div>
@@ -29,7 +29,7 @@ function ProjectCard({name, status, iconPath, updatedAt}: ProjectResponse) {
                     </div>
                 </div>
                 <div>
-                    <DotsVerticalIcon className="size-4 hover:cursor-pointer"/>
+                    <DotsVerticalIcon className="size-4 hover:cursor-pointer hover:bg-accent hover:border-2 hover:rounded"/>
                 </div>
             </CardHeader>
             <CardContent>

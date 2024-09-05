@@ -1,11 +1,15 @@
 import {Input} from "@/components/ui/input.tsx";
-import {Button} from "@/components/ui/button.tsx";
+import CreateProjectModal from "@/pages/ProjectPlanner/modals/CreateProjectModal.tsx";
+import {useSelector} from "react-redux";
+import {RootState} from "@/store/store.ts";
+import {Role} from "@/enums/Role.ts";
 
 function SearchProjects() {
+    const user = useSelector((state: RootState) => state.users);
     return (
         <div className="flex flex-row items-center justify-between gap-4 h-16 mb-2">
             <Input placeholder="search projects"/>
-            <Button variant={"blue"}>New Project</Button>
+            {user.role === Role.USER ? "" : <CreateProjectModal/>}
         </div>
     )
 }

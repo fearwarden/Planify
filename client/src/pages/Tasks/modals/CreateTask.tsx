@@ -58,7 +58,6 @@ function CreateTask() {
   });
 
   const handleCreateTask = () => {
-    console.log(date);
     const due = convertToTimestamp(date, dueTime);
     const taskData: TaskDataType = {
       description,

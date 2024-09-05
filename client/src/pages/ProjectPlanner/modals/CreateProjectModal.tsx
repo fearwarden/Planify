@@ -1,44 +1,162 @@
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetDescription,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {useState} from "react";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {getAllUsers} from "@/api/user/user.ts";
+import {IUser} from "@/types/UserTypes.ts";
+import {ProjectSchema} from "@/validation/schemas.ts";
+import {ProjectDataType} from "@/types/ProjectType.ts";
+import {createProject} from "@/api/projects/projects.ts";
+import {AxiosResponse} from "axios";
 
-function CreateModal() {
+type Checked = DropdownMenuCheckboxItemProps["checked"];
+
+function CreateProjectModal() {
     const [open, setOpen] = useState<boolean>(false);
-    return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger>
-                <Button variant={"blue"}>Create Task</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle>Create Project</DialogTitle>
-                    <DialogDescription>
-                        Create project and organize your team
-                    </DialogDescription>
-                </DialogHeader>
-                <div className="grid w-full items-start gap-6 overflow-auto p-4 pt-0">
+    const [showStatusBar, setShowStatusBar] = useState<Record<string, Checked>>({});
+    const [projectName, setProjectName] = useState<string>("");
+    const [employees, setEmployees] = useState<IUser[]>([]);
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
+    const queryClient = useQueryClient();
+
+    const { data, isError, isPending, error } = useQuery({
+        queryKey: ["users"],
+        queryFn: getAllUsers,
+    });
+
+    const projectMutation = useMutation({
+        mutationFn: createProject,
+        onError: (error: AxiosResponse) => {
+            setErrorMessage(error.request.response);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["projects"] });
+        },
+    })
+
+    function handleCheckedChange(userId: string, checked: boolean) {
+        setShowStatusBar((prevState) => ({
+            ...prevState,
+                [userId]: checked
+        }));
+    }
+
+    function handleEmployeesState(newEmployee: IUser) {
+        if (employees.includes(newEmployee)) {
+            setEmployees(employees.filter((employee) => employee.id !== newEmployee.id))
+            setShowStatusBar((prevState) => ({
+                ...prevState,
+                [newEmployee.id]: false
+            }));
+        } else {
+            setEmployees([...employees, newEmployee]);
+            setShowStatusBar((prevState) => ({
+                ...prevState,
+                [newEmployee.id]: true
+            }))
+        }
+    }
+
+    function handleCreateProject() {
+        const payload: ProjectDataType = {
+            name: projectName,
+            employees: employees
+        }
+        const validation = ProjectSchema.safeParse(payload);
+        if (!validation.success) {
+            setErrorMessage(
+                JSON.parse(
+                    validation.error.message
+                        .slice(validation.error.message.search("message"))
+                        .split(":")[1]
+                        .split(",")[0]
+                )
+            );
+            return;
+        }
+        projectMutation.mutate(validation.data);
+    }
+
+    if (isPending) return <span>Loading...</span>
+    if (isError) return <span>Error: {error.message}</span>
+    return (
+        <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger>
+                <Button variant={"blue"}>New Project</Button>
+            </SheetTrigger>
+            <SheetContent className="sm:max-w-[425px]">
+                <SheetHeader>
+                    <SheetTitle>Create Project</SheetTitle>
+                    <SheetDescription>
+                        Create project and organize your team
+                    </SheetDescription>
+                </SheetHeader>
+                <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="project-name" className="text-center whitespace-nowrap">
+                            Project Name
+                        </Label>
+                        <Input
+                            id="project-name"
+                            placeholder="Project name"
+                            value={projectName}
+                            onChange={(e) => setProjectName(e.target.value)}
+                            className="col-span-3"
+                        />
+                    </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="blue" className="w-20">Users</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56">
+                            <DropdownMenuLabel>Employees</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            {data?.map((user) => (
+                                <div key={`${user.id}-div`}>
+                                    <DropdownMenuCheckboxItem
+                                        key={user.id}
+                                        className="hover:cursor-pointer hover:bg-accent"
+                                        checked={showStatusBar[user.id] || false}
+                                        onCheckedChange={(checked) => handleCheckedChange(user.id, checked)}
+                                        onClick={() => handleEmployeesState(user)}
+                                    >
+                                        {`${user.firstName} ${user.lastName}`}
+                                    </DropdownMenuCheckboxItem>
+                                </div>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type="button" variant="secondary">
-                            Close
-                        </Button>
-                    </DialogClose>
-                    <Button onClick={() => setOpen(false)}>Save changes</Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                <SheetFooter>
+                    <SheetClose asChild>
+                        <Button variant="blue" onClick={handleCreateProject}>Create</Button>
+                    </SheetClose>
+                </SheetFooter>
+                {errorMessage && <h1>{errorMessage}</h1>}
+            </SheetContent>
+        </Sheet>
     );
 }
 
-export default CreateModal;
+export default CreateProjectModal;

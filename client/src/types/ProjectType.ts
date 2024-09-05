@@ -1,3 +1,5 @@
+import {z} from "zod";
+import {ProjectSchema} from "@/validation/schemas.ts";
 
 export interface ProjectResponse {
     id: string;
@@ -15,3 +17,5 @@ export enum ProjectStatus {
     LIVE = "LIVE",
     ARCHIVED = "ARCHIVED",
 }
+
+export type ProjectDataType = z.infer<typeof ProjectSchema>;
