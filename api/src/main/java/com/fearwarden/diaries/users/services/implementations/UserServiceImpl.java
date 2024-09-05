@@ -2,6 +2,7 @@ package com.fearwarden.diaries.users.services.implementations;
 
 import com.fearwarden.diaries.users.dto.response.UserDto;
 import com.fearwarden.diaries.users.exceptions.throwables.UserNotFoundException;
+import com.fearwarden.diaries.users.mappers.UserMapper;
 import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.repositories.UserRepository;
 import com.fearwarden.diaries.users.services.UserService;
@@ -18,6 +19,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
     @Override
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
@@ -41,5 +44,11 @@ public class UserServiceImpl implements UserService {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<UserDto> findAll(UserEntity user) {
+        List<UserEntity> users = userRepository.findAllUsers(user.getId());
+        return users.stream().map(userMapper::toDto).toList();
     }
 }

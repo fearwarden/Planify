@@ -1,6 +1,5 @@
 package com.fearwarden.diaries.projects.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fearwarden.diaries.users.dto.response.UserDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +14,6 @@ public record CreateProjectDto(
         @NotNull(message = "Name is required")
         @NotBlank(message = "Name is required")
         String name,
-        List<UserDto> users
+        List<UserDto> employees
 ) implements Serializable {
 }

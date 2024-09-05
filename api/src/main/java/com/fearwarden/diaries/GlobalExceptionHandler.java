@@ -1,6 +1,5 @@
 package com.fearwarden.diaries;
 
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestControllerAdvice
 @Order()
@@ -31,8 +29,17 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseBody
-    @ExceptionHandler(Throwable.class)
-    public ResponseEntity<Void> handleAllUnhandledExceptions(Throwable ex) {
-        return ResponseEntity.internalServerError().build();
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
+        System.out.println(ex.getClass().getSimpleName());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied");
     }
+
+    // TODO: this handler is called before anyone else, debug why
+
+//    @ResponseBody
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<Void> handleAllUnhandledExceptions(Exception ex) {
+//        return ResponseEntity.internalServerError().build();
+//    }
 }

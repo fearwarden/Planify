@@ -11,4 +11,5 @@ public interface UserService {
     UserDetailsService userDetailsService();
     UserEntity findUserById(UUID id);
     boolean checkIfUsersExist(List<UserDto> userDtoList);
+    List<UserDto> findAll(UserEntity user);
 }

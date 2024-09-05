@@ -10,6 +10,6 @@ import java.util.UUID;
 /**
  * DTO for {@link com.fearwarden.diaries.users.models.UserEntity}
  */
-public record UserDto(UUID id, String email, String firstName, String lastName, LocalDateTime createdAt,
+public record UserDto(UUID id, String email, String firstName, String lastName,
                       Role role) implements Serializable {
 }

@@ -14,14 +14,3 @@ public record ProjectDto(UUID id, String name, String createdAt,
         return new ProjectDto(id, name, createdAt, updatedAt, iconPath, status, url);
     }
 }
-//@Data
-//public class ProjectDto {
-//    private String id;
-//    private String name;
-//    private String createdAt;
-//    private String updatedAt;
-//    private ProjectStatus status;
-//    private String url;
-//
-//
-//}

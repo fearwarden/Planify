@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +20,10 @@ import java.util.List;
 public class ProjectController {
     private final ProjectService projectService;
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PROJECT_MANAGER')")
     @PostMapping
     public ResponseEntity<ProjectDto> createProject(@RequestBody @Valid CreateProjectDto body, @AuthenticationPrincipal UserEntity user) {
-        ProjectDto project = projectService.createProject(body.name(), body.users(), user);
+        ProjectDto project = projectService.createProject(body.name(), body.employees(), user);
         return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
 

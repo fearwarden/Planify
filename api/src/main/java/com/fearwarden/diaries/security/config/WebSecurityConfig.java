@@ -19,7 +19,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.nio.file.AccessDeniedException;
 
 @Configuration
 @EnableWebSecurity
@@ -36,11 +39,12 @@ public class WebSecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers("/api/v1/auth/**", "/graphiql", "/graphql")
+                        request.requestMatchers("/api/v1/auth/**")
                                 .permitAll()
-                                .requestMatchers("/api/v1/tasks/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
-                                .requestMatchers("/api/v1/metadata/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
-                                .requestMatchers("/api/v1/projects/**").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+                                .requestMatchers("/api/v1/users/**").hasAnyAuthority(Role.USER.name(), Role.PROJECT_MANAGER.name(), Role.ADMIN.name())
+                                .requestMatchers("/api/v1/tasks/**").hasAnyAuthority(Role.USER.name(), Role.PROJECT_MANAGER.name(),Role.ADMIN.name())
+                                .requestMatchers("/api/v1/metadata/**").hasAnyAuthority(Role.USER.name(), Role.PROJECT_MANAGER.name(),Role.ADMIN.name())
+                                .requestMatchers("/api/v1/projects/**").hasAnyAuthority(Role.USER.name(), Role.PROJECT_MANAGER.name(),Role.ADMIN.name())
                                 .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout
