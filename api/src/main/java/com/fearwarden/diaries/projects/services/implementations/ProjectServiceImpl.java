@@ -3,6 +3,7 @@ package com.fearwarden.diaries.projects.services.implementations;
 import com.fearwarden.diaries.projects.dto.response.ProjectDto;
 import com.fearwarden.diaries.projects.enums.ProjectRole;
 import com.fearwarden.diaries.projects.exceptions.throwables.InvalidMembersException;
+import com.fearwarden.diaries.projects.exceptions.throwables.ProjectDoesNotExistsException;
 import com.fearwarden.diaries.projects.mappers.ProjectMapper;
 import com.fearwarden.diaries.projects.models.ProjectEntity;
 import com.fearwarden.diaries.projects.models.ProjectMembershipEntity;
@@ -86,5 +87,12 @@ public class ProjectServiceImpl implements ProjectService {
             projects.add(projectRepository.findAllById(membership.getProjectEntity().getId()));
         }
         return projects.stream().map(projectMapper::toDto).toList();
+    }
+
+    @Override
+    public ProjectDto getProject(String projectId) {
+        ProjectEntity project = projectRepository.findById(UUID.fromString(projectId))
+                .orElseThrow(() -> new ProjectDoesNotExistsException(projectId));
+        return projectMapper.toDto(project);
     }
 }

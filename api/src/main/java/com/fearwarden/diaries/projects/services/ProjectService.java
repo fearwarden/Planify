@@ -9,4 +9,5 @@ import java.util.List;
 public interface ProjectService {
     ProjectDto createProject(String name, List<UserDto> members, UserEntity user);
     List<ProjectDto> getAllProjects(UserEntity user);
+    ProjectDto getProject(String projectId);
 }
