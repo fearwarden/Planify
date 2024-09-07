@@ -24,7 +24,7 @@ import {
 import {useState} from "react";
 import {Textarea} from "@/components/ui/textarea.tsx";
 import {useMutation, useQueries} from "@tanstack/react-query";
-import {getAllTypes, getMembershipsForProject} from "@/api/projects/projects.ts";
+import {getAllTypes, getMembershipsForProject, getStatuses} from "@/api/projects/projects.ts";
 import {convertToTimestamp} from "@/tools/utils.ts";
 import {WorkType} from "@/types/ProjectType.ts";
 import {createWork} from "@/api/projects/works.ts";
@@ -37,10 +37,11 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
     const [targetDate, setTargetDate] = useState<string>("");
     const [targetTime, setTargetTime] = useState<string>("");
     const [type, setType] = useState<string>("");
+    const [status, setStatus] = useState<string>("");
     const [assignee, setAssignee] = useState<string>();
     const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const [types, memberships] = useQueries({
+    const [types, memberships, statuses] = useQueries({
         queries: [
             {
                 queryKey: ["types"],
@@ -50,6 +51,11 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
             {
                 queryKey: ["memberships"],
                 queryFn: () => getMembershipsForProject(projectId),
+                enabled: open
+            },
+            {
+                queryKey: ["statuses"],
+                queryFn: getStatuses,
                 enabled: open
             }
         ]
@@ -68,8 +74,9 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
     function handleCreateWork() {
         const target = convertToTimestamp(targetDate, targetTime);
         const currentType = types.data?.filter((el) => el.id === type)[0];
+        const currentStatus = statuses.data?.filter((el) => el.id === parseInt(status))[0];
         const currentEmployee = memberships.data?.filter((el) => el.userDto.id === assignee)[0];
-        if (!currentType || !currentEmployee) {
+        if (!currentType || !currentEmployee || !currentStatus) {
             alert("Error while creating, please reload the page and try again.")
             return;
         }
@@ -79,6 +86,7 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
             description: description,
             projectId: projectId,
             type: currentType,
+            status: currentStatus,
             user: currentEmployee.userDto
         }
         const validation = WorkSchema.safeParse(body);
@@ -100,6 +108,8 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
     if (open && types.isError) return <span>Error: {types.error.message}</span>;
     if (open && memberships.isPending) return <span>Loading...</span>;
     if (open && memberships.isError) return <span>Error: {memberships.error.message}</span>;
+    if (open && statuses.isPending) return <span>Loading...</span>;
+    if (open && statuses.isError) return <span>Error: {statuses.error.message}</span>;
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger>
@@ -161,6 +171,25 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
                                             key={t.id}
                                         >
                                             {t.type}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        <Select onValueChange={(value) => setStatus(value)}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Statuses" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Task Status</SelectLabel>
+                                    {statuses.data?.map((s) => (
+                                        <SelectItem
+                                            className="hover:cursor-pointer hover:bg-accent"
+                                            value={s.id.toString()}
+                                            key={s.id}
+                                        >
+                                            {s.progress}
                                         </SelectItem>
                                     ))}
                                 </SelectGroup>
