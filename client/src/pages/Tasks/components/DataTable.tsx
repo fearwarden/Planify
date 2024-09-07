@@ -44,7 +44,7 @@ function DataTable({data, page, callback}: DataTableProps) {
                                 <TableCell>{task.createdAt}</TableCell>
                                 <TableCell>{task.category.name}</TableCell>
                                 <TableCell>{task.priority.level}</TableCell>
-                                <TableCell><Badge variant={task.status.progress === TaskStatus.COMPLETE ? "blue" : "secondary"}>{task.status.progress}</Badge></TableCell>
+                                <TableCell><Badge variant={task.status.progress === TaskStatus.COMPLETE ? "default" : "secondary"}>{task.status.progress}</Badge></TableCell>
                                 <TableCell>
                                     <DataTableRowAction data={task}/>
                                 </TableCell>

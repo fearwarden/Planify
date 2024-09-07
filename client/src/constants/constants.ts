@@ -1,6 +1,7 @@
 export const BASE_URL = "http://localhost:8080";
 export const HOME = "/";
 export const PROJECT_PLANNER = "/project-planner";
+export const PROJECT = PROJECT_PLANNER + "/project/:projectId"
 export const NOTES = "/notes";
 export const CALORIES = "/calories";
 export const SETTINGS = "/settings";

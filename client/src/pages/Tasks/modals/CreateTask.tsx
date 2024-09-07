@@ -86,7 +86,7 @@ function CreateTask() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={"blue"}>Create Task</Button>
+        <Button>Create Task</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -200,7 +200,7 @@ function CreateTask() {
               Close
             </Button>
           </DialogClose>
-          <Button variant="blue" onClick={handleCreateTask}>Save changes</Button>
+          <Button onClick={handleCreateTask}>Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

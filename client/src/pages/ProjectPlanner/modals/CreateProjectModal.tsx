@@ -105,7 +105,7 @@ function CreateProjectModal() {
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger>
-                <Button variant={"blue"}>New Project</Button>
+                <Button>New Project</Button>
             </SheetTrigger>
             <SheetContent className="sm:max-w-[425px]">
                 <SheetHeader>
@@ -155,7 +155,7 @@ function CreateProjectModal() {
                 </div>
                 <SheetFooter>
                     <SheetClose asChild>
-                        <Button variant="blue" onClick={handleCreateProject}>Create</Button>
+                        <Button onClick={handleCreateProject}>Create</Button>
                     </SheetClose>
                 </SheetFooter>
                 {errorMessage && <h1>{errorMessage}</h1>}

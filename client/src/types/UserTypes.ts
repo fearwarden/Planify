@@ -1,9 +1,4 @@
-import {Role} from "@/enums/Role.ts";
+import {z} from "zod";
+import {UserSchema} from "@/validation/schemas.ts";
 
-export interface IUser {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: Role;
-}
+export type IUser = z.infer<typeof UserSchema>;

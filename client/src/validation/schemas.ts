@@ -48,3 +48,17 @@ export const ProjectSchema = z.object({
     name: z.string().min(1),
     employees: z.array(UserSchema).nullable()
 });
+
+const TypeSchema = z.object({
+    id: z.string(),
+    type: z.string()
+})
+
+export const WorkSchema = z.object({
+    title: z.string(),
+    targetDate: z.string(),
+    description: z.string(),
+    projectId: z.string(),
+    type: TypeSchema,
+    user: UserSchema
+})
