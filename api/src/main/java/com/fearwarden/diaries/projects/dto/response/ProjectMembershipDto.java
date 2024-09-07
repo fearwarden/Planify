@@ -10,7 +10,7 @@ import java.util.UUID;
 /**
  * DTO for {@link com.fearwarden.diaries.projects.models.ProjectMembershipEntity}
  */
-public record ProjectMembershipDto(UUID id, ProjectRole projectRole, LocalDateTime joinedAt,
+public record ProjectMembershipDto(UUID id, ProjectRole projectRole,
                                    UserDto userDto,
                                    ProjectDto projectDto) implements Serializable {
 }

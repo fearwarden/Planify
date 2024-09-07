@@ -13,7 +13,7 @@ export default defineConfig({
       "/images": {
         target: "http://localhost:8080",
         changeOrigin: true
-      }
+      },
     }
   },
   resolve: {

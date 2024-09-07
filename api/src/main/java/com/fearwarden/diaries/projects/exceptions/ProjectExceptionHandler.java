@@ -1,6 +1,7 @@
 package com.fearwarden.diaries.projects.exceptions;
 
 import com.fearwarden.diaries.projects.exceptions.throwables.InvalidMembersException;
+import com.fearwarden.diaries.projects.exceptions.throwables.ProjectDoesNotExistsException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,12 @@ public class ProjectExceptionHandler {
     @ResponseBody
     @ExceptionHandler(InvalidMembersException.class)
     public ResponseEntity<String> invalidMemberHandler(InvalidMembersException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(ProjectDoesNotExistsException.class)
+    public ResponseEntity<String> projectDoesNotExistsHandler(ProjectDoesNotExistsException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

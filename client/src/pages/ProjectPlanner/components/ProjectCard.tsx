@@ -22,7 +22,7 @@ function ProjectCard({name, status, iconPath, updatedAt}: ProjectResponse) {
                     <div className="flex flex-col items-start">
                         <CardTitle>{name}</CardTitle>
                         <CardDescription className="pt-1">
-                            <Badge className="w-[80px]" variant={"blue"}>
+                            <Badge className="w-[80px]">
                                 {status}
                             </Badge>
                         </CardDescription>

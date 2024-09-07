@@ -197,7 +197,7 @@ function EditTaskModal({ taskData }: EditTaskModalProps<TaskResponse>) {
               Close
             </Button>
           </DialogClose>
-          <Button onClick={handleTaskEdit} variant="blue">Save changes</Button>
+          <Button onClick={handleTaskEdit}>Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

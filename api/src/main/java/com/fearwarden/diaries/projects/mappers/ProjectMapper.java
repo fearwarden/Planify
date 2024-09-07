@@ -25,11 +25,7 @@ public abstract class ProjectMapper {
     protected ProjectDto convertIconPath(ProjectEntity entity, @MappingTarget ProjectDto dto) {
         if (entity.getIconPath() != null) {
             String s = pathConversionService.convertToRelativeUrl(entity.getIconPath(), uploadDir);
-            return dto.withIconPathAndDate(
-                    s,
-                    HelperFunctions.convertDateToString(entity.getCreatedAt()),
-                    HelperFunctions.convertDateToString(entity.getUpdatedAt())
-            );
+            return dto.withIconPath(s);
         }
         return dto;
     }

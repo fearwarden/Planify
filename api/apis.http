@@ -18,7 +18,7 @@ POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "email": "boris@gmail.com",
+  "email": "borisantonijev@gmail.com",
   "password": "Test1234"
 }
 
@@ -86,4 +86,26 @@ Content-Type: application/json
 {
   "name": "Test",
   "users": []
+}
+
+### Create Work
+POST http://localhost:8080/api/v1/works
+Content-Type: application/json
+
+{
+  "title": "Push changes to git",
+  "description": "On your stomp branch, push your changes, because you have them too much already",
+  "targetDate": "2024-09-08T21:08:23.738",
+  "projectId": "9f60d0b4-ea60-43bf-8826-0ca67f4d8a4e",
+  "type": {
+    "id": "f5e626e0-3a35-44d7-9625-8888a487eab7",
+    "type": "TASK"
+  },
+  "user": {
+    "id": "a662baa9-fff1-41c0-9e5a-cad77334b1ba",
+    "email": "borisantonijev@gmail.com",
+    "firstName": "Boris",
+    "lastName": "Antonijev",
+    "role": "ADMIN"
+  }
 }

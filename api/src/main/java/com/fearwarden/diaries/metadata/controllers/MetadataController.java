@@ -1,6 +1,7 @@
 package com.fearwarden.diaries.metadata.controllers;
 
-import com.fearwarden.diaries.metadata.dto.TypeEntityDto;
+import com.fearwarden.diaries.metadata.dto.StatusDto;
+import com.fearwarden.diaries.metadata.dto.TypeDto;
 import com.fearwarden.diaries.metadata.services.MetadataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,14 @@ public class MetadataController {
     private final MetadataService metadataService;
 
     @GetMapping("/type")
-    public ResponseEntity<List<TypeEntityDto>> getTypes() {
-        List<TypeEntityDto> allTypes = metadataService.getAllTypes();
+    public ResponseEntity<List<TypeDto>> getTypes() {
+        List<TypeDto> allTypes = metadataService.getAllTypes();
         return ResponseEntity.ok(allTypes);
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<List<StatusDto>> getStatuses() {
+        List<StatusDto> statuses = metadataService.getStatuses();
+        return ResponseEntity.ok(statuses);
     }
 }

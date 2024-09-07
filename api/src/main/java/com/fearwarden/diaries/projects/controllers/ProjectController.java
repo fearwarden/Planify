@@ -32,4 +32,10 @@ public class ProjectController {
         List<ProjectDto> projects = projectService.getAllProjects(user);
         return ResponseEntity.ok(projects);
     }
+
+    @GetMapping("/{projectId}")
+    public ResponseEntity<ProjectDto> getProject(@PathVariable(name = "projectId") String projectId) {
+        ProjectDto project = projectService.getProject(projectId);
+        return ResponseEntity.ok(project);
+    }
 }

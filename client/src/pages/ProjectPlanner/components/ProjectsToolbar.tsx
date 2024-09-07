@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "@/store/store.ts";
 import {Role} from "@/enums/Role.ts";
 
-function SearchProjects() {
+function ProjectsToolbar() {
     const user = useSelector((state: RootState) => state.users);
     return (
         <div className="flex flex-row items-center justify-between gap-4 h-16 mb-2">
@@ -14,4 +14,4 @@ function SearchProjects() {
     )
 }
 
-export default SearchProjects;
+export default ProjectsToolbar;

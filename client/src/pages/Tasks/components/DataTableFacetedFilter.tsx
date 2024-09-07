@@ -17,7 +17,7 @@ import { FilterState, filter } from "@/store/slice/filterSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 
-interface DataTableFacetedFilterProps {
+export interface DataTableFacetedFilterProps {
   title: string;
   options: {
     label: string;
