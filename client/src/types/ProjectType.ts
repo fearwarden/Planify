@@ -9,7 +9,7 @@ export interface ProjectResponse {
     url?: string;
     status: ProjectStatus;
     createdAt: string;
-    updatedAt: string;
+    updatedAt: number[];
 }
 
 export interface TypeResponse {
