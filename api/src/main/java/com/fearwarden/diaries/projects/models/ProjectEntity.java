@@ -49,5 +49,4 @@ public class ProjectEntity {
     @OneToMany(mappedBy = "projectEntity", orphanRemoval = true)
     @ToString.Exclude
     private Set<ProjectMembershipEntity> projectMembershipEntities = new LinkedHashSet<>();
-
 }

@@ -1,9 +1,6 @@
 package com.fearwarden.diaries.tasks.exceptions;
 
-import com.fearwarden.diaries.tasks.exceptions.throwables.CategoryNotFoundException;
-import com.fearwarden.diaries.tasks.exceptions.throwables.InvalidCompleteStatusException;
-import com.fearwarden.diaries.tasks.exceptions.throwables.PriorityNotFoundException;
-import com.fearwarden.diaries.tasks.exceptions.throwables.TaskNotFoundException;
+import com.fearwarden.diaries.tasks.exceptions.throwables.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -36,6 +33,12 @@ public class TaskExceptionHandler {
     @ResponseBody
     @ExceptionHandler(InvalidCompleteStatusException.class)
     public ResponseEntity<String> invalidCompleteStatusHandler(InvalidCompleteStatusException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(TypeNotFoundException.class)
+    public ResponseEntity<String> typeNotFoundHandler(TypeNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

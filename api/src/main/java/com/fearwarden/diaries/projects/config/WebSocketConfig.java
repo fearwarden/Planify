@@ -12,6 +12,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // TODO: change /project to something else, because of proxy and your urls on the client side
         // /project is the HTTP url for the endpoint to witch a client needs to connect for the WebSocket handshake
         registry.addEndpoint("/project")
                 .setAllowedOriginPatterns("http://localhost:5173", "http://127.0.0.1:5173")

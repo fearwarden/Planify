@@ -95,4 +95,10 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElseThrow(() -> new ProjectDoesNotExistsException(projectId));
         return projectMapper.toDto(project);
     }
+
+    @Override
+    public ProjectEntity getProjectEntity(String projectId) {
+        return projectRepository.findById(UUID.fromString(projectId))
+                .orElseThrow(() -> new ProjectDoesNotExistsException(projectId));
+    }
 }
