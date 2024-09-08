@@ -34,6 +34,13 @@ export type StatusType = {
   progress: string;
 };
 
+export enum StatusEnum {
+  PROGRESS = "PROGRESS",
+  COMPLETE = "COMPLETE",
+  ON_HOLD = "ON HOLD",
+  TO_DO = "TO DO"
+}
+
 export type TaskDataType = z.infer<typeof TaskSchema>;
 
 export enum TaskStatus {

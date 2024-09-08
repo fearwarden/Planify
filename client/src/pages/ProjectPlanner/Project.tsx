@@ -1,90 +1,48 @@
 import {useParams} from "react-router-dom";
-import {useQuery} from "@tanstack/react-query";
+import {useQueries} from "@tanstack/react-query";
 import {getProject} from "@/api/projects/projects.ts";
-import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import ProjectToolbar from "@/pages/ProjectPlanner/components/ProjectToolbar.tsx";
-import {Separator} from "@/components/ui/separator.tsx";
 import CreateWorkModal from "@/pages/ProjectPlanner/modals/CreateWorkModal.tsx";
-
-const tags = Array.from({ length: 50 }).map(
-    (_, i, a) => `v1.2.0-beta.${a.length - i}`
-)
+import {getWorksForProject} from "@/api/projects/works.ts";
+import {StatusEnum} from "@/types/TaskType.ts";
+import WorkTable from "@/pages/ProjectPlanner/components/WorkTable.tsx";
 
 function Project() {
     const { projectId } = useParams();
 
-    const { data, isPending, isError, error } = useQuery({
-        queryKey: ["projects", projectId],
-        queryFn: () => getProject(projectId!)
+    const [project, works] = useQueries({
+        queries: [
+            {
+                queryKey: ["projects", projectId],
+                queryFn: () => getProject(projectId!)
+            },
+            {
+                queryKey: ["works", projectId],
+                queryFn: () => getWorksForProject(projectId!)
+            }
+        ]
     })
 
-    if (isPending) return <span>Loading Project...</span>;
-    if (isError) return <span>Error: {error.message}</span>;
+    if (project.isPending) return <span>Loading Project...</span>;
+    if (project.isError) return <span>Error: {project.error.message}</span>;
+    if (works.isPending) return <span>Loading Project...</span>;
+    if (works.isError) return <span>Error: {works.error.message}</span>;
     return (
         <main className="flex flex-col items-center relative min-h-screen">
-            <div className="flex-1 w-2/3 flex flex-col items-center p-8">
+            <div className="flex-1 w-[80%] flex flex-col items-center p-8">
                 <div className="flex flex-col gap-10 flex-1 w-full relative">
                     <div className="flex flex-row items-center justify-between gap-5">
-                        <h1 className="text-3xl">{data?.name}</h1>
+                        <h1 className="text-3xl">{project.data?.name}</h1>
                         <CreateWorkModal projectId={projectId!} />
                     </div>
                     <div>
                         <ProjectToolbar/>
                     </div>
-                    <div className="flex flex-row justify-between">
-                        {/*TODO: separate ScrollArea to its own component*/}
-                        <ScrollArea className="w-64 rounded-md border">
-                            <div className="p-4 max-h-96">
-                                <h4 className="mb-4 text-sm font-medium leading-none">On Hold</h4>
-                                {tags.map((tag) => (
-                                    <>
-                                        <div key={tag} className="text-sm">
-                                            {tag}
-                                        </div>
-                                        <Separator className="my-2"/>
-                                    </>
-                                ))}
-                            </div>
-                        </ScrollArea>
-                        <ScrollArea className="w-64 rounded-md border">
-                            <div className="p-4 max-h-96">
-                                <h4 className="mb-4 text-sm font-medium leading-none">To Do</h4>
-                                {tags.map((tag) => (
-                                    <>
-                                        <div key={tag} className="text-sm">
-                                            {tag}
-                                        </div>
-                                        <Separator className="my-2"/>
-                                    </>
-                                ))}
-                            </div>
-                        </ScrollArea>
-                        <ScrollArea className="w-64 rounded-md border">
-                            <div className="p-4 max-h-96">
-                                <h4 className="mb-4 text-sm font-medium leading-none">In Progress</h4>
-                                {tags.map((tag) => (
-                                    <>
-                                        <div key={tag} className="text-sm">
-                                            {tag}
-                                        </div>
-                                        <Separator className="my-2"/>
-                                    </>
-                                ))}
-                            </div>
-                        </ScrollArea>
-                        <ScrollArea className="w-64 rounded-md border">
-                            <div className="p-4 max-h-96">
-                                <h4 className="mb-4 text-sm font-medium leading-none">Done</h4>
-                                {tags.map((tag) => (
-                                    <>
-                                        <div key={tag} className="text-sm">
-                                            {tag}
-                                        </div>
-                                        <Separator className="my-2"/>
-                                    </>
-                                ))}
-                            </div>
-                        </ScrollArea>
+                    <div className="flex flex-row gap-10 justify-between">
+                        <WorkTable data={works.data} status={StatusEnum.ON_HOLD} />
+                        <WorkTable data={works.data} status={StatusEnum.TO_DO} />
+                        <WorkTable data={works.data} status={StatusEnum.PROGRESS} />
+                        <WorkTable data={works.data} status={StatusEnum.COMPLETE} />
                     </div>
                 </div>
             </div>
