@@ -5,6 +5,8 @@ import com.fearwarden.diaries.metadata.models.TypeEntity;
 import com.fearwarden.diaries.metadata.repositories.StatusRepository;
 import com.fearwarden.diaries.metadata.repositories.TypeEntityRepository;
 import com.fearwarden.diaries.projects.dto.request.CreateWorkDto;
+import com.fearwarden.diaries.projects.dto.response.WorkDto;
+import com.fearwarden.diaries.projects.mappers.WorkMapper;
 import com.fearwarden.diaries.projects.models.ProjectEntity;
 import com.fearwarden.diaries.projects.models.ProjectMembershipEntity;
 import com.fearwarden.diaries.projects.models.WorkEntity;
@@ -23,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -34,10 +37,11 @@ public class WorkServiceImpl implements WorkService {
     private final ProjectMembershipRepository membershipRepository;
     private final StatusRepository statusRepository;
     private final TypeEntityRepository typeEntityRepository;
+    private final WorkMapper workMapper;
 
     @Transactional
     @Override
-    public void createWork(CreateWorkDto body) {
+    public WorkDto createWork(CreateWorkDto body) {
         ProjectEntity project = projectService.getProjectEntity(body.projectId());
         UserEntity user = userService.findUserById(body.user().id());
         TypeEntity typeEntity = typeEntityRepository.findById(body.type().id()).orElseThrow(TypeNotFoundException::new);
@@ -55,5 +59,13 @@ public class WorkServiceImpl implements WorkService {
         newWork.setAssignee(membership);
         workRepository.save(newWork);
         log.info("{} work has been created", newWork);
+        return workMapper.toDto(newWork);
+    }
+
+    @Override
+    public List<WorkDto> getWorksForProject(String projectId) {
+        ProjectEntity project = projectService.getProjectEntity(projectId);
+        List<WorkEntity> works = workRepository.findAllByProjectEntity(project);
+        return works.stream().map(workMapper::toDto).toList();
     }
 }

@@ -3,6 +3,9 @@ package com.fearwarden.diaries.projects.services;
 import com.fearwarden.diaries.projects.dto.request.CreateWorkDto;
 import com.fearwarden.diaries.projects.dto.response.WorkDto;
 
+import java.util.List;
+
 public interface WorkService {
-    void createWork(CreateWorkDto body);
+    WorkDto createWork(CreateWorkDto body);
+    List<WorkDto> getWorksForProject(String projectId);
 }
