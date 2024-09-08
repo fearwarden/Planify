@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/select";
 import {useState} from "react";
 import {Textarea} from "@/components/ui/textarea.tsx";
-import {useMutation, useQueries} from "@tanstack/react-query";
+import {useMutation, useQueries, useQueryClient} from "@tanstack/react-query";
 import {getAllTypes, getMembershipsForProject, getStatuses} from "@/api/projects/projects.ts";
 import {convertToTimestamp} from "@/tools/utils.ts";
 import {WorkType} from "@/types/ProjectType.ts";
@@ -40,6 +40,8 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
     const [status, setStatus] = useState<string>("");
     const [assignee, setAssignee] = useState<string>();
     const [errorMessage, setErrorMessage] = useState<string>("");
+
+    const queryClient = useQueryClient();
 
     const [types, memberships, statuses] = useQueries({
         queries: [
@@ -67,7 +69,7 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
             setErrorMessage(error.message)
         },
         onSuccess: () => {
-            console.log("uspelo")
+            queryClient.invalidateQueries({ queryKey: ["works", projectId] });
         }
     })
 
