@@ -115,7 +115,7 @@ function CreateTask() {
                 <SelectGroup>
                   <SelectLabel>Categories</SelectLabel>
                   {data?.categories.map((category) => (
-                    <SelectItem
+                    <SelectItem className="hover:cursor-pointer hover:bg-accent"
                       key={category.id}
                       value={category.id.toString()}
                     >
@@ -136,7 +136,7 @@ function CreateTask() {
                 <SelectGroup>
                   <SelectLabel>Priorities</SelectLabel>
                   {data?.priorities.map((priority) => (
-                    <SelectItem
+                    <SelectItem className="hover:cursor-pointer hover:bg-accent"
                       key={priority.id}
                       value={priority.id.toString()}
                     >
@@ -157,7 +157,7 @@ function CreateTask() {
                 <SelectGroup>
                   <SelectLabel>Status</SelectLabel>
                   {data?.status.map((s) => (
-                    <SelectItem key={s.id} value={s.id.toString()}>
+                    <SelectItem className="hover:cursor-pointer hover:bg-accent" key={s.id} value={s.id.toString()}>
                       {s.progress}
                     </SelectItem>
                   ))}

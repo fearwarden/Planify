@@ -99,7 +99,7 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
-    @PatchMapping("/complete/{id}")
+    @PutMapping("/complete/{id}")
     public ResponseEntity<Void> completeTask(@PathVariable String id) {
         taskService.completeTask(id);
         return ResponseEntity.noContent().build();
