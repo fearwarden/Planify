@@ -4,12 +4,13 @@ import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {WorkResponse} from "@/types/ProjectType.ts";
 import WorkSheet from "@/pages/ProjectPlanner/components/WorkSheet.tsx";
 
+
 interface WorkTableProps {
     data: WorkResponse[]
     status: StatusEnum;
 }
 
-function WorkTable({ data, status }: WorkTableProps) {
+function WorkTable({data, status}: WorkTableProps) {
 
     function filteredWorks(filter: StatusEnum) {
         return data!.filter(work => {

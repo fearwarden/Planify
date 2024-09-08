@@ -8,7 +8,7 @@ import {StatusEnum} from "@/types/TaskType.ts";
 import WorkTable from "@/pages/ProjectPlanner/components/WorkTable.tsx";
 
 function Project() {
-    const { projectId } = useParams();
+    const {projectId} = useParams();
 
     const [project, works] = useQueries({
         queries: [
@@ -18,10 +18,12 @@ function Project() {
             },
             {
                 queryKey: ["works", projectId],
-                queryFn: () => getWorksForProject(projectId!)
+                queryFn: () => getWorksForProject(projectId!),
+                refetchInterval: 3000,
+                refetchIntervalInBackground: true,
             }
         ]
-    })
+    });
 
     if (project.isPending) return <span>Loading Project...</span>;
     if (project.isError) return <span>Error: {project.error.message}</span>;
@@ -33,16 +35,16 @@ function Project() {
                 <div className="flex flex-col gap-10 flex-1 w-full relative">
                     <div className="flex flex-row items-center justify-between gap-5">
                         <h1 className="text-3xl">{project.data?.name}</h1>
-                        <CreateWorkModal projectId={projectId!} />
+                        <CreateWorkModal projectId={projectId!}/>
                     </div>
                     <div>
                         <ProjectToolbar/>
                     </div>
                     <div className="flex flex-row gap-10 justify-between">
-                        <WorkTable data={works.data} status={StatusEnum.ON_HOLD} />
-                        <WorkTable data={works.data} status={StatusEnum.TO_DO} />
-                        <WorkTable data={works.data} status={StatusEnum.PROGRESS} />
-                        <WorkTable data={works.data} status={StatusEnum.COMPLETE} />
+                            <WorkTable data={works.data} status={StatusEnum.ON_HOLD}/>
+                            <WorkTable data={works.data} status={StatusEnum.TO_DO}/>
+                            <WorkTable data={works.data} status={StatusEnum.PROGRESS}/>
+                            <WorkTable data={works.data} status={StatusEnum.COMPLETE}/>
                     </div>
                 </div>
             </div>

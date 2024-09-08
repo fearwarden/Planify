@@ -12,6 +12,7 @@ import {Badge} from "@/components/ui/badge";
 import {WorkResponse} from "@/types/ProjectType.ts";
 
 function WorkCard({title, typeDto, statusDto, assignee}: WorkResponse) {
+
     return (
         <Card className="w-full hover:cursor-pointer hover:border-accent-foreground">
             <CardHeader>
