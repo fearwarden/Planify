@@ -2,7 +2,7 @@ import {StatusEnum} from "@/types/TaskType.ts";
 import {Separator} from "@/components/ui/separator.tsx";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {WorkResponse} from "@/types/ProjectType.ts";
-import WorkCard from "@/pages/ProjectPlanner/components/WorkCard.tsx";
+import WorkSheet from "@/pages/ProjectPlanner/components/WorkSheet.tsx";
 
 interface WorkTableProps {
     data: WorkResponse[]
@@ -25,7 +25,7 @@ function WorkTable({ data, status }: WorkTableProps) {
                 {filteredWorks(status).map((work) => (
                     <>
                         <div key={`${work.id}-div`} className="text-sm">
-                            <WorkCard
+                            <WorkSheet
                                 key={work.id}
                                 id={work.id}
                                 title={work.title}
