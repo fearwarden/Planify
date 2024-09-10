@@ -19,3 +19,9 @@ export function calculateDaysAgo(dateArray: number[]): string {
   const date = new Date(year, month - 1, day, hour, minute, second, nanosecond / 1000000);
   return formatDistanceToNow(date, { addSuffix: true });
 }
+
+export function formatArrayDate(dateArray: number[]) {
+  const [year, month, day, hour, minute, second, nanosecond] = dateArray;
+  const date = new Date(year, month - 1, day, hour, minute, second, nanosecond / 1000000);
+  return format(date, "MMM d, yyyy");
+}
