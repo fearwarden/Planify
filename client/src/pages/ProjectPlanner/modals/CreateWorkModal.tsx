@@ -21,16 +21,20 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {Textarea} from "@/components/ui/textarea.tsx";
-import {useMutation, useQueries, useQueryClient} from "@tanstack/react-query";
-import {getAllTypes, getMembershipsForProject, getStatuses} from "@/api/projects/projects.ts";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {convertToTimestamp} from "@/tools/utils.ts";
 import {WorkType} from "@/types/ProjectType.ts";
 import {createWork} from "@/api/projects/works.ts";
 import {WorkSchema} from "@/validation/schemas.ts";
+import {ProjectMetadataContext} from "@/hooks/contexts.ts";
 
-function CreateWorkModal({ projectId }: {projectId: string}) {
+interface CreateWorkProps {
+    projectId: string;
+}
+
+function CreateWorkModal({ projectId }: CreateWorkProps) {
     const [open, setOpen] = useState<boolean>(false);
     const [workName, setWorkName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -41,27 +45,9 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
     const [assignee, setAssignee] = useState<string>();
     const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const queryClient = useQueryClient();
+    const context = useContext(ProjectMetadataContext);
 
-    const [types, memberships, statuses] = useQueries({
-        queries: [
-            {
-                queryKey: ["types"],
-                queryFn: getAllTypes,
-                enabled: open
-            },
-            {
-                queryKey: ["memberships"],
-                queryFn: () => getMembershipsForProject(projectId),
-                enabled: open
-            },
-            {
-                queryKey: ["statuses"],
-                queryFn: getStatuses,
-                enabled: open
-            }
-        ]
-    });
+    const queryClient = useQueryClient();
 
     const workMutation = useMutation({
         mutationFn: createWork,
@@ -75,9 +61,9 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
 
     function handleCreateWork() {
         const target = convertToTimestamp(targetDate, targetTime);
-        const currentType = types.data?.filter((el) => el.id === type)[0];
-        const currentStatus = statuses.data?.filter((el) => el.id === parseInt(status))[0];
-        const currentEmployee = memberships.data?.filter((el) => el.userDto.id === assignee)[0];
+        const currentType = context?.types.filter((el) => el.id === type)[0];
+        const currentStatus = context?.statuses.filter((el) => el.id === parseInt(status))[0];
+        const currentEmployee = context?.memberships.filter((el) => el.userDto.id === assignee)[0];
         if (!currentType || !currentEmployee || !currentStatus) {
             alert("Error while creating, please reload the page and try again.")
             return;
@@ -106,12 +92,6 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
         workMutation.mutate(validation.data);
     }
 
-    if (open && types.isPending) return <span>Loading...</span>;
-    if (open && types.isError) return <span>Error: {types.error.message}</span>;
-    if (open && memberships.isPending) return <span>Loading...</span>;
-    if (open && memberships.isError) return <span>Error: {memberships.error.message}</span>;
-    if (open && statuses.isPending) return <span>Loading...</span>;
-    if (open && statuses.isError) return <span>Error: {statuses.error.message}</span>;
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger>
@@ -166,7 +146,7 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Task Types</SelectLabel>
-                                    {types.data?.map((t) => (
+                                    {context?.types.map((t) => (
                                         <SelectItem
                                             className="hover:cursor-pointer hover:bg-accent"
                                             value={t.id}
@@ -185,7 +165,7 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Task Status</SelectLabel>
-                                    {statuses.data?.map((s) => (
+                                    {context?.statuses.map((s) => (
                                         <SelectItem
                                             className="hover:cursor-pointer hover:bg-accent"
                                             value={s.id.toString()}
@@ -204,7 +184,7 @@ function CreateWorkModal({ projectId }: {projectId: string}) {
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Employee</SelectLabel>
-                                    {memberships.data?.map((member) => (
+                                    {context?.memberships.map((member) => (
                                         <SelectItem
                                             className="hover:cursor-pointer hover:bg-accent"
                                             value={member.userDto.id}

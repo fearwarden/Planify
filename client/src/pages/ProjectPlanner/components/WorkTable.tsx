@@ -20,9 +20,9 @@ function WorkTable({data, status}: WorkTableProps) {
     }
 
     return (
-        <ScrollArea className="w-full rounded-md border">
-            <div className="p-4 max-h-96">
-                <h4 className="mb-4 text-sm font-medium leading-none">{status}</h4>
+        <ScrollArea className="w-full rounded-md border bg-accent/[0.5]">
+            <div className="p-4 max-h-[35rem]">
+                <h4 className="mb-4 text-lg font-medium leading-none">{status}</h4>
                 {filteredWorks(status).map((work) => (
                     <>
                         <div key={`${work.id}-div`} className="text-sm">
