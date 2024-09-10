@@ -9,16 +9,16 @@ export interface ProjectResponse {
     iconPath: string;
     url?: string;
     status: ProjectStatus;
-    createdAt: string;
+    createdAt: number[];
     updatedAt: number[];
 }
 
 export interface WorkResponse {
     id: string;
     title: string;
-    targetDate: string;
+    targetDate: number[];
     description: string;
-    createdAt: string;
+    createdAt: number[];
     typeDto: TypeResponse;
     statusDto: StatusType;
     assignee: MembershipResponse;
