@@ -14,7 +14,11 @@ import {WorkResponse} from "@/types/ProjectType.ts";
 function WorkCard({title, typeDto, statusDto, assignee}: WorkResponse) {
 
     return (
-        <Card className="w-full hover:cursor-pointer hover:border-accent-foreground">
+        <Card className="w-full hover:cursor-pointer transition-all duration-300 ease-in-out hover:scale-105" style={{
+            boxShadow: '15px 10px 30px rgb(2, 8, 23)',
+            // 36, 59, 85 right color
+            background: 'linear-gradient(to right, rgb(2, 8, 23), rgb(30, 41, 59))',
+        }}>
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
                 <CardDescription>
@@ -29,7 +33,7 @@ function WorkCard({title, typeDto, statusDto, assignee}: WorkResponse) {
                         </div>
                         <div className="flex items-end">
                             <Avatar>
-                                <AvatarFallback>{assignee.userDto.firstName.split("")[0] + assignee.userDto.lastName.split("")[0]}</AvatarFallback>
+                                <AvatarFallback className="bg-card/[.38]">{assignee.userDto.firstName.split("")[0] + assignee.userDto.lastName.split("")[0]}</AvatarFallback>
                             </Avatar>
                         </div>
                     </div>
