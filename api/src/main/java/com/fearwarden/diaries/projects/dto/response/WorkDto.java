@@ -14,5 +14,5 @@ import java.util.UUID;
 public record WorkDto(UUID id, String title, LocalDateTime targetDate, String description, LocalDateTime createdAt,
                       TypeDto typeDto,
                       StatusDto statusDto,
-                      ProjectMembershipDto assignee) implements Serializable {
+                      ProjectMembershipDto assignee, int workOrder) implements Serializable {
 }

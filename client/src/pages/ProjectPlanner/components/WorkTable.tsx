@@ -13,10 +13,12 @@ interface WorkTableProps {
 function WorkTable({data, status}: WorkTableProps) {
 
     function filteredWorks(filter: StatusEnum) {
-        return data!.filter(work => {
+        const filteredData = data!.filter(work => {
             const name = work.statusDto.progress.toUpperCase();
             return name.includes(filter)
-        })
+        });
+        filteredData.sort((a, b) => (a.workOrder > b.workOrder) ? 1 : -1)
+        return filteredData;
     }
 
     return (
@@ -25,14 +27,15 @@ function WorkTable({data, status}: WorkTableProps) {
                 <h4 className="mb-4 text-lg font-medium leading-none">{status}</h4>
                 {filteredWorks(status).map((work) => (
                     <>
-                        <div key={`${work.id}-div`} className="text-sm">
+                        <div key={`work-table-${work.id}-div`} className="text-sm">
                             <WorkSheet
-                                key={work.id}
+                                key={`${work.id}-work-sheet`}
                                 id={work.id}
                                 title={work.title}
                                 targetDate={work.targetDate}
                                 description={work.description}
                                 createdAt={work.createdAt}
+                                workOrder={work.workOrder}
                                 typeDto={work.typeDto}
                                 statusDto={work.statusDto}
                                 assignee={work.assignee}

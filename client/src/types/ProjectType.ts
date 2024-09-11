@@ -19,6 +19,7 @@ export interface WorkResponse {
     targetDate: number[];
     description: string;
     createdAt: number[];
+    workOrder: number;
     typeDto: TypeResponse;
     statusDto: StatusType;
     assignee: MembershipResponse;

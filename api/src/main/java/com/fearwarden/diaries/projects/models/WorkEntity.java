@@ -62,5 +62,4 @@ public class WorkEntity {
     @ManyToOne
     @JoinColumn(name = "project_membership_id")
     private ProjectMembershipEntity assignee;
-
 }
