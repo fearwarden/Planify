@@ -35,6 +35,10 @@ public class WorkEntity {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private String description;
 
+    @Column(name = "work_order", nullable = false, columnDefinition = "integer default 0")
+    @JdbcTypeCode(SqlTypes.INTEGER)
+    private int workOrder;
+
     @Column(name = "created_at", nullable = false)
     @JdbcTypeCode(SqlTypes.TIMESTAMP)
     private LocalDateTime createdAt = LocalDateTime.now();
