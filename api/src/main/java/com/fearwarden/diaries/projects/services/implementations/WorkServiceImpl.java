@@ -48,6 +48,7 @@ public class WorkServiceImpl implements WorkService {
         TypeEntity typeEntity = typeEntityRepository.findById(body.type().id()).orElseThrow(TypeNotFoundException::new);
         StatusEntity status = statusRepository.findById(body.status().id()).orElseThrow(StatusNotFoundException::new);
         ProjectMembershipEntity membership = membershipRepository.findByProjectEntityAndUserEntity(project, user);
+        int order = workRepository.maximumWorkOrder(status);
 
         WorkEntity newWork = new WorkEntity();
         newWork.setTitle(body.title());
@@ -58,6 +59,7 @@ public class WorkServiceImpl implements WorkService {
         newWork.setTypeEntity(typeEntity);
         newWork.setStatusEntity(status);
         newWork.setAssignee(membership);
+        newWork.setWorkOrder(order + 1);
         workRepository.save(newWork);
         log.info("{} work has been created", newWork);
         return workMapper.toDto(newWork);
