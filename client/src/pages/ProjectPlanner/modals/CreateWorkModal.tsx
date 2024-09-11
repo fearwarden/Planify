@@ -24,7 +24,6 @@ import {
 import {useContext, useState} from "react";
 import {Textarea} from "@/components/ui/textarea.tsx";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {convertToTimestamp} from "@/tools/utils.ts";
 import {WorkType} from "@/types/ProjectType.ts";
 import {createWork} from "@/api/projects/works.ts";
 import {WorkSchema} from "@/validation/schemas.ts";
@@ -39,7 +38,6 @@ function CreateWorkModal({ projectId }: CreateWorkProps) {
     const [workName, setWorkName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [targetDate, setTargetDate] = useState<string>("");
-    const [targetTime, setTargetTime] = useState<string>("");
     const [type, setType] = useState<string>("");
     const [status, setStatus] = useState<string>("");
     const [assignee, setAssignee] = useState<string>();
@@ -60,7 +58,6 @@ function CreateWorkModal({ projectId }: CreateWorkProps) {
     })
 
     function handleCreateWork() {
-        const target = convertToTimestamp(targetDate, targetTime);
         const currentType = context?.types.filter((el) => el.id === type)[0];
         const currentStatus = context?.statuses.filter((el) => el.id === parseInt(status))[0];
         const currentEmployee = context?.memberships.filter((el) => el.userDto.id === assignee)[0];
@@ -70,7 +67,7 @@ function CreateWorkModal({ projectId }: CreateWorkProps) {
         }
         const body: WorkType = {
             title: workName,
-            targetDate: target,
+            targetDate: targetDate,
             description: description,
             projectId: projectId,
             type: currentType,
@@ -133,10 +130,6 @@ function CreateWorkModal({ projectId }: CreateWorkProps) {
                             Target Date
                         </Label>
                         <Input type="date" id="date" onChange={(e) => setTargetDate(e.target.value)} />
-                        <Label htmlFor="time" className="whitespace-nowrap">
-                            Target Time
-                        </Label>
-                        <Input type="time" onChange={(e) => setTargetTime(e.target.value)} />
                     </div>
                     <div className="grid grid-cols-1 items-start gap-4">
                         <Select onValueChange={(value) => setType(value)}>

@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -28,8 +29,8 @@ public class WorkEntity {
     private String title;
 
     @Column(name = "target_date", nullable = false)
-    @JdbcTypeCode(SqlTypes.TIMESTAMP)
-    private LocalDateTime targetDate;
+    @JdbcTypeCode(SqlTypes.DATE)
+    private LocalDate targetDate;
 
     @Column(name = "description", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)

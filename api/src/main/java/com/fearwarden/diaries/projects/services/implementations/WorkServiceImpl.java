@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class WorkServiceImpl implements WorkService {
         WorkEntity newWork = new WorkEntity();
         newWork.setTitle(body.title());
         newWork.setDescription(body.description());
-        LocalDateTime targetDate = HelperFunctions.convertStringToLocalDateTime(body.targetDate());
+        LocalDate targetDate = HelperFunctions.convertStringToLocalDate(body.targetDate());
         newWork.setTargetDate(targetDate);
         newWork.setProjectEntity(project);
         newWork.setTypeEntity(typeEntity);
