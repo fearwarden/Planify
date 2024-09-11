@@ -23,14 +23,6 @@ public class HelperFunctions {
         }
     }
 
-    public static LocalDate convertStringToLocalDate(String date) {
-        try {
-            return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
-        } catch (DateTimeParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static String convertDateToString(LocalDateTime date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d. yyyy, HH:mm");
         return formatter.format(date);

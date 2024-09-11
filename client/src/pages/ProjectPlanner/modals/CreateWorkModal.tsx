@@ -8,6 +8,7 @@ import {
     SheetTitle,
     SheetTrigger
 } from "@/components/ui/sheet.tsx";
+import { CalendarIcon } from "lucide-react"
 import {Button} from "@/components/ui/button.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
 import {Label} from "@/components/ui/label.tsx";
@@ -21,6 +22,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
 import {useContext, useState} from "react";
 import {Textarea} from "@/components/ui/textarea.tsx";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
@@ -28,6 +35,8 @@ import {WorkType} from "@/types/ProjectType.ts";
 import {createWork} from "@/api/projects/works.ts";
 import {WorkSchema} from "@/validation/schemas.ts";
 import {ProjectMetadataContext} from "@/hooks/contexts.ts";
+import {cn} from "@/lib/utils.ts";
+import {format} from "date-fns";
 
 interface CreateWorkProps {
     projectId: string;
@@ -37,7 +46,7 @@ function CreateWorkModal({ projectId }: CreateWorkProps) {
     const [open, setOpen] = useState<boolean>(false);
     const [workName, setWorkName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
-    const [targetDate, setTargetDate] = useState<string>("");
+    const [targetDate, setTargetDate] = useState<Date>();
     const [type, setType] = useState<string>("");
     const [status, setStatus] = useState<string>("");
     const [assignee, setAssignee] = useState<string>();
@@ -67,7 +76,7 @@ function CreateWorkModal({ projectId }: CreateWorkProps) {
         }
         const body: WorkType = {
             title: workName,
-            targetDate: targetDate,
+            targetDate: targetDate!.toISOString().slice(0, -1),
             description: description,
             projectId: projectId,
             type: currentType,
@@ -129,7 +138,33 @@ function CreateWorkModal({ projectId }: CreateWorkProps) {
                         <Label htmlFor="date" className="whitespace-nowrap">
                             Target Date
                         </Label>
-                        <Input type="date" id="date" onChange={(e) => setTargetDate(e.target.value)} />
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    className={cn(
+                                        "w-full",
+                                        !targetDate && "text-muted-foreground"
+                                    )}
+                                >
+                                    {targetDate ? (
+                                        format(targetDate, "PPP")
+                                    ) : (
+                                        <span>Pick a date</span>
+                                    )
+                                    }
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={targetDate}
+                                    onSelect={setTargetDate}
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
                     </div>
                     <div className="grid grid-cols-1 items-start gap-4">
                         <Select onValueChange={(value) => setType(value)}>
