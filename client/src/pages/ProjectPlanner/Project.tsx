@@ -5,13 +5,32 @@ import ProjectToolbar from "@/pages/ProjectPlanner/components/ProjectToolbar.tsx
 import CreateWorkModal from "@/pages/ProjectPlanner/modals/CreateWorkModal.tsx";
 import {getWorksForProject} from "@/api/projects/works.ts";
 import {StatusEnum} from "@/types/TaskType.ts";
-import WorkTable from "@/pages/ProjectPlanner/components/WorkTable.tsx";
+import WorkTable, {ColumnType} from "@/pages/ProjectPlanner/components/WorkTable.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {PROJECT_PLANNER} from "@/constants/constants.ts";
 import {ProjectMetadataContext, ProjectMetadataContextType} from "@/hooks/contexts.ts";
+import {
+    closestCorners,
+    DndContext,
+    DragEndEvent,
+    DragOverEvent,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors
+} from "@dnd-kit/core";
+import {arrayMove, sortableKeyboardCoordinates} from "@dnd-kit/sortable";
+import {useEffect, useState} from "react";
 
 function Project() {
     const {projectId} = useParams();
+    const [columns, setColumns] = useState<ColumnType[]>([]);
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates
+        })
+    )
 
     const [project, works, types, memberships, statuses] = useQueries({
         queries: [
@@ -46,6 +65,114 @@ function Project() {
         statuses: statuses.data!
     }
 
+    const findColumn = (unique: number | string | null) => {
+        if (!unique) return null;
+
+        if (columns.some((c) => c.id === unique)) {
+            return columns.find((c) => c.id === unique) ?? null;
+        }
+
+        const uniqueStr = String(unique);
+
+        const itemWithColumnId = columns.flatMap((c) => {
+            const columnId = c.id;
+            return c.workCards.map((card) => ({ itemId: card.id, columnId }))
+        });
+        const columnId = itemWithColumnId.find((i) => i.itemId === uniqueStr)?.columnId;
+        return columns.find((c) => c.id === columnId) ?? null;
+    }
+
+    function handleDragOver(event: DragOverEvent) {
+        const {active, over, delta} = event;
+        const activeId = String(active.id);
+        const overId = over ? String(over.id) : null;
+        const activeColumn = findColumn(activeId);
+        const overColumn = findColumn(overId);
+
+        if (!activeColumn || !overColumn || activeColumn === overColumn) {
+            return null;
+        }
+
+        setColumns((prevState) => {
+            const activeItems = activeColumn.workCards;
+            const overItems = overColumn.workCards;
+            const activeIndex = activeItems.findIndex((i) => i.id === activeId);
+            const overIndex = overItems.findIndex((i) => i.id === overId);
+            const newIndex = () => {
+                const putOnBelowLastItem =
+                    overIndex === overItems.length - 1 && delta.y > 0;
+                const modifier = putOnBelowLastItem ? 1 : 0;
+                return overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
+            };
+            return prevState.map((c) => {
+                if (c.id === activeColumn.id) {
+                    c.workCards = activeItems.filter((i) => i.id !== activeId);
+                    return c;
+                } else if (c.id === overColumn.id) {
+                    c.workCards = [
+                        ...overItems.slice(0, newIndex()),
+                        activeItems[activeIndex],
+                        ...overItems.slice(newIndex(), overItems.length)
+                    ];
+                    return c;
+                } else {
+                    return c;
+                }
+            });
+        })
+    }
+
+    function handleDragEnd(event: DragEndEvent) {
+        const { active, over } = event;
+        const activeId = String(active.id);
+        const overId = over ? String(over.id) : null;
+        const activeColumn = findColumn(activeId);
+        const overColumn = findColumn(overId);
+        if (!activeColumn || !overColumn || activeColumn !== overColumn) {
+            return null;
+        }
+
+        const activeIndex = activeColumn.workCards.findIndex((i) => i.id === activeId);
+        const overIndex = overColumn.workCards.findIndex((i) => i.id === overId);
+        if (activeIndex !== overIndex) {
+            setColumns((prevState) => {
+                return prevState.map((column) => {
+                    if (column.id === activeColumn.id) {
+                        column.workCards = arrayMove(overColumn.workCards, activeIndex, overIndex);
+                        return column;
+                    } else {
+                        return column;
+                    }
+                });
+            });
+        }
+    }
+
+    useEffect(() => {
+        if (works.data && statuses.data) {
+            const statusOrder = Object.values(StatusEnum);
+            const columnData: ColumnType[] = statuses.data
+                .sort((a, b) => statusOrder.indexOf(a.progress as StatusEnum) - statusOrder.indexOf(b.progress as StatusEnum))
+                .map((status) => ({
+                id: status.id,
+                status: status.progress as StatusEnum,
+                workCards: works.data.filter(work => work.statusDto.id === status.id)
+                    .map(work => ({
+                        id: work.id,
+                        title: work.title,
+                        targetDate: work.targetDate,
+                        typeDto: work.typeDto,
+                        statusDto: work.statusDto,
+                        assignee: work.assignee,
+                        workOrder: work.workOrder,
+                        description: work.description,
+                        createdAt: work.createdAt
+                    }))
+            }));
+            setColumns(columnData);
+        }
+    }, [works.data, statuses.data]);
+
     if (project.isPending) return <span>Loading Project...</span>;
     if (project.isError) return <span>Error: {project.error.message}</span>;
     if (works.isPending) return <span>Loading Project...</span>;
@@ -73,12 +200,18 @@ function Project() {
                         <div>
                             <ProjectToolbar/>
                         </div>
-                        <div className="flex flex-row gap-10 justify-between">
-                            <WorkTable data={works.data} status={StatusEnum.ON_HOLD}/>
-                            <WorkTable data={works.data} status={StatusEnum.TO_DO}/>
-                            <WorkTable data={works.data} status={StatusEnum.PROGRESS}/>
-                            <WorkTable data={works.data} status={StatusEnum.COMPLETE}/>
-                        </div>
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCorners}
+                            onDragOver={handleDragOver}
+                            onDragEnd={handleDragEnd}
+                        >
+                            <div className="flex flex-row gap-10 justify-between">
+                                {columns.map((column) => (
+                                    <WorkTable key={`${column.id}-work-table-project`} data={column.workCards} status={column.status} />
+                                ))}
+                            </div>
+                        </DndContext>
                     </div>
                 </div>
             </ProjectMetadataContext.Provider>

@@ -28,7 +28,7 @@ import {
 import {ProjectMetadataContext} from "@/hooks/contexts.ts";
 import {Textarea} from "@/components/ui/textarea.tsx";
 
-function WorkSheet({id, title, description, targetDate, createdAt, typeDto, statusDto, assignee}: WorkResponse) {
+function WorkSheet({id, title, description, targetDate, createdAt, typeDto, statusDto, assignee, workOrder}: WorkResponse) {
     const [open, setOpen] = useState<boolean>(false);
     const [newTitle, setNewTitle] = useState<string>(title);
     const [newDesc, setNewDesc] = useState<string>(description);
@@ -47,6 +47,7 @@ function WorkSheet({id, title, description, targetDate, createdAt, typeDto, stat
                         id={id}
                         title={title}
                         targetDate={targetDate}
+                        workOrder={workOrder}
                         description={newDesc}
                         createdAt={createdAt}
                         typeDto={typeDto}

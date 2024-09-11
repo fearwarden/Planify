@@ -10,14 +10,25 @@ import {
 } from "@/components/ui/avatar"
 import {Badge} from "@/components/ui/badge";
 import {WorkResponse} from "@/types/ProjectType.ts";
+import {useSortable} from "@dnd-kit/sortable";
+import {CSS} from "@dnd-kit/utilities"
 
-function WorkCard({title, typeDto, statusDto, assignee}: WorkResponse) {
+function WorkCard({id, title, typeDto, statusDto, assignee}: WorkResponse) {
+    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+        id,
+    });
 
     return (
-        <Card className="w-full hover:cursor-pointer transition-all duration-300 ease-in-out hover:scale-105" style={{
+        <Card
+            ref={setNodeRef}
+            {...attributes}
+            {...listeners}
+            className="w-full hover:cursor-pointer hover:scale-105" style={{
             boxShadow: '15px 10px 30px rgb(2, 8, 23)',
             // 36, 59, 85 right color
             background: 'linear-gradient(to right, rgb(2, 8, 23), rgb(30, 41, 59))',
+            transform: CSS.Transform.toString(transform),
+            transition: transition
         }}>
             <CardHeader>
                 <CardTitle>{title}</CardTitle>

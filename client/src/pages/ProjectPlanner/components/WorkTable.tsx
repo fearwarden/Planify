@@ -3,11 +3,18 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {WorkResponse} from "@/types/ProjectType.ts";
 import WorkSheet from "@/pages/ProjectPlanner/components/WorkSheet.tsx";
+import {rectSortingStrategy, SortableContext} from "@dnd-kit/sortable";
 
 
-interface WorkTableProps {
+export interface WorkTableProps {
     data: WorkResponse[]
     status: StatusEnum;
+}
+
+export interface ColumnType {
+    id: number;
+    status: StatusEnum;
+    workCards: WorkResponse[];
 }
 
 function WorkTable({data, status}: WorkTableProps) {
@@ -17,11 +24,12 @@ function WorkTable({data, status}: WorkTableProps) {
             const name = work.statusDto.progress.toUpperCase();
             return name.includes(filter)
         });
-        filteredData.sort((a, b) => (a.workOrder > b.workOrder) ? 1 : -1)
+        //filteredData.sort((a, b) => (a.workOrder > b.workOrder) ? 1 : -1)
         return filteredData;
     }
 
     return (
+        <SortableContext id={status} items={data} strategy={rectSortingStrategy}>
         <ScrollArea className="w-full rounded-md border bg-accent/[0.5]">
             <div className="p-4 max-h-[35rem]">
                 <h4 className="mb-4 text-lg font-medium leading-none">{status}</h4>
@@ -46,6 +54,7 @@ function WorkTable({data, status}: WorkTableProps) {
                 ))}
             </div>
         </ScrollArea>
+        </SortableContext>
     );
 }
 
