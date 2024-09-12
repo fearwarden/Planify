@@ -21,7 +21,7 @@ export function calculateDaysAgo(dateArray: number[]): string {
 }
 
 export function formatArrayDate(dateArray: number[]) {
-  const [year, month, day, hour, minute, second, nanosecond] = dateArray;
-  const date = new Date(year, month - 1, day, hour, minute, second, nanosecond / 1000000);
+  const [year, month, day, hour, minute] = dateArray;
+  const date = new Date(year, month - 1, day, hour, minute);
   return format(date, "MMM d, yyyy");
 }

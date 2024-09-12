@@ -9,7 +9,7 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import {Button} from "@/components/ui/button.tsx";
-import {Trash2} from "lucide-react";
+import {CalendarIcon, Trash2} from "lucide-react";
 import {WorkResponse} from "@/types/ProjectType.ts";
 import WorkCard from "@/pages/ProjectPlanner/components/WorkCard.tsx";
 import {formatArrayDate} from "@/tools/utils.ts";
@@ -27,12 +27,17 @@ import {
 } from "@/components/ui/select.tsx";
 import {ProjectMetadataContext} from "@/hooks/contexts.ts";
 import {Textarea} from "@/components/ui/textarea.tsx";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
+import {cn} from "@/lib/utils.ts";
+import {format} from "date-fns";
+import {Calendar} from "@/components/ui/calendar.tsx";
 
-function WorkSheet({id, title, description, targetDate, createdAt, typeDto, statusDto, assignee}: WorkResponse) {
+function WorkSheet({id, title, description, workOrder, targetDate, createdAt, typeDto, statusDto, assignee}: WorkResponse) {
     const [open, setOpen] = useState<boolean>(false);
     const [newTitle, setNewTitle] = useState<string>(title);
     const [newDesc, setNewDesc] = useState<string>(description);
     const [newAssignee, setNewAssignee] = useState<string>(assignee.userDto.id);
+    const [newTargetDate, setNewTargetDate] = useState<Date>(new Date(formatArrayDate(targetDate)));
     const [type, setType] = useState<string>(typeDto.id);
     const [status, setStatus] = useState<string>(statusDto.id.toString());
 
@@ -47,6 +52,7 @@ function WorkSheet({id, title, description, targetDate, createdAt, typeDto, stat
                         id={id}
                         title={title}
                         targetDate={targetDate}
+                        workOrder={workOrder}
                         description={newDesc}
                         createdAt={createdAt}
                         typeDto={typeDto}
@@ -136,6 +142,33 @@ function WorkSheet({id, title, description, targetDate, createdAt, typeDto, stat
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    className={cn(
+                                        "w-full",
+                                        !targetDate && "text-muted-foreground"
+                                    )}
+                                >
+                                    {newTargetDate ? (
+                                        format(newTargetDate, "PPP")
+                                    ) : (
+                                        <span>Pick a date</span>
+                                    )
+                                    }
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={newTargetDate}
+                                    onSelect={setNewTargetDate}
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
                     </div>
                     <Textarea className="h-72" value={newDesc} onChange={(e) => setNewDesc(e.target.value)} />
                 </div>
