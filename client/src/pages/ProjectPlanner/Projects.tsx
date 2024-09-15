@@ -4,12 +4,17 @@ import { getProjects } from "@/api/projects/projects.ts";
 import ProjectCard from "@/pages/ProjectPlanner/components/ProjectCard.tsx";
 import {Link} from "react-router-dom";
 import {PROJECT} from "@/constants/constants.ts";
+import {useAuthRedirect} from "@/hooks/useAuthRedirect.ts";
+import {LoadingSpinner} from "@/components/ui/loading-spinner.tsx";
 
 function Projects() {
+  const isChecking = useAuthRedirect();
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["projects"],
     queryFn: getProjects,
   });
+
+  if (isChecking) return <LoadingSpinner />
 
   if (isPending) return <span>Loading Tasks...</span>;
   if (isError) return <span>Error: {error.message}</span>;

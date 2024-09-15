@@ -1,4 +1,4 @@
-import {CALORIES, HOME, LOGIN, NOTES, PROJECT_PLANNER, SETTINGS, USER_ACCOUNT} from "@/constants/constants";
+import {CALORIES, LOGIN, NOTES, PROJECT_PLANNER, SETTINGS, TASK, USER_ACCOUNT} from "@/constants/constants";
 import {Link, useNavigate} from "react-router-dom";
 import {CircleUser, Menu, ClipboardCheck} from "lucide-react";
 import {Button} from "../ui/button";
@@ -44,8 +44,8 @@ function NavBar() {
                     <ClipboardCheck className="h-6 w-6"/>
                     <span className="sr-only">Icon</span>
                 </Link>
-                <NavLink to={HOME}>Tasks</NavLink>
                 <NavLink to={PROJECT_PLANNER}>Project Planner</NavLink>
+                <NavLink to={TASK}>Tasks</NavLink>
                 <NavLink to={NOTES}>Notes</NavLink>
                 <NavLink to={CALORIES}>Calories</NavLink>
                 <NavLink to={SETTINGS}>Settings</NavLink>
