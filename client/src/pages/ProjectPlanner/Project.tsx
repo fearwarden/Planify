@@ -81,9 +81,9 @@ function Project() {
                             <WorkTable data={works.data} status={StatusEnum.COMPLETE}/>
                         </div>
                     </div>
+                    <Toaster />
                 </div>
             </ProjectMetadataContext.Provider>
-            <Toaster />
         </main>
     );
 }

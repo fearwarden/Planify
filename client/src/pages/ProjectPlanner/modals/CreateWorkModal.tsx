@@ -37,6 +37,7 @@ import {WorkSchema} from "@/validation/schemas.ts";
 import {ProjectMetadataContext} from "@/hooks/contexts.ts";
 import {cn} from "@/lib/utils.ts";
 import {format} from "date-fns";
+import {useToast} from "@/hooks/use-toast.ts";
 
 interface CreateWorkProps {
     projectId: string;
@@ -53,6 +54,7 @@ function CreateWorkModal({ projectId }: CreateWorkProps) {
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     const context = useContext(ProjectMetadataContext);
+    const { toast } = useToast();
 
     const queryClient = useQueryClient();
 
@@ -62,6 +64,12 @@ function CreateWorkModal({ projectId }: CreateWorkProps) {
             setErrorMessage(error.message)
         },
         onSuccess: () => {
+            const date = new Date();
+            const formattedDate = format(date, "EEEE, MMMM d, yyyy 'at' h:mm a");
+            toast({
+                title: "Work has been created.",
+                description: `${formattedDate}`
+            })
             queryClient.invalidateQueries({ queryKey: ["works", projectId] });
         }
     })

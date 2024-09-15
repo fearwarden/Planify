@@ -69,7 +69,7 @@ function WorkSheet({
             const date = new Date();
             const formattedDate = format(date, "EEEE, MMMM d, yyyy 'at' h:mm a");
             toast({
-                title: `${newTitle} has been updated`,
+                title: `${newTitle} - has been updated`,
                 description: `${formattedDate}`
             });
             queryClient.invalidateQueries({queryKey: ["works"]})
