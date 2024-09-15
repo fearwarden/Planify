@@ -1,5 +1,8 @@
 # React + TypeScript + Vite
 
+Resource for Kanban board:
+- [react-beautiful-dnd](https://codesandbox.io/p/sandbox/kanban-5j1hm?file=%2Fsrc%2Fcomponents%2FTaskModal%2FTaskModal.tsx)
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
