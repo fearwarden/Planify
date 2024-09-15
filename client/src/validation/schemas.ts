@@ -68,3 +68,12 @@ export const WorkSchema = z.object({
     status: StatusSchema,
     user: UserSchema
 })
+
+export const EditWorkSchema = z.object({
+    title: z.string(),
+    targetDate: z.string(),
+    description: z.string(),
+    typeId: z.string(),
+    statusId: z.number(),
+    assigneeId: z.string()
+})

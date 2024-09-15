@@ -9,6 +9,7 @@ import WorkTable from "@/pages/ProjectPlanner/components/WorkTable.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {PROJECT_PLANNER} from "@/constants/constants.ts";
 import {ProjectMetadataContext, ProjectMetadataContextType} from "@/hooks/contexts.ts";
+import {Toaster} from "@/components/ui/toaster.tsx";
 
 function Project() {
     const {projectId} = useParams();
@@ -82,6 +83,7 @@ function Project() {
                     </div>
                 </div>
             </ProjectMetadataContext.Provider>
+            <Toaster />
         </main>
     );
 }
