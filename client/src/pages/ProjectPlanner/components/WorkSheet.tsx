@@ -43,6 +43,16 @@ function WorkSheet({id, title, description, workOrder, targetDate, createdAt, ty
 
     const context = useContext(ProjectMetadataContext);
 
+    function handleDateSelect(date: Date | undefined) {
+        if (date) {
+            setNewTargetDate(date);
+        }
+    }
+
+    async function editWork() {
+        return;
+    }
+
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -164,7 +174,7 @@ function WorkSheet({id, title, description, workOrder, targetDate, createdAt, ty
                                 <Calendar
                                     mode="single"
                                     selected={newTargetDate}
-                                    onSelect={setNewTargetDate}
+                                    onSelect={handleDateSelect}
                                     initialFocus
                                 />
                             </PopoverContent>
@@ -174,7 +184,7 @@ function WorkSheet({id, title, description, workOrder, targetDate, createdAt, ty
                 </div>
                 <SheetFooter>
                     <SheetClose asChild>
-                        <Button type="submit">Save changes</Button>
+                        <Button onClick={editWork}>Save changes</Button>
                     </SheetClose>
                 </SheetFooter>
             </SheetContent>
