@@ -35,10 +35,10 @@ export type StatusType = {
 };
 
 export enum StatusEnum {
-  PROGRESS = "PROGRESS",
-  COMPLETE = "COMPLETE",
   ON_HOLD = "ON HOLD",
-  TO_DO = "TO DO"
+  TO_DO = "TO DO",
+  PROGRESS = "PROGRESS",
+  COMPLETE = "COMPLETE"
 }
 
 export type TaskDataType = z.infer<typeof TaskSchema>;

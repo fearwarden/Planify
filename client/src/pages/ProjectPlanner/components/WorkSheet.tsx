@@ -36,17 +36,7 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {useToast} from "@/hooks/use-toast.ts";
 import {editWork} from "@/api/projects/works.ts";
 
-function WorkSheet({
-                       id,
-                       title,
-                       description,
-                       workOrder,
-                       targetDate,
-                       createdAt,
-                       typeDto,
-                       statusDto,
-                       assignee
-                   }: WorkResponse) {
+function WorkSheet({id, title, description, targetDate, createdAt, typeDto, statusDto, assignee, workOrder}: WorkResponse) {
     const [open, setOpen] = useState<boolean>(false);
     const [newTitle, setNewTitle] = useState<string>(title);
     const [newDesc, setNewDesc] = useState<string>(description);
