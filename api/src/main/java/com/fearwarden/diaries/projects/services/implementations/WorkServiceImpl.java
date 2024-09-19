@@ -71,7 +71,7 @@ public class WorkServiceImpl implements WorkService {
     @Override
     public List<WorkDto> getWorksForProject(String projectId) {
         ProjectEntity project = projectService.getProjectEntity(projectId);
-        List<WorkEntity> works = workRepository.findAllByProjectEntity(project);
+        List<WorkEntity> works = workRepository.findAllByProjectEntityOrderByStatusEntityAscWorkOrderAsc(project);
         return works.stream().map(workMapper::toDto).toList();
     }
 
