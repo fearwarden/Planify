@@ -10,12 +10,12 @@ import {Button} from "@/components/ui/button.tsx";
 import {PROJECT_PLANNER} from "@/constants/constants.ts";
 import {ProjectMetadataContext, ProjectMetadataContextType} from "@/hooks/contexts.ts";
 import {
-    closestCorners,
-    DndContext,
+    DndContext, DragEndEvent,
     DragOverEvent,
     DragOverlay,
     DragStartEvent,
     PointerSensor,
+    rectIntersection,
     useSensor,
     useSensors
 } from "@dnd-kit/core";
@@ -24,6 +24,7 @@ import {useEffect, useState} from "react";
 import {createPortal} from "react-dom";
 import {WorkResponse} from "@/types/ProjectType.ts";
 import WorkCard from "@/pages/ProjectPlanner/components/WorkCard.tsx";
+import {Toaster} from "@/components/ui/toaster.tsx";
 
 function Project() {
     const {projectId} = useParams();
@@ -124,9 +125,10 @@ function Project() {
         }
     }
 
-    function onDragEnd() {
+    function onDragEnd(event: DragEndEvent) {
+        setActiveWork(null);
+        onDragOver(event);
         // Here I will make an API call to update the work's status on the server
-        return;
     }
 
     useEffect(() => {
@@ -183,7 +185,7 @@ function Project() {
                         </div>
                         <DndContext
                             sensors={sensors}
-                            collisionDetection={closestCorners}
+                            collisionDetection={rectIntersection}
                             onDragStart={onDragStart}
                             onDragOver={onDragOver}
                             onDragEnd={onDragEnd}
@@ -217,7 +219,7 @@ function Project() {
                             )}
                         </DndContext>
                     </div>
-                    <Toaster />
+                    <Toaster/>
                 </div>
             </ProjectMetadataContext.Provider>
         </main>
