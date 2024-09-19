@@ -3,7 +3,7 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {WorkResponse} from "@/types/ProjectType.ts";
 import WorkSheet from "@/pages/ProjectPlanner/components/WorkSheet.tsx";
-import {rectSortingStrategy, SortableContext} from "@dnd-kit/sortable";
+import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 
 
 export interface WorkTableProps {
@@ -17,23 +17,20 @@ export interface ColumnType {
 }
 
 function WorkTable({data, status}: WorkTableProps) {
-
-    function filteredWorks(filter: StatusEnum) {
-        const filteredData = data!.filter(work => {
-            const name = work.statusDto.progress.toUpperCase();
-            return name.includes(filter)
-        });
-        //filteredData.sort((a, b) => (a.workOrder > b.workOrder) ? 1 : -1)
-        return filteredData;
-    }
+    const works = data.filter(work => work.statusDto.progress === status);
 
     return (
-        <SortableContext id={status} items={data} strategy={rectSortingStrategy}>
+        <SortableContext id={status} items={data} strategy={verticalListSortingStrategy}>
         <ScrollArea className="w-full rounded-md border bg-accent/[0.5]">
             <div className="p-4 max-h-[35rem]" data-type="Column" data-id={status}>
                 <h4 className="mb-4 text-lg font-medium leading-none">{status}</h4>
-                {filteredWorks(status).map((work) => (
-                    <>
+                {works.length === 0 ? (
+                    // Render a placeholder if no works are present
+                    <div className="text-sm text-gray-500">
+                        <p>No tasks available. Drag here to add tasks.</p>
+                    </div>
+                ) : (
+                    works.map((work) => (
                         <div key={`work-table-${work.id}-div`} className="text-sm">
                             <WorkSheet
                                 key={`${work.id}`}
@@ -47,10 +44,10 @@ function WorkTable({data, status}: WorkTableProps) {
                                 statusDto={work.statusDto}
                                 assignee={work.assignee}
                             />
+                            <Separator className="my-2" />
                         </div>
-                        <Separator className="my-2"/>
-                    </>
-                ))}
+                    ))
+                )}
             </div>
         </ScrollArea>
         </SortableContext>

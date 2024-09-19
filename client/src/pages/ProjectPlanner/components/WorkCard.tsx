@@ -13,24 +13,26 @@ import {WorkResponse} from "@/types/ProjectType.ts";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities"
 
-function WorkCard({id, title, typeDto, statusDto, assignee}: WorkResponse) {
+function WorkCard({id, title, typeDto, statusDto, assignee, isDragging}: WorkResponse & { isDragging?: boolean }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
         id: id,
         data: {type: "Work", work: {id, statusDto}}
     });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+        boxShadow: '15px 10px 30px rgb(2, 8, 23)',
+        background: 'linear-gradient(to right, rgb(2, 8, 23), rgb(30, 41, 59))',
+        opacity: isDragging ? 0.8 : 1,
+    };
 
     return (
         <Card
             ref={setNodeRef}
             {...attributes}
             {...listeners}
-            className="w-full hover:cursor-pointer hover:scale-105" style={{
-            boxShadow: '15px 10px 30px rgb(2, 8, 23)',
-            // 36, 59, 85 right color
-            background: 'linear-gradient(to right, rgb(2, 8, 23), rgb(30, 41, 59))',
-            transform: CSS.Transform.toString(transform),
-            transition: transition
-        }}>
+            className="w-full hover:cursor-pointer hover:scale-105" style={style}>
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
                 <CardDescription>

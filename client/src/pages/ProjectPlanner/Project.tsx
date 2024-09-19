@@ -12,14 +12,12 @@ import {ProjectMetadataContext, ProjectMetadataContextType} from "@/hooks/contex
 import {
     closestCorners,
     DndContext,
-    DragEndEvent,
     DragOverEvent, DragOverlay, DragStartEvent,
-    KeyboardSensor,
     PointerSensor,
     useSensor,
     useSensors
 } from "@dnd-kit/core";
-import {arrayMove, sortableKeyboardCoordinates} from "@dnd-kit/sortable";
+import {arrayMove} from "@dnd-kit/sortable";
 import {useEffect, useState} from "react";
 import {createPortal} from "react-dom";
 import {WorkResponse} from "@/types/ProjectType.ts";
@@ -31,11 +29,12 @@ function Project() {
     const [worksState, setWorksState] = useState<WorkResponse[]>([]);
     const [activeWork, setActiveWork] = useState<WorkResponse | null>(null);
     const sensors = useSensors(
-        useSensor(PointerSensor),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 5,
+            },
         })
-    )
+    );
 
     const [project, works, types, memberships, statuses] = useQueries({
         queries: [
@@ -71,9 +70,9 @@ function Project() {
     }
 
     function onDragStart(event: DragStartEvent) {
-        if (event.active.data.current?.type === "Work") {
-            setActiveWork(worksState.find(work => work.id === event.active.id) || null);
-        }
+        const {active} = event;
+        const activeWork = worksState.find(work => work.id === active.id);
+        setActiveWork(activeWork || null);
     }
 
     function onDragOver(event: DragOverEvent) {
@@ -83,10 +82,12 @@ function Project() {
         const activeId = active.id;
         const overId = over.id;
 
-        if (activeId === overId) return
-        const isActiveWork = active.data.current?.type === "Task";
-        const isOverWork = active.data.current?.type === "Task";
-        const isOverColumn = over.data.current?.type === "Column";
+        if (activeId === overId) return;
+
+        const isActiveWork = active.data.current?.type === "Work";
+        const isOverWork = active.data.current?.type === "Work";
+        const currentColumn = over.data.current?.sortable.containerId;
+        const isOverAColumn = Object.values(StatusEnum).some((s) => s === currentColumn);
 
         if (!isActiveWork) return;
 
@@ -102,10 +103,9 @@ function Project() {
         }
 
         // Dropping a work over a column
-        if (isActiveWork && isOverColumn) {
+        if (isActiveWork && isOverAColumn) {
             setWorksState((works) => {
                 const activeIndex = works.findIndex((w) => w.id === activeId);
-
                 // Update the status of the active work to match the new column
                 works[activeIndex].statusDto = {
                     id: over.id as number,
@@ -116,51 +116,9 @@ function Project() {
         }
     }
 
-    function onDragEnd(event: DragEndEvent) {
-        const { active, over } = event;
-
-        if (!over) return;
-
-        const activeWorkId = active.id;
-        const overWorkId = over.id;
-
-        if (activeWorkId === overWorkId) return;
-
-        const isActiveAWork = active.data.current?.type === "Work";
-        const isOverAWork = over.data.current?.type === "Work";
-        const isOverAColumn = over.data.current?.type === "Column";
-
-        setWorksState((works) => {
-            const activeIndex = works.findIndex((w) => w.id === activeWorkId);
-
-            if (isActiveAWork && isOverAWork) {
-                const overIndex = works.findIndex((w) => w.id === overWorkId);
-
-                if (works[activeIndex].statusDto.progress !== works[overIndex].statusDto.progress) {
-                    // Update the status of the active work to match the over work's status
-                    works[activeIndex].statusDto = {...works[overIndex].statusDto};
-                }
-
-                return arrayMove(works, activeIndex, overIndex);
-            }
-
-            if (isActiveAWork && isOverAColumn) {
-                const newStatus = columns.find(col => col.id === over.id)?.status;
-                if (newStatus && works[activeIndex].statusDto.progress !== newStatus) {
-                    // Update the status of the active work to match the new column
-                    works[activeIndex].statusDto = {
-                        ...works[activeIndex].statusDto,
-                        progress: newStatus
-                    };
-                }
-            }
-
-            return arrayMove(works, activeIndex, activeIndex); // This triggers a re-render
-        });
-
-        // Here you would typically make an API call to update the work's status on the server
-        // For example:
-        // updateWorkStatus(activeWorkId, newStatus);
+    function onDragEnd() {
+        // Here I will make an API call to update the work's status on the server
+        return;
     }
 
     useEffect(() => {
@@ -169,9 +127,9 @@ function Project() {
             const columnData: ColumnType[] = statuses.data
                 .sort((a, b) => statusOrder.indexOf(a.progress as StatusEnum) - statusOrder.indexOf(b.progress as StatusEnum))
                 .map((status) => ({
-                id: status.id,
-                status: status.progress as StatusEnum,
-            }));
+                    id: status.id,
+                    status: status.progress as StatusEnum,
+                }));
             setColumns(columnData);
             const workData: WorkResponse[] = works.data.map((work) => ({
                 id: work.id,
@@ -225,9 +183,9 @@ function Project() {
                             <div className="flex flex-row gap-10 justify-between">
                                 {columns.map((column) => (
                                     <WorkTable
-                                        key={`${column.id}`}
+                                        key={`${column.id}-work-table`}
                                         data={worksState.filter((work) => work.statusDto.progress === column.status)}
-                                        status={column.status} />
+                                        status={column.status}/>
                                 ))}
                             </div>
                             {createPortal(
@@ -243,6 +201,7 @@ function Project() {
                                             typeDto={activeWork.typeDto}
                                             statusDto={activeWork.statusDto}
                                             assignee={activeWork.assignee}
+                                            isDragging
                                         /> : null
                                     }
                                 </DragOverlay>,
