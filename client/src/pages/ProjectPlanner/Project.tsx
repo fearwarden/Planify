@@ -217,6 +217,7 @@ function Project() {
                             )}
                         </DndContext>
                     </div>
+                    <Toaster />
                 </div>
             </ProjectMetadataContext.Provider>
         </main>

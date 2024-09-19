@@ -5,7 +5,9 @@ import com.fearwarden.diaries.metadata.models.TypeEntity;
 import com.fearwarden.diaries.metadata.repositories.StatusRepository;
 import com.fearwarden.diaries.metadata.repositories.TypeEntityRepository;
 import com.fearwarden.diaries.projects.dto.request.CreateWorkDto;
+import com.fearwarden.diaries.projects.dto.request.EditWorkDto;
 import com.fearwarden.diaries.projects.dto.response.WorkDto;
+import com.fearwarden.diaries.projects.exceptions.throwables.WorkDoesNotExistsException;
 import com.fearwarden.diaries.projects.mappers.WorkMapper;
 import com.fearwarden.diaries.projects.models.ProjectEntity;
 import com.fearwarden.diaries.projects.models.ProjectMembershipEntity;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -70,5 +73,25 @@ public class WorkServiceImpl implements WorkService {
         ProjectEntity project = projectService.getProjectEntity(projectId);
         List<WorkEntity> works = workRepository.findAllByProjectEntity(project);
         return works.stream().map(workMapper::toDto).toList();
+    }
+
+    @Override
+    public void editWork(String workId, EditWorkDto body) {
+        StatusEntity status =
+                statusRepository.findById(body.statusId()).orElseThrow(StatusNotFoundException::new);
+        TypeEntity type =
+                typeEntityRepository.findById(UUID.fromString(body.typeId())).orElseThrow(TypeNotFoundException::new);
+        UserEntity user = userService.findUserById(UUID.fromString(body.assigneeId()));
+
+        WorkEntity work = workRepository
+                .findById(UUID.fromString(workId)).orElseThrow(() -> new WorkDoesNotExistsException(workId));
+        ProjectMembershipEntity membership = membershipRepository.findByProjectEntityAndUserEntity(work.getProjectEntity(), user);
+        work.setTitle(body.title());
+        work.setDescription(body.description());
+        work.setTargetDate(body.targetDate());
+        work.setTypeEntity(type);
+        work.setStatusEntity(status);
+        work.setAssignee(membership);
+        workRepository.save(work);
     }
 }

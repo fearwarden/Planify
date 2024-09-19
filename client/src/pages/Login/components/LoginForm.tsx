@@ -18,7 +18,7 @@ import { useDispatch } from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/store/slice/userSlice";
-import {HOME, REGISTER} from "@/constants/constants";
+import {PROJECT_PLANNER, REGISTER} from "@/constants/constants";
 import { LoginDataType } from "@/types/AuthenticationTypes";
 import { LoginSchema } from "@/validation/schemas";
 import LoginSvg from "@/assets/img/login.svg"
@@ -44,7 +44,7 @@ function LoginForm() {
     },
     onSuccess: (data) => {
       dispatch(login(data));
-      navigate(HOME);
+      navigate(PROJECT_PLANNER);
     },
   });
 

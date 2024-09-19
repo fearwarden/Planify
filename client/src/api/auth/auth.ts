@@ -1,5 +1,3 @@
-// TODO: move login function here, and create register api function
-
 import {LoginDataType, LoginResponse, RegisterDataType, RegisterResponse} from "@/types/AuthenticationTypes.ts";
 import {api} from "@/hooks/api.ts";
 

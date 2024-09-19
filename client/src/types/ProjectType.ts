@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {ProjectSchema, WorkSchema} from "@/validation/schemas.ts";
+import {EditWorkSchema, ProjectSchema, WorkSchema} from "@/validation/schemas.ts";
 import {IUser} from "@/types/UserTypes.ts";
 import {StatusType} from "@/types/TaskType.ts";
 
@@ -52,3 +52,9 @@ export enum ProjectRole {
 
 export type ProjectDataType = z.infer<typeof ProjectSchema>;
 export type WorkType = z.infer<typeof WorkSchema>;
+export type EditWorkDataType = z.infer<typeof EditWorkSchema>;
+
+export interface EditWorkDataTypeApi {
+    workId: string;
+    data: EditWorkDataType
+}
