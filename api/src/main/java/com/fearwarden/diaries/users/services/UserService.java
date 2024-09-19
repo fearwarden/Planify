@@ -13,3 +13,4 @@ public interface UserService {
     boolean checkIfUsersExist(List<UserDto> userDtoList);
     List<UserDto> findAll(UserEntity user);
 }
+
