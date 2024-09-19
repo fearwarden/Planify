@@ -13,7 +13,7 @@ import {
     closestCorners,
     DndContext,
     DragEndEvent,
-    DragOverEvent,
+    DragOverEvent, DragOverlay, DragStartEvent,
     KeyboardSensor,
     PointerSensor,
     useSensor,
@@ -21,10 +21,15 @@ import {
 } from "@dnd-kit/core";
 import {arrayMove, sortableKeyboardCoordinates} from "@dnd-kit/sortable";
 import {useEffect, useState} from "react";
+import {createPortal} from "react-dom";
+import {WorkResponse} from "@/types/ProjectType.ts";
+import WorkCard from "@/pages/ProjectPlanner/components/WorkCard.tsx";
 
 function Project() {
     const {projectId} = useParams();
     const [columns, setColumns] = useState<ColumnType[]>([]);
+    const [worksState, setWorksState] = useState<WorkResponse[]>([]);
+    const [activeWork, setActiveWork] = useState<WorkResponse | null>(null);
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(KeyboardSensor, {
@@ -65,87 +70,97 @@ function Project() {
         statuses: statuses.data!
     }
 
-    const findColumn = (unique: number | string | null) => {
-        if (!unique) return null;
-
-        if (columns.some((c) => c.id === unique)) {
-            return columns.find((c) => c.id === unique) ?? null;
+    function onDragStart(event: DragStartEvent) {
+        if (event.active.data.current?.type === "Work") {
+            setActiveWork(worksState.find(work => work.id === event.active.id) || null);
         }
-
-        const uniqueStr = String(unique);
-
-        const itemWithColumnId = columns.flatMap((c) => {
-            const columnId = c.id;
-            return c.workCards.map((card) => ({ itemId: card.id, columnId }))
-        });
-        const columnId = itemWithColumnId.find((i) => i.itemId === uniqueStr)?.columnId;
-        return columns.find((c) => c.id === columnId) ?? null;
     }
 
-    function handleDragOver(event: DragOverEvent) {
-        const {active, over, delta} = event;
-        const activeId = String(active.id);
-        const overId = over ? String(over.id) : null;
-        const activeColumn = findColumn(activeId);
-        const overColumn = findColumn(overId);
+    function onDragOver(event: DragOverEvent) {
+        const {active, over} = event;
+        if (!over) return;
 
-        if (!activeColumn || !overColumn || activeColumn === overColumn) {
-            return null;
+        const activeId = active.id;
+        const overId = over.id;
+
+        if (activeId === overId) return
+        const isActiveWork = active.data.current?.type === "Task";
+        const isOverWork = active.data.current?.type === "Task";
+        const isOverColumn = over.data.current?.type === "Column";
+
+        if (!isActiveWork) return;
+
+        // dropping a task over another task
+        if (isActiveWork && isOverWork) {
+            setWorksState((works) => {
+                const activeIndex = works.findIndex((w) => w.id === activeId);
+                const overIndex = works.findIndex((w) => w.id == overId);
+
+                works[activeIndex].statusDto = works[overIndex].statusDto;
+                return arrayMove(works, activeIndex, overIndex);
+            })
         }
 
-        setColumns((prevState) => {
-            const activeItems = activeColumn.workCards;
-            const overItems = overColumn.workCards;
-            const activeIndex = activeItems.findIndex((i) => i.id === activeId);
-            const overIndex = overItems.findIndex((i) => i.id === overId);
-            const newIndex = () => {
-                const putOnBelowLastItem =
-                    overIndex === overItems.length - 1 && delta.y > 0;
-                const modifier = putOnBelowLastItem ? 1 : 0;
-                return overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
-            };
-            return prevState.map((c) => {
-                if (c.id === activeColumn.id) {
-                    c.workCards = activeItems.filter((i) => i.id !== activeId);
-                    return c;
-                } else if (c.id === overColumn.id) {
-                    c.workCards = [
-                        ...overItems.slice(0, newIndex()),
-                        activeItems[activeIndex],
-                        ...overItems.slice(newIndex(), overItems.length)
-                    ];
-                    return c;
-                } else {
-                    return c;
-                }
-            });
-        })
+        // Dropping a work over a column
+        if (isActiveWork && isOverColumn) {
+            setWorksState((works) => {
+                const activeIndex = works.findIndex((w) => w.id === activeId);
+
+                // Update the status of the active work to match the new column
+                works[activeIndex].statusDto = {
+                    id: over.id as number,
+                    progress: columns.find(col => col.id === over.id)?.status || works[activeIndex].statusDto.progress
+                };
+                return arrayMove(works, activeIndex, activeIndex);
+            })
+        }
     }
 
-    function handleDragEnd(event: DragEndEvent) {
+    function onDragEnd(event: DragEndEvent) {
         const { active, over } = event;
-        const activeId = String(active.id);
-        const overId = over ? String(over.id) : null;
-        const activeColumn = findColumn(activeId);
-        const overColumn = findColumn(overId);
-        if (!activeColumn || !overColumn || activeColumn !== overColumn) {
-            return null;
-        }
 
-        const activeIndex = activeColumn.workCards.findIndex((i) => i.id === activeId);
-        const overIndex = overColumn.workCards.findIndex((i) => i.id === overId);
-        if (activeIndex !== overIndex) {
-            setColumns((prevState) => {
-                return prevState.map((column) => {
-                    if (column.id === activeColumn.id) {
-                        column.workCards = arrayMove(overColumn.workCards, activeIndex, overIndex);
-                        return column;
-                    } else {
-                        return column;
-                    }
-                });
-            });
-        }
+        if (!over) return;
+
+        const activeWorkId = active.id;
+        const overWorkId = over.id;
+
+        if (activeWorkId === overWorkId) return;
+
+        const isActiveAWork = active.data.current?.type === "Work";
+        const isOverAWork = over.data.current?.type === "Work";
+        const isOverAColumn = over.data.current?.type === "Column";
+
+        setWorksState((works) => {
+            const activeIndex = works.findIndex((w) => w.id === activeWorkId);
+
+            if (isActiveAWork && isOverAWork) {
+                const overIndex = works.findIndex((w) => w.id === overWorkId);
+
+                if (works[activeIndex].statusDto.progress !== works[overIndex].statusDto.progress) {
+                    // Update the status of the active work to match the over work's status
+                    works[activeIndex].statusDto = {...works[overIndex].statusDto};
+                }
+
+                return arrayMove(works, activeIndex, overIndex);
+            }
+
+            if (isActiveAWork && isOverAColumn) {
+                const newStatus = columns.find(col => col.id === over.id)?.status;
+                if (newStatus && works[activeIndex].statusDto.progress !== newStatus) {
+                    // Update the status of the active work to match the new column
+                    works[activeIndex].statusDto = {
+                        ...works[activeIndex].statusDto,
+                        progress: newStatus
+                    };
+                }
+            }
+
+            return arrayMove(works, activeIndex, activeIndex); // This triggers a re-render
+        });
+
+        // Here you would typically make an API call to update the work's status on the server
+        // For example:
+        // updateWorkStatus(activeWorkId, newStatus);
     }
 
     useEffect(() => {
@@ -156,20 +171,20 @@ function Project() {
                 .map((status) => ({
                 id: status.id,
                 status: status.progress as StatusEnum,
-                workCards: works.data.filter(work => work.statusDto.id === status.id)
-                    .map(work => ({
-                        id: work.id,
-                        title: work.title,
-                        targetDate: work.targetDate,
-                        typeDto: work.typeDto,
-                        statusDto: work.statusDto,
-                        assignee: work.assignee,
-                        workOrder: work.workOrder,
-                        description: work.description,
-                        createdAt: work.createdAt
-                    }))
             }));
             setColumns(columnData);
+            const workData: WorkResponse[] = works.data.map((work) => ({
+                id: work.id,
+                workOrder: work.workOrder,
+                description: work.description,
+                createdAt: work.createdAt,
+                assignee: work.assignee,
+                targetDate: work.targetDate,
+                typeDto: work.typeDto,
+                statusDto: work.statusDto,
+                title: work.title
+            }))
+            setWorksState(workData);
         }
     }, [works.data, statuses.data]);
 
@@ -203,14 +218,36 @@ function Project() {
                         <DndContext
                             sensors={sensors}
                             collisionDetection={closestCorners}
-                            onDragOver={handleDragOver}
-                            onDragEnd={handleDragEnd}
+                            onDragStart={onDragStart}
+                            onDragOver={onDragOver}
+                            onDragEnd={onDragEnd}
                         >
                             <div className="flex flex-row gap-10 justify-between">
                                 {columns.map((column) => (
-                                    <WorkTable key={`${column.id}-work-table-project`} data={column.workCards} status={column.status} />
+                                    <WorkTable
+                                        key={`${column.id}`}
+                                        data={worksState.filter((work) => work.statusDto.progress === column.status)}
+                                        status={column.status} />
                                 ))}
                             </div>
+                            {createPortal(
+                                <DragOverlay>
+                                    {activeWork ?
+                                        <WorkCard
+                                            id={activeWork.id}
+                                            title={activeWork.title}
+                                            targetDate={activeWork.targetDate}
+                                            description={activeWork.description}
+                                            createdAt={activeWork.createdAt}
+                                            workOrder={activeWork.workOrder}
+                                            typeDto={activeWork.typeDto}
+                                            statusDto={activeWork.statusDto}
+                                            assignee={activeWork.assignee}
+                                        /> : null
+                                    }
+                                </DragOverlay>,
+                                document.body
+                            )}
                         </DndContext>
                     </div>
                 </div>

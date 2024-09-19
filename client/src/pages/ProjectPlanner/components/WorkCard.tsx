@@ -15,7 +15,8 @@ import {CSS} from "@dnd-kit/utilities"
 
 function WorkCard({id, title, typeDto, statusDto, assignee}: WorkResponse) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-        id,
+        id: id,
+        data: {type: "Work", work: {id, statusDto}}
     });
 
     return (
