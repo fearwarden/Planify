@@ -12,7 +12,9 @@ import {ProjectMetadataContext, ProjectMetadataContextType} from "@/hooks/contex
 import {
     closestCorners,
     DndContext,
-    DragOverEvent, DragOverlay, DragStartEvent,
+    DragOverEvent,
+    DragOverlay,
+    DragStartEvent,
     PointerSensor,
     useSensor,
     useSensors
@@ -86,8 +88,7 @@ function Project() {
 
         const isActiveWork = active.data.current?.type === "Work";
         const isOverWork = active.data.current?.type === "Work";
-        const currentColumn = over.data.current?.sortable.containerId;
-        const isOverAColumn = Object.values(StatusEnum).some((s) => s === currentColumn);
+        const isOverAColumn = over.data.current?.type === "Column";
 
         if (!isActiveWork) return;
 
@@ -97,20 +98,27 @@ function Project() {
                 const activeIndex = works.findIndex((w) => w.id === activeId);
                 const overIndex = works.findIndex((w) => w.id == overId);
 
-                works[activeIndex].statusDto = works[overIndex].statusDto;
+                // Ensure that the statusDto of the over work is not null before assigning
+                if (works[overIndex]?.statusDto) {
+                    works[activeIndex].statusDto = works[overIndex].statusDto;
+                }
                 return arrayMove(works, activeIndex, overIndex);
-            })
+            });
         }
+
 
         // Dropping a work over a column
         if (isActiveWork && isOverAColumn) {
             setWorksState((works) => {
                 const activeIndex = works.findIndex((w) => w.id === activeId);
                 // Update the status of the active work to match the new column
-                works[activeIndex].statusDto = {
-                    id: over.id as number,
-                    progress: columns.find(col => col.id === over.id)?.status || works[activeIndex].statusDto.progress
-                };
+                const newColumnStatus = over.data.current?.status;
+                if (newColumnStatus) {
+                    works[activeIndex].statusDto = {
+                        ...works[activeIndex].statusDto,
+                        progress: newColumnStatus
+                    };
+                }
                 return arrayMove(works, activeIndex, activeIndex);
             })
         }
