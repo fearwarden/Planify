@@ -5,7 +5,8 @@ import ProjectToolbar from "@/pages/ProjectPlanner/components/ProjectToolbar.tsx
 import CreateWorkModal from "@/pages/ProjectPlanner/modals/CreateWorkModal.tsx";
 import {getWorksForProject} from "@/api/projects/works.ts";
 import {StatusEnum} from "@/types/TaskType.ts";
-import WorkTable, {ColumnType} from "@/pages/ProjectPlanner/components/WorkTable.tsx";
+import WorkTable from "@/pages/ProjectPlanner/components/WorkTable.tsx";
+import {ColumnType} from "@/types/ProjectType.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {PROJECT_PLANNER} from "@/constants/constants.ts";
 import {ProjectMetadataContext, ProjectMetadataContextType} from "@/hooks/contexts.ts";
@@ -126,7 +127,8 @@ function Project() {
     }
 
     function onDragEnd(event: DragEndEvent) {
-        setActiveWork(null);
+        const workStatuses = worksState.filter((w) => w.statusDto.id === activeWork?.statusDto.id)
+        console.log(workStatuses)
         onDragOver(event);
         // Here I will make an API call to update the work's status on the server
     }

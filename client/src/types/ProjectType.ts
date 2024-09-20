@@ -1,7 +1,7 @@
 import {z} from "zod";
 import {EditWorkSchema, ProjectSchema, WorkSchema} from "@/validation/schemas.ts";
 import {IUser} from "@/types/UserTypes.ts";
-import {StatusType} from "@/types/TaskType.ts";
+import {StatusEnum, StatusType} from "@/types/TaskType.ts";
 
 export interface ProjectResponse {
     id: string;
@@ -48,6 +48,11 @@ export enum ProjectRole {
     ADMIN = "ADMIN",
     MEMBER = "MEMBER",
     "VIEWER" = "VIEWER"
+}
+
+export interface ColumnType {
+    id: number;
+    status: StatusEnum;
 }
 
 export type ProjectDataType = z.infer<typeof ProjectSchema>;

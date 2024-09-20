@@ -11,7 +11,7 @@ import {ProjectResponse} from "@/types/ProjectType.ts";
 import {Progress} from "@/components/ui/progress";
 import {calculateDaysAgo} from "@/tools/utils.ts";
 
-function ProjectCard({name, status, iconPath, updatedAt}: ProjectResponse) {
+function ProjectCard({name, status, iconPath, createdAt}: ProjectResponse) {
     return (
         <Card className="w-[400px] hover: cursor-pointer hover:border-accent-foreground">
             <CardHeader className="flex flex-row justify-between">
@@ -39,7 +39,7 @@ function ProjectCard({name, status, iconPath, updatedAt}: ProjectResponse) {
                         <h1>0/1 tasks</h1>
                     </div>
                     <Progress/>
-                    <h1>Last updated {calculateDaysAgo(updatedAt)}</h1>
+                    <h1>Created {calculateDaysAgo(createdAt)}</h1>
                 </div>
             </CardContent>
         </Card>

@@ -7,13 +7,8 @@ import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import {useDroppable} from "@dnd-kit/core";
 
 
-export interface WorkTableProps {
+interface WorkTableProps {
     data: WorkResponse[]
-    status: StatusEnum;
-}
-
-export interface ColumnType {
-    id: number;
     status: StatusEnum;
 }
 
@@ -28,7 +23,7 @@ function WorkTable({data, status}: WorkTableProps) {
         <div ref={setNodeRef} className="w-full">
         <SortableContext id={status} items={data} strategy={verticalListSortingStrategy}>
             <ScrollArea className="w-full rounded-md border bg-accent/[0.5]">
-                <div className="p-4 max-h-[35rem]" data-type="Column" data-id={status}>
+                <div className="p-4 max-h-[35rem]">
                     <h4 className="mb-4 text-lg font-medium leading-none">{status}</h4>
                     {works.length === 0 ? (
                         // Render a placeholder if no works are present
