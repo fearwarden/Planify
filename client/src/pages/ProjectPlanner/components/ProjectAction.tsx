@@ -1,4 +1,4 @@
-import {DotsVerticalIcon, TrashIcon,} from "@radix-ui/react-icons";
+import {DotsVerticalIcon, GearIcon, TrashIcon} from "@radix-ui/react-icons";
 
 import {Popover, PopoverContent, PopoverTrigger,} from "@/components/ui/popover";
 import {Command, CommandGroup, CommandItem, CommandList,} from "@/components/ui/command";
@@ -22,11 +22,14 @@ const useDeleteProjectMutation = () => {
                 title: `Project has been deleted`,
                 description: `${formattedDate}`
             });
+        },
+        onError: () => {
+            alert("Error while deleting a project. Try again!")
         }
     })
 }
 
-function ProjectAction({ projectId }: ProjectActionProps) {
+function ProjectAction({projectId}: ProjectActionProps) {
     const deleteMutation = useDeleteProjectMutation();
 
     return (
@@ -40,12 +43,16 @@ function ProjectAction({ projectId }: ProjectActionProps) {
                 <Command>
                     <CommandList>
                         <CommandGroup heading="Project Actions">
-                            <CommandItem className="gap-2 hover:cursor-pointer">
-                            </CommandItem>
                             <a onClick={() => deleteMutation.mutate(projectId!)}>
                                 <CommandItem className="gap-2 hover:cursor-pointer">
                                     <TrashIcon/>
                                     <span>Delete</span>
+                                </CommandItem>
+                            </a>
+                            <a>
+                                <CommandItem className="gap-2 hover:cursor-pointer">
+                                    <GearIcon/>
+                                    <span>Settings</span>
                                 </CommandItem>
                             </a>
                         </CommandGroup>

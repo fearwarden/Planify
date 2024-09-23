@@ -28,7 +28,7 @@ function WorkTable({data, status}: WorkTableProps) {
                     {works.length === 0 ? (
                         // Render a placeholder if no works are present
                         <div className="text-sm text-gray-500">
-                            <p>No tasks available. Drag here to add tasks.</p>
+                            <p>No tasks available. Create or Drag here to add tasks.</p>
                         </div>
                     ) : (
                         works.map((work) => (
