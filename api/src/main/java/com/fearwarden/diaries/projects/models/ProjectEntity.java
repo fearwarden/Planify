@@ -46,7 +46,11 @@ public class ProjectEntity {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "projectEntity", orphanRemoval = true)
+    @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private Set<ProjectMembershipEntity> projectMembershipEntities = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Set<WorkEntity> works = new LinkedHashSet<>();
 }

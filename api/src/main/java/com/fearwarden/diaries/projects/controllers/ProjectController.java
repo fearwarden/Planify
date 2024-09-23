@@ -38,4 +38,10 @@ public class ProjectController {
         ProjectDto project = projectService.getProject(projectId);
         return ResponseEntity.ok(project);
     }
+
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<String> deleteProject(@PathVariable String projectId) {
+        projectService.deleteProject(projectId);
+        return ResponseEntity.ok("Project successfully deleted.");
+    }
 }

@@ -1,6 +1,6 @@
-import {CALORIES, LOGIN, NOTES, PROJECT_PLANNER, SETTINGS, TASK, USER_ACCOUNT} from "@/constants/constants";
+import {LOGIN, PROJECT_PLANNER, SETTINGS, TASK, USER_ACCOUNT} from "@/constants/constants";
 import {Link, useNavigate} from "react-router-dom";
-import {CircleUser, Menu, ClipboardCheck} from "lucide-react";
+import {CircleUser, ClipboardCheck, Menu} from "lucide-react";
 import {Button} from "../ui/button";
 import {
     DropdownMenu,
@@ -46,8 +46,6 @@ function NavBar() {
                 </Link>
                 <NavLink to={PROJECT_PLANNER}>Project Planner</NavLink>
                 <NavLink to={TASK}>Tasks</NavLink>
-                <NavLink to={NOTES}>Notes</NavLink>
-                <NavLink to={CALORIES}>Calories</NavLink>
                 <NavLink to={SETTINGS}>Settings</NavLink>
             </nav>
             <Sheet>

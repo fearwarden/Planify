@@ -23,7 +23,7 @@ function WorkTable({data, status}: WorkTableProps) {
         <div ref={setNodeRef} className="w-full">
         <SortableContext id={status} items={data} strategy={verticalListSortingStrategy}>
             <ScrollArea className="w-full rounded-md border bg-accent/[0.5]">
-                <div className="p-4 max-h-[35rem]">
+                <div className="p-4 h-[35rem]">
                     <h4 className="mb-4 text-lg font-medium leading-none">{status}</h4>
                     {works.length === 0 ? (
                         // Render a placeholder if no works are present

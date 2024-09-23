@@ -127,6 +127,7 @@ function Project() {
     }
 
     function onDragEnd(event: DragEndEvent) {
+        console.log(activeWork)
         const workStatuses = worksState.filter((w) => w.statusDto.id === activeWork?.statusDto.id)
         console.log(workStatuses)
         onDragOver(event);

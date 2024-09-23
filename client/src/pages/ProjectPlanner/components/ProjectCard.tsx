@@ -1,4 +1,3 @@
-import {DotsVerticalIcon} from "@radix-ui/react-icons";
 import {
     Card,
     CardContent,
@@ -29,7 +28,6 @@ function ProjectCard({name, status, iconPath, createdAt}: ProjectResponse) {
                     </div>
                 </div>
                 <div>
-                    <DotsVerticalIcon className="size-4 hover:cursor-pointer hover:bg-accent hover:border-2 hover:rounded"/>
                 </div>
             </CardHeader>
             <CardContent>

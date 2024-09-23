@@ -101,4 +101,13 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.findById(UUID.fromString(projectId))
                 .orElseThrow(() -> new ProjectDoesNotExistsException(projectId));
     }
+
+    @Override
+    @Transactional
+    public void deleteProject(String projectId) {
+        ProjectEntity project =
+                projectRepository.findById(UUID.fromString(projectId))
+                        .orElseThrow(() -> new ProjectDoesNotExistsException(projectId));
+        projectRepository.delete(project);
+    }
 }

@@ -44,17 +44,17 @@ public class WorkEntity {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_entity_id", nullable = false)
     private ProjectEntity projectEntity;
 
     @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private TypeEntity typeEntity;
 
     @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "status_entity_id", nullable = false)
     private StatusEntity statusEntity;
 
