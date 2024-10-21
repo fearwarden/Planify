@@ -11,6 +11,7 @@ import java.util.UUID;
 
 public interface WorkRepository extends JpaRepository<WorkEntity, UUID> {
     List<WorkEntity> findAllByProjectEntityOrderByStatusEntityAscWorkOrderAsc(ProjectEntity project);
+    List<WorkEntity> findAllByStatusEntity(StatusEntity status);
     @Query("SELECT MAX(w.workOrder) from WorkEntity w where w.statusEntity = :status")
     int maximumWorkOrder(StatusEntity status);
 }

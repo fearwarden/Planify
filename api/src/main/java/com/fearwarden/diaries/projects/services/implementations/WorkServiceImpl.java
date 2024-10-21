@@ -51,7 +51,12 @@ public class WorkServiceImpl implements WorkService {
         TypeEntity typeEntity = typeEntityRepository.findById(body.type().id()).orElseThrow(TypeNotFoundException::new);
         StatusEntity status = statusRepository.findById(body.status().id()).orElseThrow(StatusNotFoundException::new);
         ProjectMembershipEntity membership = membershipRepository.findByProjectEntityAndUserEntity(project, user);
-        int order = workRepository.maximumWorkOrder(status);
+        int order;
+        if (workRepository.findAllByStatusEntity(status).isEmpty()) {
+            order = 0;
+        } else {
+            order = workRepository.maximumWorkOrder(status);
+        }
 
         WorkEntity newWork = new WorkEntity();
         newWork.setTitle(body.title());

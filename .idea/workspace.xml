@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5cd38338-b315-47d6-9605-54b6786a68bf" name="Changes" comment="" />
+    <list default="true" id="5cd38338-b315-47d6-9605-54b6786a68bf" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/fearwarden/diaries/projects/repositories/WorkRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/fearwarden/diaries/projects/repositories/WorkRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/fearwarden/diaries/projects/services/implementations/WorkServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/fearwarden/diaries/projects/services/implementations/WorkServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,20 +17,32 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "fearwarden"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/fearwarden/Planify.git",
+    "accountId": "d24b2815-1c4d-4bff-8b8d-c6f2625fdaee"
+  }
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2YixWo9j7zsAyMskHE7fzxBSeA9" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -38,7 +54,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/Projects/diaries/api",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Projects/Planify/api",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -51,6 +69,7 @@
       <option name="presentableId" value="Default" />
       <updated>1701022238745</updated>
       <workItem from="1701022240256" duration="24000" />
+      <workItem from="1729524000924" duration="8000" />
     </task>
     <servers />
   </component>
