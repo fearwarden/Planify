@@ -1,6 +1,9 @@
 # React + TypeScript + Vite
 
 - [dnd resource for fix](https://github.com/Muhammad-Faizan-Tariq/kanban-board-react-dnd-kit)
+- [shadcn extension 1](https://shadcnui-expansions.typeart.cc/docs/spinner)
+- [shadcn extension 2](https://shadcn-extension.vercel.app/docs/smart-datetime-input)
+- [shadcn extension 3](https://enhanced-button.vercel.app/)
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

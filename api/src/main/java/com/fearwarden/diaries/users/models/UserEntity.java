@@ -51,6 +51,7 @@ public class UserEntity implements UserDetails {
     private TokenEntity tokenEntity;
 
     @OneToMany(mappedBy = "userEntity", orphanRemoval = true)
+    @ToString.Exclude
     private Set<ProjectMembershipEntity> projectMembershipEntities = new LinkedHashSet<>();
 
     @Override
