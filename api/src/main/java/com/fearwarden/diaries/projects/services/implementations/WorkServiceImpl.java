@@ -91,6 +91,13 @@ public class WorkServiceImpl implements WorkService {
         WorkEntity work = workRepository
                 .findById(UUID.fromString(workId)).orElseThrow(() -> new WorkDoesNotExistsException(workId));
         ProjectMembershipEntity membership = membershipRepository.findByProjectEntityAndUserEntity(work.getProjectEntity(), user);
+
+        if (!work.getStatusEntity().equals(status)) {
+            Integer maximumWorkOrder = workRepository.maximumWorkOrder(status);
+            if (maximumWorkOrder == null) maximumWorkOrder = 0;
+            work.setWorkOrder(maximumWorkOrder + 1);
+        }
+
         work.setTitle(body.title());
         work.setDescription(body.description());
         work.setTargetDate(body.targetDate());

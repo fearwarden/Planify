@@ -70,7 +70,7 @@ function CreateWorkModal({ projectId }: CreateWorkProps) {
                 title: "Work has been created.",
                 description: `${formattedDate}`
             })
-            queryClient.invalidateQueries({ queryKey: ["works", projectId] });
+            queryClient.invalidateQueries({queryKey: ["works", projectId]});
         }
     })
 

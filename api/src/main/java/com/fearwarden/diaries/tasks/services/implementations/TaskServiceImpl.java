@@ -123,7 +123,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskMetadataDto getMetadata(UserEntity user) {
         List<CategoryEntity> categories = (List<CategoryEntity>) this.categoryRepository.findAll();
         List<PriorityEntity> priorities = (List<PriorityEntity>) this.priorityRepository.findAll();
-        List<StatusEntity> status = (List<StatusEntity>) this.statusRepository.findAll();
+        List<StatusEntity> status = this.statusRepository.findAll();
         return new TaskMetadataDto(categories, priorities, status);
     }
 

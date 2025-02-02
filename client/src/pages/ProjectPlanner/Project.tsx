@@ -129,7 +129,7 @@ function Project() {
     function onDragEnd(event: DragEndEvent) {
         console.log(activeWork)
         const workStatuses = worksState.filter((w) => w.statusDto.id === activeWork?.statusDto.id)
-        console.log(workStatuses)
+        console.log(workStatuses[0].statusDto.progress)
         onDragOver(event);
         // Here I will make an API call to update the work's status on the server
     }

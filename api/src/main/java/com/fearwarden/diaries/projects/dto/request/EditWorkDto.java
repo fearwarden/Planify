@@ -1,12 +1,10 @@
 package com.fearwarden.diaries.projects.dto.request;
 
-import com.fearwarden.diaries.projects.enums.ProjectRole;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * DTO for {@link com.fearwarden.diaries.projects.models.WorkEntity}
