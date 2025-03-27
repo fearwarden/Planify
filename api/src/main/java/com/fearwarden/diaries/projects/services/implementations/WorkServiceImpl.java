@@ -1,5 +1,6 @@
 package com.fearwarden.diaries.projects.services.implementations;
 
+import com.fearwarden.diaries.metadata.dto.StatusDto;
 import com.fearwarden.diaries.metadata.models.StatusEntity;
 import com.fearwarden.diaries.metadata.models.TypeEntity;
 import com.fearwarden.diaries.metadata.repositories.StatusRepository;
@@ -26,7 +27,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +42,13 @@ public class WorkServiceImpl implements WorkService {
     private final StatusRepository statusRepository;
     private final TypeEntityRepository typeEntityRepository;
     private final WorkMapper workMapper;
+
+    @Override
+    public WorkEntity getWorkById(String id) {
+        return workRepository
+                .findById(UUID.fromString(id))
+                .orElseThrow(() -> new WorkDoesNotExistsException("Work with an id: " + id + " does not exist"));
+    }
 
     @Transactional
     @Override
@@ -104,6 +111,15 @@ public class WorkServiceImpl implements WorkService {
         work.setTypeEntity(type);
         work.setStatusEntity(status);
         work.setAssignee(membership);
+        workRepository.save(work);
+    }
+
+    @Override
+    public void updateWorkStatusAndOrder(String workId, String statusProgress, int workOrder) {
+        StatusEntity status = statusRepository.findByProgress(statusProgress).orElseThrow(StatusNotFoundException::new);
+        WorkEntity work = getWorkById(workId);
+        work.setStatusEntity(status);
+        work.setWorkOrder(workOrder);
         workRepository.save(work);
     }
 }

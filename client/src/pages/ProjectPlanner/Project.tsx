@@ -1,17 +1,23 @@
 import {Link, useParams} from "react-router-dom";
-import {useQueries} from "@tanstack/react-query";
+import {useMutation, useQueries, useQueryClient} from "@tanstack/react-query";
 import {getAllTypes, getMembershipsForProject, getProject, getStatuses} from "@/api/projects/projects.ts";
 import ProjectToolbar from "@/pages/ProjectPlanner/components/ProjectToolbar.tsx";
 import CreateWorkModal from "@/pages/ProjectPlanner/modals/CreateWorkModal.tsx";
-import {getWorksForProject} from "@/api/projects/works.ts";
+import {getWorksForProject, updateWorkStatusAndOrder} from "@/api/projects/works.ts";
 import {StatusEnum} from "@/types/TaskType.ts";
 import WorkTable from "@/pages/ProjectPlanner/components/WorkTable.tsx";
-import {ColumnType} from "@/types/ProjectType.ts";
+import {
+    ColumnType,
+    WorkResponse,
+    WorkUpdateStatusAndOrderAPi,
+    WorkUpdateStatusAndOrderDto
+} from "@/types/ProjectType.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {PROJECT_PLANNER} from "@/constants/constants.ts";
 import {ProjectMetadataContext, ProjectMetadataContextType} from "@/hooks/contexts.ts";
 import {
-    DndContext, DragEndEvent,
+    DndContext,
+    DragEndEvent,
     DragOverEvent,
     DragOverlay,
     DragStartEvent,
@@ -23,12 +29,12 @@ import {
 import {arrayMove} from "@dnd-kit/sortable";
 import {useEffect, useState} from "react";
 import {createPortal} from "react-dom";
-import {WorkResponse} from "@/types/ProjectType.ts";
 import WorkCard from "@/pages/ProjectPlanner/components/WorkCard.tsx";
 import {Toaster} from "@/components/ui/toaster.tsx";
 
 function Project() {
     const {projectId} = useParams();
+    const queryClient = useQueryClient();
     const [columns, setColumns] = useState<ColumnType[]>([]);
     const [worksState, setWorksState] = useState<WorkResponse[]>([]);
     const [activeWork, setActiveWork] = useState<WorkResponse | null>(null);
@@ -66,6 +72,16 @@ function Project() {
             }
         ]
     });
+
+    const workMutation = useMutation({
+        mutationFn: updateWorkStatusAndOrder,
+        onError: (error) => {
+            alert(error.message)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["works", projectId]});
+        }
+    })
 
     const metadata: ProjectMetadataContextType = {
         types: types.data!,
@@ -127,11 +143,28 @@ function Project() {
     }
 
     function onDragEnd(event: DragEndEvent) {
-        console.log(activeWork)
         const workStatuses = worksState.filter((w) => w.statusDto.id === activeWork?.statusDto.id)
-        console.log(workStatuses[0].statusDto.progress)
         onDragOver(event);
-        // Here I will make an API call to update the work's status on the server
+        if (event.active.data.current?.sortable.items != null) {
+            event.active.data.current?.sortable.items.filter((item: string) => item === workStatuses[0].id)
+            let newWorkOrder: number = -1;
+            const items = event.active.data.current?.sortable.items;
+            const currentWork: WorkResponse = event.active.data.current.work as WorkResponse;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i] === currentWork.id) {
+                    newWorkOrder = i;
+                }
+            }
+            const workUpdateStatusAndOrderDto: WorkUpdateStatusAndOrderDto = {
+                statusProgress: currentWork.statusDto.progress,
+                workOrder: newWorkOrder
+            }
+            const payload: WorkUpdateStatusAndOrderAPi = {
+                workId: currentWork.id,
+                data: workUpdateStatusAndOrderDto
+            }
+            workMutation.mutate(payload)
+        }
     }
 
     useEffect(() => {

@@ -2,6 +2,7 @@ package com.fearwarden.diaries.projects.controllers;
 
 import com.fearwarden.diaries.projects.dto.request.CreateWorkDto;
 import com.fearwarden.diaries.projects.dto.request.EditWorkDto;
+import com.fearwarden.diaries.projects.dto.request.WorkUpdateStatusAndOrderDto;
 import com.fearwarden.diaries.projects.dto.response.WorkDto;
 import com.fearwarden.diaries.projects.services.WorkService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class WorkController {
 
     @PostMapping
     public ResponseEntity<Void> createWork(@RequestBody @Validated CreateWorkDto body) {
-        WorkDto work = workService.createWork(body);
+        workService.createWork(body);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -33,6 +34,12 @@ public class WorkController {
     @PutMapping("/{workId}")
     public ResponseEntity<Void> editWork(@PathVariable String workId, @RequestBody @Validated EditWorkDto body) {
         workService.editWork(workId, body);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/{workId}/update-status-order")
+    public ResponseEntity<Void> updateStatusAndOrder(@PathVariable String workId, @RequestBody @Validated WorkUpdateStatusAndOrderDto body) {
+        workService.updateWorkStatusAndOrder(workId, body.getStatusProgress(), body.getWorkOrder());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
