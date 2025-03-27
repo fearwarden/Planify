@@ -63,3 +63,14 @@ export interface EditWorkDataTypeApi {
     workId: string;
     data: EditWorkDataType
 }
+
+export interface WorkUpdateStatusAndOrderDto {
+    statusProgress: string;
+    workOrder: number
+}
+
+export interface WorkUpdateStatusAndOrderAPi {
+    workId: string;
+    data: WorkUpdateStatusAndOrderDto
+}
+
