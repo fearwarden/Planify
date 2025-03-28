@@ -1,6 +1,5 @@
 package com.fearwarden.diaries.projects.services.implementations;
 
-import com.fearwarden.diaries.metadata.dto.StatusDto;
 import com.fearwarden.diaries.metadata.models.StatusEntity;
 import com.fearwarden.diaries.metadata.models.TypeEntity;
 import com.fearwarden.diaries.metadata.repositories.StatusRepository;
@@ -19,7 +18,6 @@ import com.fearwarden.diaries.projects.services.ProjectService;
 import com.fearwarden.diaries.projects.services.WorkService;
 import com.fearwarden.diaries.tasks.exceptions.throwables.StatusNotFoundException;
 import com.fearwarden.diaries.tasks.exceptions.throwables.TypeNotFoundException;
-import com.fearwarden.diaries.tasks.tools.HelperFunctions;
 import com.fearwarden.diaries.users.models.UserEntity;
 import com.fearwarden.diaries.users.services.UserService;
 import jakarta.transaction.Transactional;
@@ -27,8 +25,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -64,17 +62,7 @@ public class WorkServiceImpl implements WorkService {
         } else {
             order = workRepository.maximumWorkOrder(status);
         }
-
-        WorkEntity newWork = new WorkEntity();
-        newWork.setTitle(body.title());
-        newWork.setDescription(body.description());
-        LocalDateTime targetDate = HelperFunctions.convertStringToLocalDateTime(body.targetDate());
-        newWork.setTargetDate(targetDate);
-        newWork.setProjectEntity(project);
-        newWork.setTypeEntity(typeEntity);
-        newWork.setStatusEntity(status);
-        newWork.setAssignee(membership);
-        newWork.setWorkOrder(order + 1);
+        WorkEntity newWork = WorkEntity.getWork(body, project, typeEntity, status, membership, order);
         workRepository.save(newWork);
         log.info("{} work has been created", newWork);
         return workMapper.toDto(newWork);
@@ -105,21 +93,19 @@ public class WorkServiceImpl implements WorkService {
             work.setWorkOrder(maximumWorkOrder + 1);
         }
 
-        work.setTitle(body.title());
-        work.setDescription(body.description());
-        work.setTargetDate(body.targetDate());
-        work.setTypeEntity(type);
-        work.setStatusEntity(status);
-        work.setAssignee(membership);
-        workRepository.save(work);
+        workRepository.save(work.editWork(work, body, status, type, membership));
     }
 
     @Override
+    @Transactional
     public void updateWorkStatusAndOrder(String workId, String statusProgress, int workOrder) {
         StatusEntity status = statusRepository.findByProgress(statusProgress).orElseThrow(StatusNotFoundException::new);
+        Set<WorkEntity> works = workRepository.findAllByStatusEntityAndWorkOrderGreaterThanEqualOrderByWorkOrderAsc(status, workOrder);
+        works.forEach(workEntity -> workEntity.setWorkOrder(workOrder + 1));
         WorkEntity work = getWorkById(workId);
         work.setStatusEntity(status);
         work.setWorkOrder(workOrder);
-        workRepository.save(work);
+        works.add(work);
+        workRepository.saveAll(works);
     }
 }
