@@ -18,4 +18,6 @@ public interface WorkService {
     void editWork(String workId, EditWorkDto body);
 
     void updateWorkStatusAndOrder(String workId, String statusProgress, int workOrder);
+
+    void deleteWork(String workId);
 }

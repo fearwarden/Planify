@@ -24,3 +24,7 @@ export const editWork = async ({workId, data}: EditWorkDataTypeApi) => {
 export const updateWorkStatusAndOrder = async ({ workId, data }: WorkUpdateStatusAndOrderAPi) => {
     return await api.put(`${WORK_PREFIX}/${workId}/update-status-order`, data);
 }
+
+export const deleteWork = async (workId: string) => {
+    return await api.delete(`${WORK_PREFIX}/${workId}`)
+}

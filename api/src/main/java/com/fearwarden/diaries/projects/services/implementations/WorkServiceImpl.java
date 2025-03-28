@@ -108,4 +108,10 @@ public class WorkServiceImpl implements WorkService {
         works.add(work);
         workRepository.saveAll(works);
     }
+
+    @Override
+    public void deleteWork(String workId) {
+        WorkEntity work = getWorkById(workId);
+        workRepository.delete(work);
+    }
 }

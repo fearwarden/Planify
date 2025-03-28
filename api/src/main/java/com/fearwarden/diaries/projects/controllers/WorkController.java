@@ -4,6 +4,7 @@ import com.fearwarden.diaries.projects.dto.request.CreateWorkDto;
 import com.fearwarden.diaries.projects.dto.request.EditWorkDto;
 import com.fearwarden.diaries.projects.dto.request.WorkUpdateStatusAndOrderDto;
 import com.fearwarden.diaries.projects.dto.response.WorkDto;
+import com.fearwarden.diaries.projects.models.WorkEntity;
 import com.fearwarden.diaries.projects.services.WorkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,15 +21,13 @@ public class WorkController {
     private final WorkService workService;
 
     @PostMapping
-    public ResponseEntity<Void> createWork(@RequestBody @Validated CreateWorkDto body) {
-        workService.createWork(body);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<WorkDto> createWork(@RequestBody @Validated CreateWorkDto body) {
+        return ResponseEntity.ok(workService.createWork(body));
     }
 
     @GetMapping("/{projectId}")
     public ResponseEntity<List<WorkDto>> getWorksForProject(@PathVariable String projectId) {
-        List<WorkDto> works = workService.getWorksForProject(projectId);
-        return ResponseEntity.ok(works);
+        return ResponseEntity.ok(workService.getWorksForProject(projectId));
     }
 
     @PutMapping("/{workId}")
@@ -40,6 +39,12 @@ public class WorkController {
     @PutMapping("/{workId}/update-status-order")
     public ResponseEntity<Void> updateStatusAndOrder(@PathVariable String workId, @RequestBody @Validated WorkUpdateStatusAndOrderDto body) {
         workService.updateWorkStatusAndOrder(workId, body.getStatusProgress(), body.getWorkOrder());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{workId}")
+    public ResponseEntity<Void> deleteWork(@PathVariable String workId) {
+        workService.deleteWork(workId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

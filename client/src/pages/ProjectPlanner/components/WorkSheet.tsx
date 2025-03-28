@@ -33,8 +33,28 @@ import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import {EditWorkSchema} from "@/validation/schemas.ts";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {useToast} from "@/hooks/use-toast.ts";
+import {useToast, toast} from "@/hooks/use-toast.ts";
 import {editWork} from "@/api/projects/works.ts";
+import useGenericMutation from "@/hooks/useGenericMutation.ts";
+import {deleteWork} from "@/api/projects/works.ts";
+
+const useDeleteWorkMutation = () => {
+    return useGenericMutation({
+        mutationFn: deleteWork,
+        invalidateQueries: [['works']],
+        onSuccess: () => {
+            const date = new Date();
+            const formattedDate = format(date, "EEEE, MMMM d, yyyy 'at' h:mm a");
+            toast({
+                title: `Work has been deleted`,
+                description: `${formattedDate}`
+            });
+        },
+        onError: () => {
+            alert("Error while deleting a project. Try again!")
+        }
+    })
+}
 
 function WorkSheet({id, title, description, targetDate, createdAt, typeDto, statusDto, assignee, workOrder}: WorkResponse) {
     const [open, setOpen] = useState<boolean>(false);
@@ -45,6 +65,7 @@ function WorkSheet({id, title, description, targetDate, createdAt, typeDto, stat
     const [type, setType] = useState<string>(typeDto.id);
     const [status, setStatus] = useState<string>(statusDto.id.toString());
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const deleteWorkHook = useDeleteWorkMutation();
 
     const context = useContext(ProjectMetadataContext);
     const queryClient = useQueryClient();
@@ -124,7 +145,7 @@ function WorkSheet({id, title, description, targetDate, createdAt, typeDto, stat
                             </SheetDescription>
                         </div>
                         <div>
-                            <Button variant="destructive"><Trash2/></Button>
+                            <Button variant="destructive" onClick={() => deleteWorkHook.mutate(id)}><Trash2/></Button>
                         </div>
                     </div>
                 </SheetHeader>
