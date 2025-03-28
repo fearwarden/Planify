@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface WorkRepository extends JpaRepository<WorkEntity, UUID> {
@@ -14,4 +15,5 @@ public interface WorkRepository extends JpaRepository<WorkEntity, UUID> {
     List<WorkEntity> findAllByStatusEntity(StatusEntity status);
     @Query("SELECT MAX(w.workOrder) from WorkEntity w where w.statusEntity = :status")
     Integer maximumWorkOrder(StatusEntity status);
+    Set<WorkEntity> findAllByStatusEntityAndWorkOrderGreaterThanEqualOrderByWorkOrderAsc(StatusEntity statusEntity, int workOrderIsGreaterThan);
 }

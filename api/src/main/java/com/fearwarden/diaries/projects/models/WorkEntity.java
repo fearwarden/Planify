@@ -2,6 +2,9 @@ package com.fearwarden.diaries.projects.models;
 
 import com.fearwarden.diaries.metadata.models.StatusEntity;
 import com.fearwarden.diaries.metadata.models.TypeEntity;
+import com.fearwarden.diaries.projects.dto.request.CreateWorkDto;
+import com.fearwarden.diaries.projects.dto.request.EditWorkDto;
+import com.fearwarden.diaries.tasks.tools.HelperFunctions;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -62,4 +65,40 @@ public class WorkEntity {
     @ManyToOne
     @JoinColumn(name = "project_membership_id")
     private ProjectMembershipEntity assignee;
+
+    public static WorkEntity getWork(
+            CreateWorkDto createWorkDto,
+            ProjectEntity project,
+            TypeEntity typeEntity,
+            StatusEntity status,
+            ProjectMembershipEntity membership,
+            int order
+    ) {
+        WorkEntity work = new WorkEntity();
+        work.setTitle(createWorkDto.title());
+        work.setDescription(createWorkDto.description());
+        LocalDateTime targetDate = HelperFunctions.convertStringToLocalDateTime(createWorkDto.targetDate());
+        work.setTargetDate(targetDate);
+        work.setProjectEntity(project);
+        work.setTypeEntity(typeEntity);
+        work.setStatusEntity(status);
+        work.setAssignee(membership);
+        work.setWorkOrder(order + 1);
+        return work;
+    }
+
+    public WorkEntity editWork(
+            WorkEntity work,
+            EditWorkDto body,
+            StatusEntity status,
+            TypeEntity type,
+            ProjectMembershipEntity membership) {
+        work.setTitle(body.title());
+        work.setDescription(body.description());
+        work.setTargetDate(body.targetDate());
+        work.setTypeEntity(type);
+        work.setStatusEntity(status);
+        work.setAssignee(membership);
+        return work;
+    }
 }
