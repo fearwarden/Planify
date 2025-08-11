@@ -1,4 +1,5 @@
 import {
+    CompletedWorksStatisticsDto,
     EditWorkDataTypeApi,
     WorkResponse,
     WorkType,
@@ -27,4 +28,9 @@ export const updateWorkStatusAndOrder = async ({ workId, data }: WorkUpdateStatu
 
 export const deleteWork = async (workId: string) => {
     return await api.delete(`${WORK_PREFIX}/${workId}`)
+}
+
+export const countAllByProject = async (projectId: string): Promise<CompletedWorksStatisticsDto> => {
+    const { data } = await api.get(`${WORK_PREFIX}/count-by-project/${projectId}`)
+    return data;
 }

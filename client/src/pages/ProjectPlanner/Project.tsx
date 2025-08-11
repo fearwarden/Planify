@@ -155,7 +155,6 @@ function Project() {
                     newWorkOrder = i;
                 }
             }
-            console.log(workStatuses[0])
             const workUpdateStatusAndOrderDto: WorkUpdateStatusAndOrderDto = {
                 statusProgress: currentWork.statusDto.progress,
                 workOrder: newWorkOrder

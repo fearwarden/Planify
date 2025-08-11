@@ -16,4 +16,6 @@ public interface WorkRepository extends JpaRepository<WorkEntity, UUID> {
     @Query("SELECT MAX(w.workOrder) from WorkEntity w where w.statusEntity = :status")
     Integer maximumWorkOrder(StatusEntity status);
     Set<WorkEntity> findAllByStatusEntityAndWorkOrderGreaterThanEqualOrderByWorkOrderAsc(StatusEntity statusEntity, int workOrderIsGreaterThan);
+    long countAllByProjectEntity(ProjectEntity projectEntity);
+    long countAllByProjectEntityAndStatusEntity(ProjectEntity projectEntity, StatusEntity statusEntity);
 }

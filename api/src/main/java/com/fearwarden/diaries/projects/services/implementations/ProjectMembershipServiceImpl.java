@@ -24,6 +24,7 @@ public class ProjectMembershipServiceImpl implements ProjectMembershipService {
     private final ProjectMembershipRepository membershipRepository;
     private final ProjectService projectService;
     private final ProjectMapper projectMapper;
+    @Qualifier("projectMembershipMapper")
     private final ProjectMembershipMapper membershipMapper;
 
     @Override

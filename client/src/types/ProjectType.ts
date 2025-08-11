@@ -74,3 +74,8 @@ export interface WorkUpdateStatusAndOrderAPi {
     data: WorkUpdateStatusAndOrderDto
 }
 
+export interface CompletedWorksStatisticsDto {
+    total: number,
+    totalCompleted: number
+}
+

@@ -3,6 +3,7 @@ package com.fearwarden.diaries.projects.controllers;
 import com.fearwarden.diaries.projects.dto.request.CreateWorkDto;
 import com.fearwarden.diaries.projects.dto.request.EditWorkDto;
 import com.fearwarden.diaries.projects.dto.request.WorkUpdateStatusAndOrderDto;
+import com.fearwarden.diaries.projects.dto.response.CompletedWorksStatisticsDto;
 import com.fearwarden.diaries.projects.dto.response.WorkDto;
 import com.fearwarden.diaries.projects.models.WorkEntity;
 import com.fearwarden.diaries.projects.services.WorkService;
@@ -46,5 +47,10 @@ public class WorkController {
     public ResponseEntity<Void> deleteWork(@PathVariable String workId) {
         workService.deleteWork(workId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/count-by-project/{projectId}")
+    public ResponseEntity<CompletedWorksStatisticsDto> countAllByProject(@PathVariable String projectId) {
+        return ResponseEntity.ok(workService.numberOfCompletedTask(projectId));
     }
 }

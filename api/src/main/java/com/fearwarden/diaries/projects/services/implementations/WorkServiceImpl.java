@@ -6,6 +6,7 @@ import com.fearwarden.diaries.metadata.repositories.StatusRepository;
 import com.fearwarden.diaries.metadata.repositories.TypeEntityRepository;
 import com.fearwarden.diaries.projects.dto.request.CreateWorkDto;
 import com.fearwarden.diaries.projects.dto.request.EditWorkDto;
+import com.fearwarden.diaries.projects.dto.response.CompletedWorksStatisticsDto;
 import com.fearwarden.diaries.projects.dto.response.WorkDto;
 import com.fearwarden.diaries.projects.exceptions.throwables.WorkDoesNotExistsException;
 import com.fearwarden.diaries.projects.mappers.WorkMapper;
@@ -113,5 +114,14 @@ public class WorkServiceImpl implements WorkService {
     public void deleteWork(String workId) {
         WorkEntity work = getWorkById(workId);
         workRepository.delete(work);
+    }
+
+    @Override
+    public CompletedWorksStatisticsDto numberOfCompletedTask(String projectId) {
+        StatusEntity completed = statusRepository.findByProgress("COMPLETE").orElseThrow(StatusNotFoundException::new);
+        ProjectEntity project = projectService.getProjectEntity(projectId);
+        long totalWorks =  workRepository.countAllByProjectEntity(project);
+        long totalCompleted = workRepository.countAllByProjectEntityAndStatusEntity(project, completed);
+        return new CompletedWorksStatisticsDto(totalWorks, totalCompleted);
     }
 }
